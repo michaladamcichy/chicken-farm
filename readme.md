@@ -10,7 +10,6 @@ Panel boczny z opcjami:
     -
     dodaj kurnik -> panel dialogowy z rozmiarem kurnika
     jeszcze jakieś na pewno dojdą
-    -
 
 ----------------
 ChickenHouseView
@@ -25,9 +24,8 @@ Panel boczny:
     nakarm kurczaki
     włącz muzykę
     zmień pracowników odpowiedzialnych
--
 Po kliknięciu kurczaka pojawia się panel dialogowy:
-    -
+-
     dane kurczaka
     statystyki kurczaka
     operacje:
@@ -35,8 +33,6 @@ Po kliknięciu kurczaka pojawia się panel dialogowy:
     edytuj masę
     zabij -> przekierowanie do formularza Dodaj StorageRecord
     przenieś do innego kórnika
-	-
-	
 -----------
 StorageView
 -----------
