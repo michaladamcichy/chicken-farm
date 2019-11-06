@@ -11,13 +11,14 @@
         <link rel="stylesheet" href="/css/app.css">
         <style>
             body  {
-            background-image: url("/images/grass.jpg");
+                background-image: url("/images/grass.jpg");
             }
         </style>
     </head>
     <body>
-        <div id="topBar"></div>
-        @yield('content')
+        <div id="masterContainer" class="container">
+            <div id="topBar"></div>
+            @yield('content')
         <script src="/js/app.js"></script>
     </body>
 </html>
