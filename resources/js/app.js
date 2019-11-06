@@ -15,3 +15,4 @@ require('./bootstrap');
 require('./components/Example');
 require('./components/TopBar');
 require('./components/FarmView');
+require('./components/ChickenHouse');
