@@ -7,7 +7,7 @@ Kurniki od góry oraz magazyn
 2 przyciski na każdym kórniku: usuń, wejdź (przechodzi do ChickenHouseView)
 
 Panel boczny z opcjami:
-    -
+-
     dodaj kurnik -> panel dialogowy z rozmiarem kurnika
     jeszcze jakieś na pewno dojdą
 
