@@ -16,3 +16,5 @@ require('./components/Example');
 require('./components/TopBar');
 require('./components/FarmView');
 require('./components/ChickenHouse');
+require('./components/Chicken');
+require('./components/ChickenHouseView');

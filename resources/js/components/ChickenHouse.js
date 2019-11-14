@@ -14,7 +14,7 @@ export default class ChickenHouse extends Component {
     render() {
         return (
             <div class="col">
-                <button type="button" class="btn btn-warning" style={styles.button}> KÓRNIK </button>
+                <a href={'/chickenHouse/0'}><button type="button" class="btn btn-warning" style={styles.button}> KÓRNIK </button></a>
             </div>
         );
     }
