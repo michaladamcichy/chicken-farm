@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('main');
-});
+Route::get('/', 'MainController@show');
+Route::get('/chickenHouse/{id}', 'ChickenHouseController@show');
