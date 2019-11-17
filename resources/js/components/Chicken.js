@@ -18,7 +18,7 @@ export default class Chicken extends Component {
     render() {
         return (
             <div class="col">
-                <div class="chicken" style={styles.button}> <img src={'/images/chicken.png'} style={styles.chickenIcon} /> </div>
+                <button onClick={() => this.props.onClick()} class="chicken" style={styles.button}> <img src={'/images/chicken.png'} style={styles.chickenIcon} /> </button>
             </div>
         );
     }

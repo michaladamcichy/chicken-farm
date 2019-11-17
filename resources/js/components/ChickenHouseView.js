@@ -6,6 +6,7 @@ import SideButton from './SideButton';
 import NewChickenDialog from './NewChickenDialog';
 import FeedingDialog from './FeedingDialog';
 import ChangeDutyDialog from './ChangeDutyDialog';
+import ChickenInfoDialog from './ChickenInfoDialog';
 
 const styles = {
   outerContainer: {
@@ -38,6 +39,7 @@ export default class ChickenHouseView extends Component {
             newChickenDialogVisible: false,
             feedingDialogVisible: false,
             changeDutyDialogVisible: false,
+            chickenInfoDialogVisible: false,
         };   
     }
 
@@ -52,13 +54,17 @@ export default class ChickenHouseView extends Component {
     changeDuty() {
         this.setState({changeDutyDialogVisible: true});
     }
+
+    chickenInfo() {
+        this.setState({chickenInfoDialogVisible: true});
+    }
     
     render() {
         return (
             <div class="container" style={styles.outerContainer}>
                 { this.state.chickens.map((item, index) => (
                     <div class="row">
-                        {item.map((company, index) => <div class="col"><Chicken /></div>)}
+                        {item.map((company, index) => <div class="col"><Chicken onClick={() => this.chickenInfo()} /></div>)}
                     </div>
                 ))}
                 <SideBarContainer>
@@ -74,6 +80,8 @@ export default class ChickenHouseView extends Component {
                 <FeedingDialog switchVisibility={() => this.setState({feedingDialogVisible: !this.state.feedingDialogVisible})} />}
                 {this.state.changeDutyDialogVisible &&
                 <ChangeDutyDialog switchVisibility={() => this.setState({changeDutyDialogVisible: !this.state.changeDutyDialogVisible})} />}
+                {this.state.chickenInfoDialogVisible &&
+                <ChickenInfoDialog switchVisibility={() => this.setState({chickenInfoDialogVisible: !this.state.chickenInfoDialogVisible})}/>}
             </div>
         );
     }

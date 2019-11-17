@@ -10,7 +10,7 @@ const styles = {
 export default class FormRow extends Component {
     render() {
         return (
-            <div class={'container row align-items-center'}>
+            <div class={'container row align-items-center formRow'}>
                 <span class={'col badge badge-success'}><h5>{this.props.fieldName}</h5></span>
                 <div class={'col'}>{this.props.input}</div>
             </div>
