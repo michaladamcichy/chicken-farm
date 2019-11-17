@@ -25,3 +25,4 @@ require('./components/NewChickenHouseDialog');
 require('./components/FormRow');
 require('./components/FeedingDialog');
 require('./components/ChangeDutyDialog');
+require('./components/ChickenInfoDialog');
