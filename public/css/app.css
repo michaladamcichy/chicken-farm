@@ -11100,3 +11100,7 @@ a.text-dark:focus {
   }
 }
 
+.chicken:hover {
+  border: 10px dashed #522500 !important;
+}
+
