@@ -1,1 +1,5 @@
 @import "node_modules/bootstrap/scss/bootstrap";
+
+.chicken:hover {
+    border: 10px dashed rgba(82,37,0,1) !important;
+}

@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import ChickenHouse from './ChickenHouse';
+import NewChickenHouseDialog from './NewChickenHouseDialog';
+import SideBarContainer from './SideBarContainer';
+import SideButton from './SideButton';
 
 const styles = {
   outerContainer: {
       marginTop: '20px',
-  }  
+      border: '30px dashed rgb(82,37,0)',
+    }  
 };
 
 export default class FarmView extends Component {
@@ -26,7 +30,12 @@ export default class FarmView extends Component {
 
         this.state = {
             chickenHouses: chickenHouses,
+            newChickenHouseDialogVisible: false,
         };   
+    }
+
+    newChickenHouse() {
+        this.setState({newChickenHouseDialogVisible: true});
     }
     
     render() {
@@ -37,6 +46,12 @@ export default class FarmView extends Component {
                         {item.map((company, index) => <div class="col"><ChickenHouse /></div>)}
                     </div>
                 ))}
+                <SideBarContainer>
+                    <SideButton title={'DODAJ KÓRNIK'} onClick={() => {this.newChickenHouse()}}/>
+                    <SideButton title={'DODAJ KÓRNIK'} onClick={() => {this.newChickenHouse()}}/>
+                </SideBarContainer>
+                {this.state.newChickenHouseDialogVisible && 
+                <NewChickenHouseDialog switchVisibility={() => {this.setState({newChickenHouseDialogVisible : !this.state.newChickenHouseDialogVisible})}}/>}
             </div>
         );
     }

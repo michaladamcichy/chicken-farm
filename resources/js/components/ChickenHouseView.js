@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Chicken from './Chicken';
+import SideBarContainer from './SideBarContainer';
+import SideButton from './SideButton';
+import NewChickenDialog from './NewChickenDialog';
+import FeedingDialog from './FeedingDialog';
+import ChangeDutyDialog from './ChangeDutyDialog';
 
 const styles = {
   outerContainer: {
       marginTop: '20px',
+      border: '30px dashed rgb(82,37,0)',
   },
   chickenIcon: {
     height: '70px',
@@ -29,7 +35,22 @@ export default class ChickenHouseView extends Component {
 
         this.state = {
             chickens: chickens,
+            newChickenDialogVisible: false,
+            feedingDialogVisible: false,
+            changeDutyDialogVisible: false,
         };   
+    }
+
+    newChicken() {
+        this.setState({newChickenDialogVisible: true});
+    }
+
+    feeding() {
+        this.setState({feedingDialogVisible: true});
+    }
+
+    changeDuty() {
+        this.setState({changeDutyDialogVisible: true});
     }
     
     render() {
@@ -40,6 +61,19 @@ export default class ChickenHouseView extends Component {
                         {item.map((company, index) => <div class="col"><Chicken /></div>)}
                     </div>
                 ))}
+                <SideBarContainer>
+                    <SideButton title={'DODAJ KURCZAKA'} onClick={() => this.newChicken()}/>
+                    <SideButton title={'NAKARM KURCZAKI'} onClick={() => this.feeding()}/>
+                    <SideButton title={'MUZYKA'}/>
+                    <SideButton title={'ZMIEŃ OSOBY ODP.'} onClick={() => this.changeDuty()}/>
+                    <SideButton title={'HISTORIA KARMIENIA'}/>
+                </SideBarContainer>
+                {this.state.newChickenDialogVisible &&
+                <NewChickenDialog switchVisibility={() => this.setState({newChickenDialogVisible: !this.state.newChickenDialogVisible})} />}
+                {this.state.feedingDialogVisible &&
+                <FeedingDialog switchVisibility={() => this.setState({feedingDialogVisible: !this.state.feedingDialogVisible})} />}
+                {this.state.changeDutyDialogVisible &&
+                <ChangeDutyDialog switchVisibility={() => this.setState({changeDutyDialogVisible: !this.state.changeDutyDialogVisible})} />}
             </div>
         );
     }
