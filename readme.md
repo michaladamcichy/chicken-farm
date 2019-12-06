@@ -31,7 +31,7 @@ Po kliknięciu kurczaka pojawia się panel dialogowy:
     operacje:
     odnotuj zniesienie jajka
     edytuj masę
-    zabij -> przekierowanie do formularza Dodaj StorageRecord
+    zabij
     przenieś do innego kórnika
 -----------
 StorageView
