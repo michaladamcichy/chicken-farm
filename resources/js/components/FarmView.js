@@ -41,9 +41,9 @@ export default class FarmView extends Component {
     render() {
         return (
             <div class="container" style={styles.outerContainer}>
-                { this.state.chickenHouses.map((item, index) => (
+                { this.state.chickenHouses.map((item, col) => (
                     <div class="row">
-                        {item.map((company, index) => <div class="col"><ChickenHouse /></div>)}
+                        {item.map((company, row) => <div class="col"><ChickenHouse id={item.length * col + row + 1} /></div>)}
                     </div>
                 ))}
                 <SideBarContainer>

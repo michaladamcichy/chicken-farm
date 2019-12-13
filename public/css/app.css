@@ -11104,3 +11104,7 @@ a.text-dark:focus {
   border: 10px dashed #522500 !important;
 }
 
+.formRow {
+  margin: 5px;
+}
+

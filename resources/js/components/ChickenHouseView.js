@@ -62,9 +62,9 @@ export default class ChickenHouseView extends Component {
     render() {
         return (
             <div class="container" style={styles.outerContainer}>
-                { this.state.chickens.map((item, index) => (
+                { this.state.chickens.map((item, column) => (
                     <div class="row">
-                        {item.map((company, index) => <div class="col"><Chicken onClick={() => this.chickenInfo()} /></div>)}
+                        {item.map((company, row) => <div class="col"><Chicken id={String(column * item.length + row + 1)} onClick={() => this.chickenInfo()} /></div>)}
                     </div>
                 ))}
                 <SideBarContainer>
