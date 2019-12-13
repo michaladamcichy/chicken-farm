@@ -11,8 +11,8 @@ export default class ChangeDutyDialog extends Component {
         super(props);
 
         this.state = {
-            workers: ['Michał Cichy', 'Dominik Stachowiak', 'Bartosz Bębel'],
-            allWorkers: ['','Michał Cichy', 'Dominik Stachowiak', 'Bartosz Bębel', 'Jerzy Brzeziński', 'Jan Węglarz'],
+            workers: ['Michał Cichy', 'Dominik Stachowiak', 'Arnold Schwarzenegger'],
+            allWorkers: ['','Michał Cichy', 'Dominik Stachowiak', 'Tom Cruise', 'Eugeniusz Bodo', 'Jan Kowalski'],
             currentSelectValue: '',
         };
     }
