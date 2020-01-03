@@ -7,7 +7,8 @@ import NewChickenDialog from './NewChickenDialog';
 import FeedingDialog from './FeedingDialog';
 import ChangeDutyDialog from './ChangeDutyDialog';
 import ChickenInfoDialog from './ChickenInfoDialog';
-import {arrayToMatrix} from './utils';
+import {arrayToMatrix, matrixToArray} from './utils';
+import axios from 'axios';
 
 const styles = {
   outerContainer: {
@@ -35,6 +36,8 @@ export default class ChickenHouseView extends Component {
             chickenInfoDialogVisible: false,
             selectedChicken: null,
         };   
+
+        console.log('ChickenHouseView' + String(this.props.chickenhouseId));
     }
 
     newChicken() {
@@ -52,6 +55,16 @@ export default class ChickenHouseView extends Component {
     chickenInfo(chicken) {
         this.setState({chickenInfoDialogVisible: true, selectedChicken : chicken});
     }
+
+    onChickenAdded(chicken) {
+        let chickens = this.state.chickens;
+        console.log(chickens);
+        chickens = matrixToArray(chickens);
+        console.log(chicken);
+        chickens.push(chicken);
+        chickens = arrayToMatrix(chickens, this.chickenHouseSize);
+        this.setState({chickens});
+    } 
     
     render() {
         return (
@@ -69,7 +82,7 @@ export default class ChickenHouseView extends Component {
                     <SideButton title={'HISTORIA KARMIENIA'}/>
                 </SideBarContainer>
                 {this.state.newChickenDialogVisible &&
-                <NewChickenDialog switchVisibility={() => this.setState({newChickenDialogVisible: !this.state.newChickenDialogVisible})} />}
+                <NewChickenDialog onChickenAdded={chicken => this.onChickenAdded(chicken)} chickenhouseId={this.props.chickenhouseId} switchVisibility={() => this.setState({newChickenDialogVisible: !this.state.newChickenDialogVisible})} />}
                 {this.state.feedingDialogVisible &&
                 <FeedingDialog switchVisibility={() => this.setState({feedingDialogVisible: !this.state.feedingDialogVisible})} />}
                 {this.state.changeDutyDialogVisible &&
@@ -85,5 +98,6 @@ export default class ChickenHouseView extends Component {
 if (document.getElementById('chickenHouseView')) {
     const element = document.getElementById('chickenHouseView');
     let chickens = element.getAttribute('chickens');
-    ReactDOM.render(<ChickenHouseView chickens={JSON.parse(chickens)}/>, element);
+    let id = element.getAttribute('chickenhouseid');
+    ReactDOM.render(<ChickenHouseView chickens={JSON.parse(chickens)} chickenhouseId={id}/>, element);
 }

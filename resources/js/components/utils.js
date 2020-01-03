@@ -20,3 +20,16 @@ export function arrayToMatrix(inputArray, rowLength) {
 
     return matrix;
 }
+
+export function matrixToArray(inputMatrix) {
+    let matrix = [...inputMatrix]
+    let output = []
+
+    matrix.forEach(element => {
+        element.forEach(element => {
+            output.push(element);
+        })
+    });
+
+    return output;
+} 
