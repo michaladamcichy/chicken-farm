@@ -9,7 +9,6 @@ import ChangeDutyDialog from './ChangeDutyDialog';
 import ChickenInfoDialog from './ChickenInfoDialog';
 import {arrayToMatrix} from './utils';
 
-
 const styles = {
   outerContainer: {
       marginTop: '20px',
@@ -24,8 +23,7 @@ export default class ChickenHouseView extends Component {
     constructor(props) {
         super(props);
 
-        this.chickenHouseSize = 4;
-        
+        this.chickenHouseSize = 4; 
         let chickensArray = this.props.chickens;
         let chickens = arrayToMatrix(chickensArray, this.chickenHouseSize);
 

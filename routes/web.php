@@ -13,3 +13,8 @@
 
 Route::get('/', 'MainController@show');
 Route::get('/chickenHouse/{id}', 'ChickenHouseController@show');
+Route::get('/business', 'BusinessController@show');
+Route::get('/customers', 'CustomersController@show');
+Route::get('/products', 'ProductsController@show');
+Route::get('/transactions', 'TransactionsController@show');
+Route::get('/storage', 'StorageController@show');

@@ -49,6 +49,7 @@ export default class FarmView extends Component {
                 <SideBarContainer>
                     <SideButton title={'DODAJ KÓRNIK'} onClick={() => {this.newChickenHouse()}}/>
                     <SideButton title={'DODAJ KÓRNIK'} onClick={() => {this.newChickenHouse()}}/>
+                    <SideButton title={'BIZNES'} onClick={() => {window.location.href='business'}}/>
                 </SideBarContainer>
                 {this.state.newChickenHouseDialogVisible && 
                 <NewChickenHouseDialog switchVisibility={() => {this.setState({newChickenHouseDialogVisible : !this.state.newChickenHouseDialogVisible})}}/>}
