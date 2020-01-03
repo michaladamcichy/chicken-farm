@@ -7,6 +7,8 @@ import NewChickenDialog from './NewChickenDialog';
 import FeedingDialog from './FeedingDialog';
 import ChangeDutyDialog from './ChangeDutyDialog';
 import ChickenInfoDialog from './ChickenInfoDialog';
+import {arrayToMatrix} from './utils';
+
 
 const styles = {
   outerContainer: {
@@ -24,22 +26,16 @@ export default class ChickenHouseView extends Component {
 
         this.chickenHouseSize = 4;
         
-        let chickens = [];
-
-        for(let row = 0; row < this.chickenHouseSize; row++ ) {
-            let row = [];
-            for(let col = 0; col < this.chickenHouseSize; col++) {
-                row.push('empty');
-            }
-            chickens.push(row);
-        }     
+        let chickensArray = this.props.chickens;
+        let chickens = arrayToMatrix(chickensArray, this.chickenHouseSize);
 
         this.state = {
-            chickens: chickens,
+            chickens: arrayToMatrix(chickensArray, this.chickenHouseSize),
             newChickenDialogVisible: false,
             feedingDialogVisible: false,
             changeDutyDialogVisible: false,
             chickenInfoDialogVisible: false,
+            selectedChicken: null,
         };   
     }
 
@@ -55,8 +51,8 @@ export default class ChickenHouseView extends Component {
         this.setState({changeDutyDialogVisible: true});
     }
 
-    chickenInfo() {
-        this.setState({chickenInfoDialogVisible: true});
+    chickenInfo(chicken) {
+        this.setState({chickenInfoDialogVisible: true, selectedChicken : chicken});
     }
     
     render() {
@@ -64,7 +60,7 @@ export default class ChickenHouseView extends Component {
             <div class="container" style={styles.outerContainer}>
                 { this.state.chickens.map((item, column) => (
                     <div class="row">
-                        {item.map((company, row) => <div class="col"><Chicken id={String(column * item.length + row + 1)} onClick={() => this.chickenInfo()} /></div>)}
+                        {item.map((chicken, row) => <div class="col"><Chicken id={String(chicken.id)} onClick={() => this.chickenInfo(chicken)} /></div>)}
                     </div>
                 ))}
                 <SideBarContainer>
@@ -81,12 +77,15 @@ export default class ChickenHouseView extends Component {
                 {this.state.changeDutyDialogVisible &&
                 <ChangeDutyDialog switchVisibility={() => this.setState({changeDutyDialogVisible: !this.state.changeDutyDialogVisible})} />}
                 {this.state.chickenInfoDialogVisible &&
-                <ChickenInfoDialog switchVisibility={() => this.setState({chickenInfoDialogVisible: !this.state.chickenInfoDialogVisible})}/>}
+                <ChickenInfoDialog switchVisibility={() => this.setState({chickenInfoDialogVisible: !this.state.chickenInfoDialogVisible})}
+                    chicken={this.state.selectedChicken}/>}
             </div>
         );
     }
 }
 
 if (document.getElementById('chickenHouseView')) {
-    ReactDOM.render(<ChickenHouseView />, document.getElementById('chickenHouseView'));
+    const element = document.getElementById('chickenHouseView');
+    let chickens = element.getAttribute('chickens');
+    ReactDOM.render(<ChickenHouseView chickens={JSON.parse(chickens)}/>, element);
 }

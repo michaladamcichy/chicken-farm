@@ -11,7 +11,7 @@ export default class NewChickenDialog extends Component {
         super(props);
         this.chickenTypeSelect = <select>
             <option value={'layer'}>Nioska</option>
-            <option value={'meat_chicken'}>Mięsna</option>
+            <option value={'meatchicken'}>Mięsna</option>
             <option value={'rooster'}>Kogut</option>
         </select>;
     }

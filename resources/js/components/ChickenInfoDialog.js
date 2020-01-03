@@ -14,12 +14,6 @@ export default class ChickenInfoDialog extends Component {
             editable: false,
             editButtonText: 'Edytuj dane',
         };
-
-        this.chickenTypeSelect = <select>
-            <option value={'layer'}>Nioska</option>
-            <option value={'meat_chicken'}>Mięsna</option>
-            <option value={'rooster'}>Kogut</option>
-        </select>;
     }
 
     onEditButtonClicked() {
@@ -32,11 +26,15 @@ export default class ChickenInfoDialog extends Component {
 
     render() {
         return (
-            <DialogContainer title={'Kurczak #{id}'} switchVisibility={() => this.props.switchVisibility()} saveButtonDisabled={!this.state.editable}>
+            <DialogContainer title={'Kurczak #' + String(this.props.chicken.id)} switchVisibility={() => this.props.switchVisibility()} saveButtonDisabled={!this.state.editable}>
                 <fieldset disabled={!this.state.editable}>
-                    <FormRow fieldName={'Rodzaj kurczaka'} input={this.chickenTypeSelect}/>
-                    <FormRow fieldName={'Data urodzenia'} input={<input type={'date'} defaultValue={(new Date()).toLocaleDateString('en-CA')}></input>} />
-                    <FormRow fieldName={'Masa [kg]'} input={<input type={'number'} min={0.0} defaultValue={4.5} step={0.01}></input>} />
+                    <FormRow fieldName={'Rodzaj kurczaka'} input={<select defaultValue={this.props.chicken.type}>
+                            <option value={'layer'}>Nioska</option>
+                            <option value={'meatchicken'}>Mięsna</option>
+                            <option value={'rooster'}>Kogut</option>
+                        </select>}/>
+                    <FormRow fieldName={'Data urodzenia'} input={<input type={'date'} defaultValue={this.props.chicken.birthdate}></input>} />
+                    <FormRow fieldName={'Masa [kg]'} input={<input type={'number'} min={0.0} defaultValue={this.props.chicken.weight} step={0.01}  ></input>} />
                 </fieldset>
                 <div class={'container row formRow'}>
                     <div class={'container col'}>

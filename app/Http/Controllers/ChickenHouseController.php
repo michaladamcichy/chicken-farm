@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Chicken;
 
 class ChickenHouseController extends Controller
 {
     public function show($id) {
-        return view('chickenHouse');
+       $chickens = Chicken::where('chickenhouse_id', $id)->get();
+
+       return view('chickenHouse', ['chickens' => $chickens]);
     }
 }
