@@ -4,6 +4,7 @@ import ChickenHouse from './ChickenHouse';
 import NewChickenHouseDialog from './NewChickenHouseDialog';
 import SideBarContainer from './SideBarContainer';
 import SideButton from './SideButton';
+import ArrayToMatrix, { arrayToMatrix } from './utils';
 
 const styles = {
   outerContainer: {
@@ -16,20 +17,11 @@ export default class FarmView extends Component {
     constructor(props) {
         super(props);
 
-        this.farmSize = 4;
-        
+        this.farmSize = 4;        
         let chickenHouses = [];
 
-        for(let row = 0; row < this.farmSize; row++ ) {
-            let row = []
-            for(let col = 0; col < this.farmSize; col++) {
-                row.push('empty');
-            }
-            chickenHouses.push(row);
-        }     
-
         this.state = {
-            chickenHouses: chickenHouses,
+            chickenHouses: arrayToMatrix(this.props.chickenHouses, this.farmSize),
             newChickenHouseDialogVisible: false,
         };   
     }
@@ -43,7 +35,7 @@ export default class FarmView extends Component {
             <div class="container" style={styles.outerContainer}>
                 { this.state.chickenHouses.map((item, col) => (
                     <div class="row">
-                        {item.map((company, row) => <div class="col"><ChickenHouse id={item.length * col + row + 1} /></div>)}
+                        {item.map((chickenHouse, row) => <div class="col"><ChickenHouse id={chickenHouse.id} /></div>)}
                     </div>
                 ))}
                 <SideBarContainer>
@@ -59,5 +51,7 @@ export default class FarmView extends Component {
 }
 
 if (document.getElementById('farmView')) {
-    ReactDOM.render(<FarmView />, document.getElementById('farmView'));
+    let element = document.getElementById('farmView');
+    let chickenHouses = element.getAttribute('chickenHouses');
+    ReactDOM.render(<FarmView chickenHouses={JSON.parse(chickenHouses)}/>, element);
 }
