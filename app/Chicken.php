@@ -13,4 +13,6 @@ class Chicken extends Model
         'type',
         'chickenhouse_id'
     ];
+
+    public $timestamps = false;
 }
