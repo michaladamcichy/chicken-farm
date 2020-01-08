@@ -19,3 +19,5 @@ Route::get('/products', 'ProductsController@show');
 Route::get('/transactions', 'TransactionsController@show');
 Route::get('/storage', 'StorageController@show');
 Route::post('/addChicken', 'ChickenHouseController@addChicken');
+Route::delete('/killChicken/{id}', 'ChickenHouseController@killChicken');
+Route::post('/updateChicken', 'ChickenHouseController@updateChicken');
