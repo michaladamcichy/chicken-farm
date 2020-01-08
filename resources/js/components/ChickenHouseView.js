@@ -56,15 +56,46 @@ export default class ChickenHouseView extends Component {
         this.setState({chickenInfoDialogVisible: true, selectedChicken : chicken});
     }
 
+    onChickenKilled(id) {
+        axios.delete('/killChicken/' + String(id)).then(response => {
+            response = response.data;
+            if(response.status == 'success') {
+                let chickens = this.state.chickens;
+                chickens = matrixToArray(chickens);
+                chickens = chickens.filter(item => item.id != response.id);
+                chickens = arrayToMatrix(chickens, this.chickenHouseSize);
+                this.setState({chickens, chickenInfoDialogVisible: false});
+            }
+        });
+    }
+
+    onChickenUpdated(chicken) {
+        axios.post('/updateChicken', chicken).then(response => {
+            chicken = response.data;
+
+            let chickens = matrixToArray(this.state.chickens);
+
+            for(let i=0; i<chickens.length; i++) {
+                if(chickens[i].id == chicken.id) {
+                    chickens[i] = chicken;
+                    this.setState({chickens : arrayToMatrix(chickens, this.chickenHouseSize)});
+                    break;
+                }
+            } 
+        });
+    }
+
     onChickenAdded(chicken) {
-        let chickens = this.state.chickens;
-        console.log(chickens);
-        chickens = matrixToArray(chickens);
-        console.log(chicken);
-        chickens.push(chicken);
-        chickens = arrayToMatrix(chickens, this.chickenHouseSize);
-        this.setState({chickens});
-    } 
+        axios.post('/addChicken', chicken).then(response => {
+            let chicken = response.data;
+
+            let chickens = this.state.chickens;
+            chickens = matrixToArray(chickens);
+            chickens.push(chicken);
+            chickens = arrayToMatrix(chickens, this.chickenHouseSize);
+            this.setState({chickens});
+        });
+    }
     
     render() {
         return (
@@ -89,7 +120,9 @@ export default class ChickenHouseView extends Component {
                 <ChangeDutyDialog switchVisibility={() => this.setState({changeDutyDialogVisible: !this.state.changeDutyDialogVisible})} />}
                 {this.state.chickenInfoDialogVisible &&
                 <ChickenInfoDialog switchVisibility={() => this.setState({chickenInfoDialogVisible: !this.state.chickenInfoDialogVisible})}
-                    chicken={this.state.selectedChicken}/>}
+                    chicken={this.state.selectedChicken}
+                    onChickenKilled={id => this.onChickenKilled(id)}
+                    onChickenUpdated={chicken => this.onChickenUpdated(chicken)}/>}
             </div>
         );
     }

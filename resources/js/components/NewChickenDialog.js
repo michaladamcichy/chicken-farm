@@ -20,16 +20,6 @@ export default class NewChickenDialog extends Component {
         }
     }
 
-    addChicken() {
-        axios.post('/addChicken', this.state.chicken).then(response => {
-            let chicken = response.data;
-            if(typeof chicken.id != undefined) {
-                this.props.onChickenAdded(chicken);
-            }
-        });
-
-    }
-
     setBirthdate(value) {
         let chicken = this.state.chicken;
         chicken.birthdate = value;
@@ -47,10 +37,14 @@ export default class NewChickenDialog extends Component {
         chicken.weight = value;
         this.setState({chicken});
     }
+    
+    onChickenAdded() {
+        this.props.onChickenAdded(this.state.chicken);
+    }
 
     render() {
         return (
-            <DialogContainer title={'Nowy kurczak'} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => this.addChicken()}>
+            <DialogContainer title={'Nowy kurczak'} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => this.onChickenAdded() }>
                 <FormRow fieldName={'Rodzaj kurczaka'} input={<select onChange={event => this.setType(event.target.value)}>
                         <option value={'layer'}>Nioska</option>
                         <option value={'meatchicken'}>Mięsna</option>
