@@ -21,3 +21,6 @@ Route::get('/storage', 'StorageController@show');
 Route::post('/addChicken', 'ChickenHouseController@addChicken');
 Route::delete('/killChicken/{id}', 'ChickenHouseController@killChicken');
 Route::post('/updateChicken', 'ChickenHouseController@updateChicken');
+Route::post('/addChickenhouse', 'MainController@addChickenhouse');
+Route::post('/updateChickenhouse', 'MainController@updateChickenhouse');
+Route::delete('/deleteChickenhouse/{id}', 'MainController@deleteChickenhouse');

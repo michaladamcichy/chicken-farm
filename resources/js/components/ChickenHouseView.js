@@ -4,6 +4,7 @@ import Chicken from './Chicken';
 import SideBarContainer from './SideBarContainer';
 import SideButton from './SideButton';
 import NewChickenDialog from './NewChickenDialog';
+import EditChickenHouseDialog from './EditChickenHouseDialog';
 import FeedingDialog from './FeedingDialog';
 import ChangeDutyDialog from './ChangeDutyDialog';
 import ChickenInfoDialog from './ChickenInfoDialog';
@@ -31,11 +32,14 @@ export default class ChickenHouseView extends Component {
         this.audio = new Audio('/audio/song.mp3');
 
         this.state = {
+            id: this.props.chickenhouseId,
+            size: this.props.chickenhouseSize, 
             chickens: arrayToMatrix(chickensArray, this.chickenHouseSize),
             newChickenDialogVisible: false,
             feedingDialogVisible: false,
             changeDutyDialogVisible: false,
             chickenInfoDialogVisible: false,
+            editChickenHouseDialogVisible: false,
             selectedChicken: null,
             dancing: false,
         };   
@@ -57,6 +61,10 @@ export default class ChickenHouseView extends Component {
 
     chickenInfo(chicken) {
         this.setState({chickenInfoDialogVisible: true, selectedChicken : chicken});
+    }
+
+    editChickenHouse() {
+        this.setState({editChickenHouseDialogVisible: true});    
     }
 
     onChickenKilled(id) {
@@ -100,6 +108,26 @@ export default class ChickenHouseView extends Component {
         });
     }
 
+    onChickenHouseEdited(chickenhouse) {
+        if(this.state.size != chickenhouse.size) {
+            axios.post('/updateChickenhouse', chickenhouse).then(response => {
+                let chickenhouse = response.data;
+                this.setState({size: chickenhouse.size});
+            });
+        }
+    }
+
+    onChickenHouseDeleted() {
+        axios.delete('/deleteChickenhouse/' + String(this.state.id)).then(response => {
+            response = response.data;
+            if(response.status == 'error') {
+                console.log('Nie mozna usunac kornika, w ktorym sa kury!');
+            } else {
+                window.location.href='/';
+            }
+        });
+    }
+
     switchMusic() {
         if(this.state.dancing == false) {
             this.setState({dancing : true});
@@ -108,7 +136,6 @@ export default class ChickenHouseView extends Component {
             this.setState({dancing : false});
             this.audio.pause();
         }
-        
     }
     
     render() {
@@ -125,9 +152,10 @@ export default class ChickenHouseView extends Component {
                     <SideButton title={'MUZYKA'} onClick={() => this.switchMusic()}/>
                     <SideButton title={'ZMIEŃ OSOBY ODP.'} onClick={() => this.changeDuty()}/>
                     <SideButton title={'HISTORIA KARMIENIA'}/>
+                    <SideButton title={'USTAWIENIA KÓRNIKA'} onClick={() => this.editChickenHouse()}/>
                 </SideBarContainer>
                 {this.state.newChickenDialogVisible &&
-                <NewChickenDialog onChickenAdded={chicken => this.onChickenAdded(chicken)} chickenhouseId={this.props.chickenhouseId} switchVisibility={() => this.setState({newChickenDialogVisible: !this.state.newChickenDialogVisible})} />}
+                <NewChickenDialog onChickenAdded={chicken => this.onChickenAdded(chicken)} chickenhouseId={this.state.id} switchVisibility={() => this.setState({newChickenDialogVisible: !this.state.newChickenDialogVisible})} />}
                 {this.state.feedingDialogVisible &&
                 <FeedingDialog switchVisibility={() => this.setState({feedingDialogVisible: !this.state.feedingDialogVisible})} />}
                 {this.state.changeDutyDialogVisible &&
@@ -137,6 +165,13 @@ export default class ChickenHouseView extends Component {
                     chicken={this.state.selectedChicken}
                     onChickenKilled={id => this.onChickenKilled(id)}
                     onChickenUpdated={chicken => this.onChickenUpdated(chicken)}/>}
+                {this.state.editChickenHouseDialogVisible && 
+                <EditChickenHouseDialog
+                    chickenHouse={{id: this.state.id, size: this.state.size}}
+                    switchVisibility={() => {this.setState({editChickenHouseDialogVisible : !this.state.editChickenHouseDialogVisible})}}
+                    onSubmit={chickenhouse => this.onChickenHouseEdited(chickenhouse)}
+                    onDelete={() => this.onChickenHouseDeleted()}
+                    />}
             </div>
         );
     }
@@ -146,5 +181,6 @@ if (document.getElementById('chickenHouseView')) {
     const element = document.getElementById('chickenHouseView');
     let chickens = element.getAttribute('chickens');
     let id = element.getAttribute('chickenhouseid');
-    ReactDOM.render(<ChickenHouseView chickens={JSON.parse(chickens)} chickenhouseId={id}/>, element);
+    let size = element.getAttribute('chickenhousesize');
+    ReactDOM.render(<ChickenHouseView chickens={JSON.parse(chickens)} chickenhouseId={id} chickenhouseSize={size}/>, element);
 }

@@ -11108,3 +11108,12 @@ a.text-dark:focus {
   margin: 5px;
 }
 
+.stripes:nth-child(even) {
+  background-color: #AAFFAA;
+}
+
+.hoverable:hover {
+  font-weight: bold;
+  background-color: #00FF00;
+}
+

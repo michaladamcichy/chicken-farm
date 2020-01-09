@@ -11,8 +11,9 @@ class ChickenHouseController extends Controller
 {
     public function show($id) {
        $chickens = Chicken::where('chickenhouse_id', $id)->get();
+       $chickenhouseSize = Chickenhouse::find($id)['size']; //ALERT SPRAWDZAĆ
 
-       return view('chickenHouse', ['chickens' => $chickens, 'id' => $id]);
+       return view('chickenHouse', ['chickens' => $chickens, 'id' => $id, 'size' => $chickenhouseSize]);
     }
 
     public function addChicken(Request $request) {
@@ -33,7 +34,7 @@ class ChickenHouseController extends Controller
         }
     }
     
-    public function killChicken($id) {
+    public function killChicken($id) { //ALERT dodać try catche tak jak w deleteChickenhouse 
         $chicken = Chicken::find($id);
         $success = false;
 

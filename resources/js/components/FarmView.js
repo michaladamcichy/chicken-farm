@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import ChickenHouse from './ChickenHouse';
 import NewChickenHouseDialog from './NewChickenHouseDialog';
+import EditChickenHouseDialog from './EditChickenHouseDialog';
 import SideBarContainer from './SideBarContainer';
 import SideButton from './SideButton';
-import ArrayToMatrix, { arrayToMatrix } from './utils';
+import { arrayToMatrix, matrixToArray } from './utils';
+import axios from 'axios';
 
 const styles = {
   outerContainer: {
@@ -29,6 +31,23 @@ export default class FarmView extends Component {
     newChickenHouse() {
         this.setState({newChickenHouseDialogVisible: true});
     }
+
+    addChickenHouse(size) {
+        let data = {size: size};
+        axios.post('/addChickenhouse', data).then(response => {
+            let chickenHouse = response.data;
+
+            if(typeof chickenHouse.id != undefined) {
+                let chickenHouses = matrixToArray(this.state.chickenHouses);
+                chickenHouses.push(chickenHouse);
+                this.setState({chickenHouses: arrayToMatrix(chickenHouses, this.farmSize)});
+            }
+        }); 
+    }
+
+    editChickenHouse(size) {
+//
+    }
     
     render() {
         return (
@@ -44,7 +63,9 @@ export default class FarmView extends Component {
                     <SideButton title={'BIZNES'} onClick={() => {window.location.href='business'}}/>
                 </SideBarContainer>
                 {this.state.newChickenHouseDialogVisible && 
-                <NewChickenHouseDialog switchVisibility={() => {this.setState({newChickenHouseDialogVisible : !this.state.newChickenHouseDialogVisible})}}/>}
+                <NewChickenHouseDialog
+                    switchVisibility={() => {this.setState({newChickenHouseDialogVisible : !this.state.newChickenHouseDialogVisible})}}
+                    onSubmit={size => this.addChickenHouse(size)}/>}
             </div>
         );
     }

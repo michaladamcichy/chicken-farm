@@ -35,3 +35,4 @@ require('./components/ProductsView');
 require('./components/TransactionsView');
 require('./components/StorageView');
 require('./components/AddButton');
+require('./components/EditChickenHouseDialog');

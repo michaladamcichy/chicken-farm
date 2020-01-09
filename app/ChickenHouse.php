@@ -10,4 +10,6 @@ class Chickenhouse extends Model
         'id',
         'size'
     ];
+
+    public $timestamps = false;
 }
