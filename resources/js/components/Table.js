@@ -2,41 +2,38 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import TableRow from './TableRow';
 
-const styles = {
-    outerContainer: {
-        overflow: 'auto',
-        whiteSpace: 'nowrap',
-        //maxWidth: '2000px', //ALERT TODO sprawdzać dokladna dlugosc
-    },
-    header: {
-    },
-
-};
-
 export default class Table extends Component {
     constructor(props) {
         super(props);
         this.state = {};
-
-        this.columns = ['ID', 'Data', 'Godzina', 'Klient', 'Kwota', 'X', 'Y'];
-        let row = ['A', 'B', 'C', 'D', 'E', 'X', 'Y'];
-
-        this.rows = [];
         
-        for(let i=0; i < 20; i++) {
-            this.rows.push(row);
-        }
+        let rows = this.props.rows.map(row => Object.values(row));
+        
+        this.state = {
+            rows: rows,
+        };
       }
 
     render() {
+        const styles =  {
+            outerContainer: {
+                overflow: 'auto',
+                whiteSpace: 'nowrap',
+                height: this.props.parentHeight,
+            },
+            header: {
+                fontWeight: 'bold'
+            },
+        };
+        
         return (
             <div class={'container'} style={styles.outerContainer}>
                 <div class={'row'} style={styles.header}>
-                    {this.columns.map(column => {
+                    {this.props.columns.map(column => {
                     return <div class={'col'} >{column}</div>
                     })}
                 </div>
-                {this.rows.map(row => {return <TableRow cells={row} />;})}
+                {this.state.rows.map(row => {return <TableRow cells={row} />;})}
             </div>
         );
     }

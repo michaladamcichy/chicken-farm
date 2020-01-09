@@ -3,12 +3,11 @@ import ReactDOM from 'react-dom';
 
 const styles = {
     outerContainer: {
-        // overflow: 'auto',
-        // whiteSpace: 'nowrap',
-        //width: '200px', //ALERT TODO sprawdzać dokladna dlugosc
     },
     header: {
     },
+    row: {
+    }
 
 };
 
@@ -20,7 +19,8 @@ export default class TableRow extends Component {
 
     render() {
         return (
-            <div class={'row'} style={styles.outerContainer}>
+            <div class={'row stripes hoverable'} style={styles.outerContainer}>
+                
                 {this.props.cells.map(cell => {
                     return <div class={'col'}>
                         {cell}

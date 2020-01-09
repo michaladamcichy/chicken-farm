@@ -40,12 +40,13 @@ export default class BusinessView extends Component {
             <div class="container" style={outerContainerStyle}>
                 <div class={'container'}>
                     <div class={'row'}>
-                        <BusinessWindow link={'/customers'} title={'KLIENCI'} height={windowHeight} />
-                        <BusinessWindow link={'/products'} title={'PRODUKTY'} height={windowHeight} />
+                        
+                        <BusinessWindow data={this.props.products} columns={['id', 'name', 'unit_cost']} link={'/products'} title={'PRODUKTY'} height={windowHeight} />
+                        <BusinessWindow data={this.props.transactions} columns={['id','date','time','total', 'customer_id']} link={'/transactions'} title={'TRANSAKCJE'} height={windowHeight} />
                     </div>
                     <div class={'row'}>
-                        <BusinessWindow link={'/transactions'} title={'TRANSAKCJE'} height={windowHeight} />
-                        <BusinessWindow link={'/storage'} title={'HISTORIA MAGAZYNU'} height={windowHeight} />
+                        <BusinessWindow data={this.props.customers} columns={['ID','Imie i nazwisko']} link={'/customers'} title={'KLIENCI'} height={windowHeight} />
+                        <BusinessWindow data={this.props.storagerecords} columns={['data','time','amount','type','product_id']} link={'/storage'} title={'HISTORIA MAGAZYNU'} height={windowHeight} />
                     </div>
                 </div>
 
@@ -61,5 +62,15 @@ export default class BusinessView extends Component {
 }
 
 if (document.getElementById('businessView')) {
-    ReactDOM.render(<BusinessView />, document.getElementById('businessView'));
+    const element = document.getElementById('businessView');
+    let customers = element.getAttribute('customers');
+    let products = element.getAttribute('products');
+    let transactions = element.getAttribute('transactions');
+    let storagerecords = element.getAttribute('storagerecords');
+
+    ReactDOM.render(<BusinessView
+        customers={JSON.parse(customers)}
+        products={JSON.parse(products)}
+        transactions={JSON.parse(transactions)}
+        storagerecords={JSON.parse(storagerecords)}/>, document.getElementById('businessView'));
 }
