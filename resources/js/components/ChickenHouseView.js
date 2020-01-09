@@ -28,6 +28,8 @@ export default class ChickenHouseView extends Component {
         let chickensArray = this.props.chickens;
         let chickens = arrayToMatrix(chickensArray, this.chickenHouseSize);
 
+        this.audio = new Audio('/audio/song.mp3');
+
         this.state = {
             chickens: arrayToMatrix(chickensArray, this.chickenHouseSize),
             newChickenDialogVisible: false,
@@ -35,6 +37,7 @@ export default class ChickenHouseView extends Component {
             changeDutyDialogVisible: false,
             chickenInfoDialogVisible: false,
             selectedChicken: null,
+            dancing: false,
         };   
 
         console.log('ChickenHouseView' + String(this.props.chickenhouseId));
@@ -96,19 +99,30 @@ export default class ChickenHouseView extends Component {
             this.setState({chickens});
         });
     }
+
+    switchMusic() {
+        if(this.state.dancing == false) {
+            this.setState({dancing : true});
+            this.audio.play();
+        } else {
+            this.setState({dancing : false});
+            this.audio.pause();
+        }
+        
+    }
     
     render() {
         return (
             <div class="container" style={styles.outerContainer}>
                 { this.state.chickens.map((item, column) => (
                     <div class="row">
-                        {item.map((chicken, row) => <div class="col"><Chicken id={String(chicken.id)} onClick={() => this.chickenInfo(chicken)} /></div>)}
+                        {item.map((chicken, row) => <div class="col"><Chicken id={String(chicken.id)} onClick={() => this.chickenInfo(chicken)} dancing={this.state.dancing} /></div>)}
                     </div>
                 ))}
                 <SideBarContainer>
                     <SideButton title={'DODAJ KURCZAKA'} onClick={() => this.newChicken()}/>
                     <SideButton title={'NAKARM KURCZAKI'} onClick={() => this.feeding()}/>
-                    <SideButton title={'MUZYKA'}/>
+                    <SideButton title={'MUZYKA'} onClick={() => this.switchMusic()}/>
                     <SideButton title={'ZMIEŃ OSOBY ODP.'} onClick={() => this.changeDuty()}/>
                     <SideButton title={'HISTORIA KARMIENIA'}/>
                 </SideBarContainer>

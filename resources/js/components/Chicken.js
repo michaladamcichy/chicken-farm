@@ -26,8 +26,10 @@ export default class Chicken extends Component {
         return (
             <div class="col">
                 <button onClick={() => this.props.onClick()} class="chicken" style={styles.button}>
-                    <img src={'/images/chicken.png'} style={styles.chickenIcon} />
-                    <h2 style={styles.chickenId}>{this.props.id ? '#' + this.props.id : ''}</h2>
+                    {this.props.dancing ?
+                    <img src={'/images/dancingfast.gif'} style={styles.chickenIcon} /> :
+                    <img src={'/images/chicken.png'} style={styles.chickenIcon} />}
+                    {!this.props.dancing && <h2 style={styles.chickenId}>{this.props.id ? '#' + this.props.id : ''}</h2>}
                 </button>
             </div>
         );
