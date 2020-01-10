@@ -17,6 +17,8 @@ export default class EditChickenHouseDialog extends Component {
             editable: false,
             editButtonText: 'Edytuj',
         }
+
+        this.lastSize = this.props.chickenHouse.size;
     }
 
     onSubmit() {
@@ -24,6 +26,11 @@ export default class EditChickenHouseDialog extends Component {
     }
 
     switchEditable() {
+        if(this.state.editable) {
+            this.setState({size: this.props.chickenHouse.size});
+            console.log(this.props.chickenHouse.size);
+        }
+
         this.setState({editable: !this.state.editable, editButtonText: this.state.editable ? 'Edytuj' : 'Anuluj'});
     }
 
