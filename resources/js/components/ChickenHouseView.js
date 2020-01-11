@@ -128,6 +128,19 @@ export default class ChickenHouseView extends Component {
         });
     }
 
+    onFeeding(feeding) {
+        feeding.chickenhouse_id = this.state.id;
+        axios.post('/feedChickens', feeding).then(response => {
+            response = response.data;
+
+            if(response.status == 'success') {
+                console.log('SUCESS');
+            } else {
+                console.log('FAILED');
+            }
+        });
+    }
+
     switchMusic() {
         if(this.state.dancing == false) {
             this.setState({dancing : true});
@@ -157,9 +170,10 @@ export default class ChickenHouseView extends Component {
                 {this.state.newChickenDialogVisible &&
                 <NewChickenDialog onChickenAdded={chicken => this.onChickenAdded(chicken)} chickenhouseId={this.state.id} switchVisibility={() => this.setState({newChickenDialogVisible: !this.state.newChickenDialogVisible})} />}
                 {this.state.feedingDialogVisible &&
-                <FeedingDialog switchVisibility={() => this.setState({feedingDialogVisible: !this.state.feedingDialogVisible})} />}
+                <FeedingDialog switchVisibility={() => this.setState({feedingDialogVisible: !this.state.feedingDialogVisible})}
+                    onFeeding={feeding => this.onFeeding(feeding)} />}
                 {this.state.changeDutyDialogVisible &&
-                <ChangeDutyDialog switchVisibility={() => this.setState({changeDutyDialogVisible: !this.state.changeDutyDialogVisible})} />}
+                <ChangeDutyDialog chickenhouseId={this.state.id} switchVisibility={() => this.setState({changeDutyDialogVisible: !this.state.changeDutyDialogVisible})} />}
                 {this.state.chickenInfoDialogVisible &&
                 <ChickenInfoDialog switchVisibility={() => this.setState({chickenInfoDialogVisible: !this.state.chickenInfoDialogVisible})}
                     chicken={this.state.selectedChicken}

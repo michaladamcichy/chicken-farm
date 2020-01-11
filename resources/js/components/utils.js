@@ -1,6 +1,12 @@
+export function formatTimeElement(element) {
+    return ('0' + String(element)).slice(-2);
+}
+
 export function getCurrentTime () {
     let today = new Date();
-    return today.getHours() + ":" + today.getMinutes() + ':00';
+    let time = formatTimeElement(today.getHours()) + ":" + formatTimeElement(today.getMinutes()) + ':' + formatTimeElement(today.getSeconds());
+
+    return time;
 }
 
 export function getCurrentDate() {

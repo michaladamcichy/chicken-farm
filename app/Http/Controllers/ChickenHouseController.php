@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Chicken;
 use App\Chickenhouse;
+use App\Feeding;
+use App\Farmworker;
+use App\ChickenhousesFarmworkers;
 use Log;
 
 class ChickenHouseController extends Controller
@@ -30,7 +33,7 @@ class ChickenHouseController extends Controller
             $chicken['id'] = strval($id);
             return json_encode($chicken);
         } else {
-            return json_encode(['error' => 'INSERT FAILED']);
+            return json_encode(['status' => 'error']);
         }
     }
     
@@ -66,6 +69,64 @@ class ChickenHouseController extends Controller
 
         if($success == true) {
             return json_encode($chicken);
+        } else {
+            return json_encode(['status' => 'error']);
+        }
+    }
+
+    public function feedChickens(Request $request) {
+        $feeding = $request->all();
+        
+        $success = true;
+        try {
+            Feeding::insert($feeding);
+        } catch(Exception $e) {
+            $success = false;
+            Log::info($e->getMessage());
+        }
+        
+        if($success) {
+            return json_encode(['status' => 'success']);
+        } else {
+            return json_encode(['status' => 'error']);
+        }
+    }
+
+    public function getChickenhouseWorkers($id) {
+        $all = Farmworker::get();
+        $onDuty = Farmworker::join('chickenhouses_farmworkers', 'chickenhouses_farmworkers.worker_id', '=', 'farmworkers.id')->where('chickenhouse_id', $id)->get();
+
+        $result = json_encode(['all' => $all, 'onDuty' => $onDuty]);
+
+        return $result;
+    }
+
+    public function updateWorkersOnDuty(Request $request) {
+        $success = true;
+        
+        try {
+            $data = $request->all();
+            Log::info($data);
+
+            $workers = $data['workers'];
+            $chickenhouseId = $data['chickenhouseId'];
+
+            $chickenhousesFarmworkers = ChickenhousesFarmworkers::where('chickenhouse_id', $chickenhouseId)->delete();
+
+            $chickenhousesFarmworkers = [];
+            foreach($workers as $worker) {
+                array_push($chickenhousesFarmworkers, ['chickenhouse_id' => $chickenhouseId, 'worker_id' => $worker]);
+            }
+            
+            ChickenhousesFarmworkers::insert($chickenhousesFarmworkers);
+        }
+        catch(Exception $e) {
+            $success = false;
+            Log::info($e->getMessage());
+        }
+        
+        if($success) {
+            return json_encode(['status' => 'success']);
         } else {
             return json_encode(['status' => 'error']);
         }

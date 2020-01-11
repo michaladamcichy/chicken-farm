@@ -24,3 +24,6 @@ Route::post('/updateChicken', 'ChickenHouseController@updateChicken');
 Route::post('/addChickenhouse', 'MainController@addChickenhouse');
 Route::post('/updateChickenhouse', 'MainController@updateChickenhouse');
 Route::delete('/deleteChickenhouse/{id}', 'MainController@deleteChickenhouse');
+Route::post('/feedChickens', 'ChickenHouseController@feedChickens');
+Route::get('/getChickenhouseWorkers/{id}', 'ChickenHouseController@getChickenhouseWorkers');
+Route::post('/updateWorkersOnDuty', 'ChickenHouseController@updateWorkersOnDuty');
