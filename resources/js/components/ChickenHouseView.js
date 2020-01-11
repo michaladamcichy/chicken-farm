@@ -152,8 +152,6 @@ export default class ChickenHouseView extends Component {
     }
 
     onChickenMoved(id) {
-        console.log('PARETN');
-        console.log(id);
         let chickens = this.state.chickens;
         chickens = matrixToArray(chickens);
         chickens = chickens.filter(item => item.id != id);
