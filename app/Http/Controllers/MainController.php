@@ -73,4 +73,15 @@ class MainController extends Controller
             return json_encode(['status' => 'error']);
         }
     }
+
+    public function getChickenhousesIds(Request $request) {
+        $chickenhouses = ChickenHouse::get('id');
+
+        $chickenhousesIds = [];
+        foreach($chickenhouses as $chickenhouse) {
+            array_push($chickenhousesIds, $chickenhouse->id); 
+        }
+
+        return json_encode($chickenhousesIds);
+    }
 }

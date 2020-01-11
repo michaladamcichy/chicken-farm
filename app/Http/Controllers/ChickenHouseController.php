@@ -131,4 +131,28 @@ class ChickenHouseController extends Controller
             return json_encode(['status' => 'error']);
         }
     }
+
+    public function moveChicken(Request $request) {
+        $success = true;
+        
+        try {
+            $data = $request->all();
+
+            $chickenId = $data['chickenId'];
+            $targetChickenhouseId = $data['targetChickenhouseId'];
+
+            $chicken = Chicken::find($chickenId);
+            $chicken->update(['chickenhouse_id' => $targetChickenhouseId]);
+            $chicken->save();
+        } catch(Exception $e) {
+            $success = false;
+            Log::info($e->getMessage());
+        }
+
+        if($success) {
+            return json_encode(['status' => 'success']);
+        } else {
+            return json_encode(['status' => 'error']);
+        }
+    }
 }

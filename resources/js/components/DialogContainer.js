@@ -34,8 +34,7 @@ export default class DialogContainer extends Component {
                         <button type={'button'} class={'btn btn-danger'}  onClick={()=> this.props.switchVisibility()}>{'Anuluj'}</button>
                     </div>
                     <div class={'container col'}>
-                        <button type={'button'} class={'btn btn-success'} onClick={() => {this.props.switchVisibility(); this.props.onSubmit()}}
-                            disabled={this.props.saveButtonDisabled}>{'Zapisz'}</button>
+                        <button type={'button'} class={'btn btn-success'} onClick={() => {this.props.switchVisibility(); this.props.onSubmit()}}>{'Zapisz'}</button>
                     </div>
                 </div>
             </div>

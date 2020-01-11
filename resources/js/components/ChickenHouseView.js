@@ -150,6 +150,16 @@ export default class ChickenHouseView extends Component {
             this.audio.pause();
         }
     }
+
+    onChickenMoved(id) {
+        console.log('PARETN');
+        console.log(id);
+        let chickens = this.state.chickens;
+        chickens = matrixToArray(chickens);
+        chickens = chickens.filter(item => item.id != id);
+        chickens = arrayToMatrix(chickens, this.chickenHouseSize);
+        this.setState({chickens, chickenInfoDialogVisible: false,});
+    }
     
     render() {
         return (
@@ -178,7 +188,8 @@ export default class ChickenHouseView extends Component {
                 <ChickenInfoDialog switchVisibility={() => this.setState({chickenInfoDialogVisible: !this.state.chickenInfoDialogVisible})}
                     chicken={this.state.selectedChicken}
                     onChickenKilled={id => this.onChickenKilled(id)}
-                    onChickenUpdated={chicken => this.onChickenUpdated(chicken)}/>}
+                    onChickenUpdated={chicken => this.onChickenUpdated(chicken)}
+                    onChickenMoved={id => this.onChickenMoved(id)}/>}
                 {this.state.editChickenHouseDialogVisible && 
                 <EditChickenHouseDialog
                     chickenHouse={{id: this.state.id, size: this.state.size}}
