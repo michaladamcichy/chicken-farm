@@ -20,7 +20,9 @@ export function arrayToMatrix(inputArray, rowLength) {
     let counter = 0;
     while(array.length > 0) {
         if(counter%rowLength == 0) matrix.push([]);
-        matrix[matrix.length - 1].push(array.shift());
+        let item = array.shift();
+        item.row = counter;
+        matrix[matrix.length - 1].push(item);
         counter++;
     }
 
