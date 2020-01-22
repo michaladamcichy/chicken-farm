@@ -39,7 +39,7 @@ export default class ChickenInfoDialog extends Component {
 
     onEditButtonClicked() {
         if(this.state.editable) {
-            this.setState({editable: false, editButtonText: 'Edytuj dane', chicken: this.props.chicken});
+            this.setState({editable: false, editButtonText: 'Edytuj dane', chicken: Object.assign({}, this.props.chicken)});
         } else {
             this.setState({editable: true, editButtonText: 'Anuluj edytowanie'});
         }

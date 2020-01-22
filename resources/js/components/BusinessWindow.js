@@ -51,10 +51,10 @@ const styles = {
             return (
                 <div ref={ref => this.ref = ref} id={'businessWindow'} class="col" style={outerContainerStyle}>
                     <div ref={ref => this.headerRef = ref} class={'row'} style={styles.header}>
-                    <AddButton />
+                    <AddButton onClick={() => this.props.onNewItemClicked()}/>
                         <a href={this.props.link ?  this.props.link : ''} class={'col'}><h2>{this.props.title ? this.props.title : ''}</h2></a>
                     </div>
-                    <Table parentHeight={this.props.height - this.state.headerHeight - 5} rows={this.props.data} columns={this.props.columns}/>
+                    <Table onItemSelected={item => this.props.onItemSelected(item)} parentHeight={this.props.height - this.state.headerHeight - 5} rows={this.props.data} columns={this.props.columns}/>
                 </div>
             );
         }

@@ -6,12 +6,6 @@ export default class Table extends Component {
     constructor(props) {
         super(props);
         this.state = {};
-        
-        let rows = this.props.rows.map(row => Object.values(row));
-        
-        this.state = {
-            rows: rows,
-        };
       }
 
     render() {
@@ -33,7 +27,7 @@ export default class Table extends Component {
                     return <div class={'col'} >{column}</div>
                     })}
                 </div>
-                {this.state.rows.map(row => {return <TableRow cells={row} />;})}
+                {this.props.rows.map((row, index) => Object.values(row)).map((array, index) => {return <TableRow onClick={() => this.props.onItemSelected(this.props.rows[index])} cells={array} />;})}
             </div>
         );
     }

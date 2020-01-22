@@ -19,7 +19,7 @@ export default class TableRow extends Component {
 
     render() {
         return (
-            <div class={'row stripes hoverable'} style={styles.outerContainer}>
+            <div onClick={() => this.props.onClick()} class={'row stripes hoverable'} style={styles.outerContainer}>
                 
                 {this.props.cells.map(cell => {
                     return <div class={'col'}>

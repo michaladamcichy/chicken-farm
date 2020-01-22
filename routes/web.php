@@ -29,3 +29,9 @@ Route::get('/getChickenhouseWorkers/{id}', 'ChickenHouseController@getChickenhou
 Route::post('/updateWorkersOnDuty', 'ChickenHouseController@updateWorkersOnDuty');
 Route::get('/getChickenhousesIds', 'MainController@getChickenhousesIds');
 Route::post('/moveChicken', 'ChickenHouseController@moveChicken');
+Route::post('/addProduct', 'ProductsController@addProduct');
+Route::post('/addCustomer', 'CustomersController@addCustomer');
+Route::get('/getProducts', 'ProductsController@getProducts');
+Route::post('/addStoragerecord', 'StorageController@addStoragerecord');
+Route::post('/updateProduct', 'ProductsController@updateProduct');
+Route::delete('/deleteProduct/{id}', 'ProductsController@deleteProduct');

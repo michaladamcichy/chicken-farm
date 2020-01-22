@@ -19,7 +19,7 @@ export default class AddButton extends Component {
     render() {
         return (
             <div style={styles.outerContainer}>
-                <button class={'btn btn-light'} style={styles.button}><img src={'/images/addButton.png'} style={styles.image} /> </button>
+                <button onClick={() => this.props.onClick()} class={'btn btn-light'} style={styles.button}><img src={'/images/addButton.png'} style={styles.image} /> </button>
             </div>
         );
     }

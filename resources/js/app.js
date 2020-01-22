@@ -36,3 +36,7 @@ require('./components/TransactionsView');
 require('./components/StorageView');
 require('./components/AddButton');
 require('./components/EditChickenHouseDialog');
+require('./components/NewProductDialog');
+require('./components/NewCustomerDialog');
+require('./components/NewStoragerecordDialog');
+require('./components/ProductInfoDialog');
