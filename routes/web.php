@@ -35,3 +35,5 @@ Route::get('/getProducts', 'ProductsController@getProducts');
 Route::post('/addStoragerecord', 'StorageController@addStoragerecord');
 Route::post('/updateProduct', 'ProductsController@updateProduct');
 Route::delete('/deleteProduct/{id}', 'ProductsController@deleteProduct');
+Route::post('/updateCustomer', 'CustomersController@updateCustomer');
+Route::delete('/deleteCustomer/{id}', 'CustomersController@deleteCustomer');

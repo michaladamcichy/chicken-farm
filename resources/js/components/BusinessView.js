@@ -7,6 +7,7 @@ import NewProductDialog from './NewProductDialog';
 import NewCustomerDialog from './NewCustomerDialog';
 import NewStoragerecordDialog from './NewStoragerecordDialog';
 import ProductInfoDialog from './ProductInfoDialog';
+import CustomerInfoDialog from './CustomerInfoDialog';
 import axios from 'axios';
 
 const styles = {
@@ -22,12 +23,15 @@ export default class BusinessView extends Component {
             newCustomerDialogVisible: false,
             newStoragerecordDialogVisible: false,
             productInfoDialogVisible: false,
+            customerInfoDialogVisible: false,
+            
             products: this.props.products,
             transactions: this.props.transactions,
             customers: this.props.customers,
             storagerecords: this.props.storagerecords,
             
             currentProduct: null,
+            currentCustomer: null,
 
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -58,38 +62,6 @@ export default class BusinessView extends Component {
                 let products = this.state.products;
                 products.push(product);
                 this.setState({products});
-            }
-        });
-    }
-
-    onCustomerAdded(customer) {
-        axios.post('/addCustomer', customer).then(response => {
-            response = response.data;
-            let customer = response;
-
-            if(response.status != undefined && response.status == 'error') {
-                console.log('Cannot add new customer');
-            } else {
-                let customers = this.state.customers;
-                customers.push(customer);
-                this.setState({customers});
-            }
-        });
-    }
-
-    onStoragerecordAdded(storagerecord) {
-        axios.post('/addStoragerecord', storagerecord).then(response => {
-            response = response.data;
-            let storagerecord = response;
-
-            if(response.status != undefined && response.status == 'error') {
-                console.log('Cannot add new storage record');
-            } else {
-                console.log('storage record added');
-                console.log(storagerecord);
-                let storagerecords = this.state.storagerecords;
-                storagerecords.push(storagerecord);
-                this.setState({storagerecords});
             }
         });
     }
@@ -134,6 +106,79 @@ export default class BusinessView extends Component {
         });
     }
 
+    onCustomerAdded(customer) {
+        axios.post('/addCustomer', customer).then(response => {
+            response = response.data;
+            let customer = response;
+
+            if(response.status != undefined && response.status == 'error') {
+                console.log('Cannot add new customer');
+            } else {
+                let customers = this.state.customers;
+                customers.push(customer);
+                this.setState({customers});
+            }
+        });
+    }
+
+    customerInfo(customer) {
+        this.setState({customerInfoDialogVisible: true, currentCustomer: customer});
+    }
+
+    onCustomerUpdated(customer) {
+        axios.post('/updateCustomer', customer).then(response => {
+            response = response.data;
+
+            if(response.status != undefined && response.status == 'error') {
+                console.log('Cannot update customer');
+            } else {
+                let customer = response;
+
+                let customers = this.state.customers;
+                for(let i=0; i<customers.length; i++) {
+                    if(customers[i].id == customer.id) {
+                        customers[i] = customer;
+                        break;
+                    }                    
+                }
+                this.setState({customers});
+            }
+        });
+    }
+
+    onCustomerDeleted() {
+        axios.delete('/deleteCustomer/' + String(this.state.currentCustomer.id)).then(response => {
+            response = response.data;
+            
+            if(response.status != undefined && response.status == 'error') {
+                console.log('Cannot delete customer with id ' + this.state.currentCustomer.id);
+            } else {
+                let customers = this.state.customers;
+                customers = customers.filter(customer => customer.id != this.state.currentCustomer.id);
+
+                this.setState({customerInfoDialogVisible: false, customers});
+            }
+        });
+    }
+
+    onStoragerecordAdded(storagerecord) {
+        axios.post('/addStoragerecord', storagerecord).then(response => {
+            response = response.data;
+            let storagerecord = response;
+
+            if(response.status != undefined && response.status == 'error') {
+                console.log('Cannot add new storage record');
+            } else {
+                console.log('storage record added');
+                console.log(storagerecord);
+                let storagerecords = this.state.storagerecords;
+                storagerecords.push(storagerecord);
+                this.setState({storagerecords});
+            }
+        });
+    }
+
+
     render() {
         const outerContainerStyle= {
             marginTop: '20px',
@@ -154,7 +199,8 @@ export default class BusinessView extends Component {
                     </div>
                     <div class={'row'}>
                         <BusinessWindow data={this.state.customers} columns={['ID','Imie i nazwisko']} link={'/customers'} title={'KLIENCI'} height={windowHeight}
-                            onNewItemClicked={() => {this.setState({newCustomerDialogVisible: true})}} />
+                            onNewItemClicked={() => {this.setState({newCustomerDialogVisible: true})}}
+                            onItemSelected={customer => this.customerInfo(customer)}/>
                         <BusinessWindow data={this.state.storagerecords} columns={['data','time','amount','type','product_id']} link={'/storage'} title={'HISTORIA MAGAZYNU'} height={windowHeight}
                             onNewItemClicked={() => this.setState({newStoragerecordDialogVisible: true})}/>
                     </div>
@@ -176,6 +222,8 @@ export default class BusinessView extends Component {
                 
                 {this.state.productInfoDialogVisible &&
                 <ProductInfoDialog onProductUpdated={product => this.onProductUpdated(product)} onProductDeleted={() => this.onProductDeleted()} product={this.state.currentProduct} switchVisibility={() => this.setState({productInfoDialogVisible: !this.state.productInfoDialogVisible})} />}               
+                {this.state.customerInfoDialogVisible &&
+                <CustomerInfoDialog onCustomerUpdated={customer => this.onCustomerUpdated(customer)} onCustomerDeleted={() => this.onCustomerDeleted()} customer={this.state.currentCustomer} switchVisibility={() => this.setState({customerInfoDialogVisible: !this.state.customerInfoDialogVisible})} />}               
             </div>
         );
     }

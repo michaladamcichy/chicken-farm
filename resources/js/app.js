@@ -40,3 +40,4 @@ require('./components/NewProductDialog');
 require('./components/NewCustomerDialog');
 require('./components/NewStoragerecordDialog');
 require('./components/ProductInfoDialog');
+require('./components/CustomerInfoDialog');
