@@ -21,7 +21,7 @@ class ProductsController extends Controller
         try {
             $id = Product::insertGetId($product);
             $product = Product::find($id);
-        } catch(Exception $e) {
+        } catch(\Throwable $e) {
             Log::info($e->getMessage());
             $success = false;
         }
@@ -46,7 +46,7 @@ class ProductsController extends Controller
             $product = Product::find($updatedProduct['id']);
             $product->update($updatedProduct);
             $product->save();
-        } catch(Exception $e) {
+        } catch(\Throwable $e) {
             $success = false;
             Log::info($e->getMessage());
         }

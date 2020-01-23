@@ -25,7 +25,7 @@ class ChickenHouseController extends Controller
         $id = null;
         try {
             $id = Chicken::insertGetId($chicken);
-        } catch(Exception $e) {
+        } catch(\Throwable $e) {
             Log::info($e->getMessage());
         }
         
@@ -62,7 +62,7 @@ class ChickenHouseController extends Controller
             $chicken = Chicken::find($updatedChicken['id']);
             $chicken->update($updatedChicken);
             $chicken->save();
-        } catch(Exception $e) {
+        } catch(\Throwable $e) {
             $success = false;
             Log::info($e->getMessage());
         }
@@ -80,7 +80,7 @@ class ChickenHouseController extends Controller
         $success = true;
         try {
             Feeding::insert($feeding);
-        } catch(Exception $e) {
+        } catch(\Throwable $e) {
             $success = false;
             Log::info($e->getMessage());
         }
@@ -120,7 +120,7 @@ class ChickenHouseController extends Controller
             
             ChickenhousesFarmworkers::insert($chickenhousesFarmworkers);
         }
-        catch(Exception $e) {
+        catch(\Throwable $e) {
             $success = false;
             Log::info($e->getMessage());
         }
@@ -144,7 +144,7 @@ class ChickenHouseController extends Controller
             $chicken = Chicken::find($chickenId);
             $chicken->update(['chickenhouse_id' => $targetChickenhouseId]);
             $chicken->save();
-        } catch(Exception $e) {
+        } catch(\Throwable $e) {
             $success = false;
             Log::info($e->getMessage());
         }

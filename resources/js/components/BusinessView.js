@@ -8,6 +8,8 @@ import NewCustomerDialog from './NewCustomerDialog';
 import NewStoragerecordDialog from './NewStoragerecordDialog';
 import ProductInfoDialog from './ProductInfoDialog';
 import CustomerInfoDialog from './CustomerInfoDialog';
+import StoragerecordInfoDialog from './StoragerecordInfoDialog';
+import {isEqual} from 'lodash';
 import axios from 'axios';
 
 const styles = {
@@ -32,6 +34,8 @@ export default class BusinessView extends Component {
             
             currentProduct: null,
             currentCustomer: null,
+            currentStoragerecord: null,
+            currentTransaction: null,
 
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -162,6 +166,9 @@ export default class BusinessView extends Component {
     }
 
     onStoragerecordAdded(storagerecord) {
+        let product_name = storagerecord.product_name;
+        delete storagerecord.product_name;
+
         axios.post('/addStoragerecord', storagerecord).then(response => {
             response = response.data;
             let storagerecord = response;
@@ -170,10 +177,53 @@ export default class BusinessView extends Component {
                 console.log('Cannot add new storage record');
             } else {
                 console.log('storage record added');
-                console.log(storagerecord);
+                storagerecord.product_name = product_name;
                 let storagerecords = this.state.storagerecords;
                 storagerecords.push(storagerecord);
                 this.setState({storagerecords});
+            }
+        });
+    }
+
+    storagerecordInfo(storagerecord) {
+        this.setState({storagerecordInfoDialogVisible: true, currentStoragerecord: storagerecord});
+    }
+
+    onStoragerecordUpdated(storagerecord) {
+        let product_name = storagerecord.name;
+        delete storagerecord.name
+        axios.post('/updateStoragerecord', storagerecord).then(response => {
+            response = response.data;
+
+            if(response.status != undefined && response.status == 'error') {
+                console.log('Cannot update storagerecord');
+            } else {
+                let storagerecord = response;
+                storagerecord.name = product_name;
+
+                let storagerecords = this.state.storagerecords;
+                for(let i=0; i<storagerecords.length; i++) {
+                    if(storagerecords[i].id == storagerecord.id) {
+                        storagerecords[i] = storagerecord;
+                        break;
+                    }                    
+                }
+                this.setState({storagerecords});
+            }
+        });
+    }
+
+    onStoragerecordDeleted() {
+        axios.post('/deleteStoragerecord/', this.state.currentStoragerecord).then(response => {
+            response = response.data;
+            
+            if(response.status != undefined && response.status == 'error') {
+                console.log('Cannot delete storagerecord with id ' + this.state.currentStoragerecord.id);
+            } else {
+                let storagerecords = this.state.storagerecords;
+                storagerecords = storagerecords.filter(storagerecord => isEqual(storagerecord, this.state.currentStoragerecord) == false);
+
+                this.setState({storagerecordInfoDialogVisible: false, storagerecords});
             }
         });
     }
@@ -201,8 +251,9 @@ export default class BusinessView extends Component {
                         <BusinessWindow data={this.state.customers} columns={['ID','Imie i nazwisko']} link={'/customers'} title={'KLIENCI'} height={windowHeight}
                             onNewItemClicked={() => {this.setState({newCustomerDialogVisible: true})}}
                             onItemSelected={customer => this.customerInfo(customer)}/>
-                        <BusinessWindow data={this.state.storagerecords} columns={['data','time','amount','type','product_id']} link={'/storage'} title={'HISTORIA MAGAZYNU'} height={windowHeight}
-                            onNewItemClicked={() => this.setState({newStoragerecordDialogVisible: true})}/>
+                        <BusinessWindow data={this.state.storagerecords} columns={['date','time','amount','type', 'pr_id', 'pr_name']} link={'/storage'} title={'HISTORIA MAGAZYNU'} height={windowHeight}
+                            onNewItemClicked={() => this.setState({newStoragerecordDialogVisible: true})}
+                            onItemSelected={storagerecord => this.storagerecordInfo(storagerecord)}/>
                     </div>
                 </div>
 
@@ -224,6 +275,8 @@ export default class BusinessView extends Component {
                 <ProductInfoDialog onProductUpdated={product => this.onProductUpdated(product)} onProductDeleted={() => this.onProductDeleted()} product={this.state.currentProduct} switchVisibility={() => this.setState({productInfoDialogVisible: !this.state.productInfoDialogVisible})} />}               
                 {this.state.customerInfoDialogVisible &&
                 <CustomerInfoDialog onCustomerUpdated={customer => this.onCustomerUpdated(customer)} onCustomerDeleted={() => this.onCustomerDeleted()} customer={this.state.currentCustomer} switchVisibility={() => this.setState({customerInfoDialogVisible: !this.state.customerInfoDialogVisible})} />}               
+                {this.state.storagerecordInfoDialogVisible &&
+                <StoragerecordInfoDialog onStoragerecordUpdated={storagerecord => this.onStoragerecordUpdated(storagerecord)} onStoragerecordDeleted={() => this.onStoragerecordDeleted()} storagerecord={this.state.currentStoragerecord} switchVisibility={() => this.setState({storagerecordInfoDialogVisible: !this.state.storagerecordInfoDialogVisible})} />} 
             </div>
         );
     }

@@ -31,11 +31,6 @@ export default class ProductInfoDialog extends Component {
         this.setState({product});
     }
     
-    onProductAdded() {
-        console.log(this.state.product);
-        this.props.onProductAdded(this.state.product);
-    }
-    
     onEditButtonClicked() {
         if(this.state.editable) {
             this.setState({editable: false, editButtonText: 'Edytuj dane', product: Object.assign({}, this.props.product)});

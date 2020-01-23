@@ -15,7 +15,8 @@ class BusinessController extends Controller
         $customers = Customer::all();
         $products = Product::all();
         $transactions = Transaction::all();
-        $storagerecords = Storagerecord::all();
+        $storagerecords = Storagerecord::join('products', 'storagerecords.product_id', '=', 'products.id')
+            ->select('storagerecords.*', 'products.name')->get();
 
         return view('business',
             ['customers' => $customers,

@@ -25,10 +25,6 @@ export default class CustomerInfoDialog extends Component {
         this.setState({customer});
     }
     
-    oncustomerAdded() {
-        this.props.oncustomerAdded(this.state.customer);
-    }
-    
     onEditButtonClicked() {
         if(this.state.editable) {
             this.setState({editable: false, editButtonText: 'Edytuj dane', customer: Object.assign({}, this.props.customer)});

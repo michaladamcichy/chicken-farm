@@ -18,7 +18,8 @@ export default class NewStoragerecordDialog extends Component {
                 time: getCurrentTime(),
                 amount: 5.0,
                 type: 'in',
-                product_id: ''
+                product_id: '',
+                product_name: '',
             },
                 products: []
             }
@@ -56,9 +57,10 @@ export default class NewStoragerecordDialog extends Component {
         this.setState({storagerecord});
     }
 
-    setProductId(value) {
+    setProduct(value) {
         let storagerecord = this.state.storagerecord;
         storagerecord.product_id = value;
+        storagerecord.product_name = this.state.products.find(element => element.id == storagerecord.product_id).name;
         this.setState({storagerecord});
     }
     
@@ -71,7 +73,7 @@ export default class NewStoragerecordDialog extends Component {
             <DialogContainer title={'Nowy wpis magazynowy'} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => this.onStoragerecordAdded() }>
                 <FormRow fieldName={'Data'} input={<input type={'date'} value={this.state.storagerecord.date} onChange={event => this.setDate(event.target.value)}></input>} />
                 <FormRow fieldName={'Godzina'} input={<input type={'time'} value={this.state.storagerecord.time} onChange={event => this.setTime(event.target.value)}></input>} />
-                <FormRow fieldName={'Produkt'} input={<select onChange={event => this.setProductId(event.target.value)} value={this.state.storagerecord.product_id}>
+                <FormRow fieldName={'Produkt'} input={<select onChange={event => this.setProduct(event.target.value)} value={this.state.storagerecord.product_id}>
                         {this.state.products.map(product => <option value={product.id}> {product.name} </option>)}
                     </select>}/>
                 <FormRow fieldName={'Ilość [kg]'} input={<input onChange={event => this.setAmount(event.target.value)} value={this.state.storagerecord.amount} type={'number'} min={0.0} step={0.01}></input>} />

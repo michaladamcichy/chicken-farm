@@ -17,9 +17,15 @@ class MainController extends Controller
         $chickenhouse = $request->all();
 
         $id = null;
-        $id = Chickenhouse::insertGetId($chickenhouse);
+        $success = true;
+        try{
+            $id = Chickenhouse::insertGetId($chickenhouse);
+        } catch(\Throwable $e) {
+            Log::info($e->getMessage());
+            $success = false;
+        }
 
-        if($id) {
+        if($success == false) {
             $chickenhouse['id'] = $id;
             return $chickenhouse;
         } else {
@@ -35,7 +41,7 @@ class MainController extends Controller
             $chickenhouse = Chickenhouse::find($request['id']);
             $chickenhouse->update(['size' => $newChickenhouse['size']]);
             $chickenhouse->save();
-        } catch(Exception $e) {
+        } catch(\Throwable $e) {
             $success = false;
             Log::info($e->getMessage());
         }
@@ -51,7 +57,7 @@ class MainController extends Controller
         $chickenhouse = null;
         try {
             $chickenhouse = Chickenhouse::find($id);
-        } catch(Error $e) { //ALERT catch nie działa
+        } catch(\Throwable $e) {
             Log::info($e->getMessage());
         }
 
@@ -59,7 +65,7 @@ class MainController extends Controller
             $success = true;
             try{
                 $chickenhouse->delete();
-            } catch(Error $e) {
+            } catch(\Throwable $e) {
                 $success = false;
                 Log::info($e->getMessage());
             }

@@ -20,7 +20,7 @@ class CustomersController extends Controller
         try {
             $id = Customer::insertGetId($customer);
             $customer = Customer::find($id);
-        } catch(Exception $e) {
+        } catch(\Throwable $e) {
             Log::info($e->getMessage());
             $success = false;
         }
@@ -39,7 +39,7 @@ class CustomersController extends Controller
             $customer = Customer::find($updatedCustomer['id']);
             $customer->update($updatedCustomer);
             $customer->save();
-        } catch(Exception $e) {
+        } catch(\Throwable $e) {
             $success = false;
             Log::info($e->getMessage());
         }
