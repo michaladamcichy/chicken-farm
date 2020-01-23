@@ -11108,3 +11108,15 @@ a.text-dark:focus {
   margin: 5px;
 }
 
+<<<<<<< HEAD
+=======
+.stripes:nth-child(even) {
+  background-color: #AAFFAA;
+}
+
+.hoverable:hover {
+  font-weight: bold;
+  background-color: #00FF00;
+}
+
+>>>>>>> ac2453368f2d6bc7cf3c413cfd5f6f7309114782
