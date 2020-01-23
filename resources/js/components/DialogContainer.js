@@ -12,7 +12,7 @@ const styles = {
         backgroundColor: 'white',
         padding: '20px',
         border: '5px dashed green',
-        boxShadow: '0 0 100px 100px grey',
+        boxShadow: '0 0 20px 20px green',
     },
     hr: {
         borderTop: '5px dashed green',
@@ -34,8 +34,7 @@ export default class DialogContainer extends Component {
                         <button type={'button'} class={'btn btn-danger'}  onClick={()=> this.props.switchVisibility()}>{'Anuluj'}</button>
                     </div>
                     <div class={'container col'}>
-                        <button type={'button'} class={'btn btn-success'} onClick={() => this.props.switchVisibility()}
-                            disabled={this.props.saveButtonDisabled}>{'Zapisz'}</button>
+                        <button type={'button'} class={'btn btn-success'} onClick={() => {this.props.switchVisibility(); this.props.onSubmit()}}>{'Zapisz'}</button>
                     </div>
                 </div>
             </div>

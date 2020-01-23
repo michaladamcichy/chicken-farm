@@ -14,7 +14,7 @@ export default class ChickenHouse extends Component {
     render() {
         return (
             <div class="col">
-                <a href={'/chickenHouse/0'}><button type="button" class="btn btn-warning" style={styles.button}> KÓRNIK </button></a>
+                <a href={'/chickenHouse/' + this.props.id}><button type="button" class="btn btn-warning" style={styles.button}><h2>{this.props.id ? String('#' + this.props.id) : ''}</h2></button></a>
             </div>
         );
     }

@@ -7,3 +7,62 @@
 .formRow {
     margin: 5px;
 }
+
+.stripes:nth-child(even) {
+    background-color: #AAFFAA;
+}
+
+
+.hoverable:hover {
+    font-weight: bold;
+    background-color: #00FF00;
+}
+
+.dancing1 {
+    animation-name: dancingFrames1;
+    animation-duration: 3.3s;
+    animation-iteration-count: infinite;
+}
+
+.dancing2 {
+    animation-name: dancingFrames2;
+    animation-duration: 3.3s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes dancingFrames1 {
+    0% {
+      transform: translate(0, 0px);
+    }
+    25% {
+      transform: translate(30px, 0)
+    }
+    50% {
+      transform: translate(0px, 0)
+    }
+    75% {
+      transform: translate(-30px, 0)
+    }
+    100% {
+      transform: translate(0px, 0)
+    }
+  }
+
+  @keyframes dancingFrames2 {
+    0% {
+      transform: translate(0, 0px);
+    }
+    25% {
+      transform: translate(-30px, 0)
+    }
+    50% {
+      transform: translate(0px, 0)
+    }
+    75% {
+      transform: translate(30px, 0)
+    }
+    100% {
+      transform: translate(0px, 0)
+    }
+  }
+  

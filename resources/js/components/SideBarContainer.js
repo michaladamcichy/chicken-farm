@@ -6,7 +6,7 @@ const styles = {
     outerContainer: {
         width: '150px',
         height: '100%',
-        position: 'absolute',
+        position: 'fixed',
         alignItems: 'center',
         right: '0px',
         top: '0px',
