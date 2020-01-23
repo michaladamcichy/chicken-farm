@@ -37,3 +37,5 @@ Route::post('/updateProduct', 'ProductsController@updateProduct');
 Route::delete('/deleteProduct/{id}', 'ProductsController@deleteProduct');
 Route::post('/updateCustomer', 'CustomersController@updateCustomer');
 Route::delete('/deleteCustomer/{id}', 'CustomersController@deleteCustomer');
+Route::post('/updateStoragerecord', 'StorageController@updateStoragerecord');
+Route::post('/deleteStoragerecord', 'StorageController@deleteStoragerecord');
