@@ -40,7 +40,7 @@ export default class TransactionInfoDialog extends Component {
 
     render() {
         return (
-            <DialogContainer title={'Transakcja #' + this.props.transaction.id} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => {} }>
+            <DialogContainer messages={this.props.messages} title={'Transakcja #' + this.props.transaction.id} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => {} }>
                 <FormRow fieldName={'Data'} input={<input type={'date'} value={this.props.transaction.date} disabled/>} />
                 <FormRow fieldName={'Godzina'} input={<input type={'time'} value={this.props.transaction.time} disabled/>} />
                 <FormRow fieldName={'Klient'} input={<input type={'text'} value={this.props.transaction.customer_name} disabled/>}/>

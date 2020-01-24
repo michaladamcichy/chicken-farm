@@ -27,7 +27,7 @@ export default class ChangeDutyDialog extends Component {
         axios.get('/getChickenhouseWorkers/' + String(this.props.chickenhouseId)).then(response => {
             response = response.data;
 
-            if(typeof response.status != undefined && response.status == 'error') {
+            if(response.status && response.status == 'error') {
                 console.log('cannot fetch workers');
             } else {
                 response.all.unshift({id: '', first_name: '', last_name: ''});

@@ -37,7 +37,7 @@ export default class FarmView extends Component {
         axios.post('/addChickenhouse', data).then(response => {
             response = response.data;
 
-            if(typeof response.status != undefined && response.status == 'error') {
+            if(response.status && response.status == 'error') {
                 console.log('NIe udalo sie dodac kórnika');
             } else {
                 let chickenhouse = response;

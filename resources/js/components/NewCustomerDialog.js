@@ -29,7 +29,7 @@ export default class NewCustomerDialog extends Component {
 
     render() {
         return (
-            <DialogContainer title={'Nowy klient'} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => this.onCustomerAdded() }>
+            <DialogContainer messages={this.props.messages} title={'Nowy klient'} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => this.onCustomerAdded() }>
                 <FormRow fieldName={'Nazwa klienta'} input={<input onChange={event => this.setName(event.target.value)} value={this.state.customer.name} type={'text'}></input>} />
             </DialogContainer>
         );
