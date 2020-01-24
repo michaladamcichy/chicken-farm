@@ -84,9 +84,9 @@ class MainController extends Controller
         }
 
         if($success) {
-            return return json_encode($chickenhouse);
+            return json_encode($chickenhouse);
         } else {
-            return return json_encode(['status' => 'error', 'messages'=> ['Nie udalo sie edytowac kurnika']]);
+            return json_encode(['status' => 'error', 'messages'=> ['Nie udalo sie edytowac kurnika']]);
         }
     }
 
