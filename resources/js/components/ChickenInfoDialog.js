@@ -103,6 +103,7 @@ export default class ChickenInfoDialog extends Component {
     render() {
         return (
             <DialogContainer
+                messages={this.props.messages}
                 title={'Kurczak #' + String(this.state.chicken.id)}
                 switchVisibility={() => this.props.switchVisibility()}
                 onSubmit={() => this.onSubmit()}>

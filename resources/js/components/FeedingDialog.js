@@ -43,7 +43,7 @@ export default class FeedingDialog extends Component {
 
     render() {
         return (
-            <DialogContainer onSubmit={() => this.onSubmit()} title={'Karmienie'} switchVisibility={() => this.props.switchVisibility()}>
+            <DialogContainer messages={this.props.messages} onSubmit={() => this.onSubmit()} title={'Karmienie'} switchVisibility={() => this.props.switchVisibility()}>
                 <div class={'row'}>
                     <h5 class={'col'}> {this.state.lastFeeding ? 'Ostatnie karmienie: ' + this.state.lastFeeding : 'Te kurczaki jeszcze nigdy nie były karmione!'} </h5>
                 </div>

@@ -40,6 +40,7 @@ export default class EditChickenHouseDialog extends Component {
     render() {
         return (
             <DialogContainer
+                messages={this.props.messages}
                 title={'Edytuj kórnik #' + String(this.state.id)}
                 switchVisibility={() => this.props.switchVisibility()}
                 onSubmit={() => this.onSubmit()}>
