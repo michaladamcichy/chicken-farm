@@ -78,7 +78,7 @@ export default class ChickenHouseView extends Component {
                 chickens = arrayToMatrix(chickens, this.chickenHouseSize);
                 this.setState({chickens, chickenInfoDialogVisible: false, messages: []});
             } else {
-                if(typeof response.messages != undefined) {
+                if(typeof response.messages) {
                     this.setState({messages: Object.values(response.messages).flat()});
                 }
             }
@@ -90,7 +90,7 @@ export default class ChickenHouseView extends Component {
             response = response.data;
 
             if(typeof response != undefined && response.status == 'error') {
-                if(typeof response.messages != undefined) {
+                if(typeof response.messages) {
                     this.setState({messages: Object.values(response.messages).flat()});
                 }
             } else {
@@ -132,7 +132,7 @@ export default class ChickenHouseView extends Component {
                 response = response.data;
                 
                 if(typeof response != undefined && response.status == 'error') {
-                    if(typeof response.messages != undefined) {
+                    if(typeof response.messages) {
                         this.setState({messages: Object.values(response.messages).flat()});
                     }
                 } else {
@@ -148,7 +148,7 @@ export default class ChickenHouseView extends Component {
             response = response.data;
             
             if(typeof response != undefined && response.status == 'error') {
-                if(typeof response.messages != undefined) {
+                if(response.messages) {
                     this.setState({messages: Object.values(response.messages).flat()});
                 }
             } else {
@@ -163,7 +163,7 @@ export default class ChickenHouseView extends Component {
             response = response.data;
 
             if(typeof response != undefined && response.status == 'error') {
-                if(typeof response.messages != undefined) {
+                if(typeof response.messages) {
                     this.setState({messages: Object.values(response.messages).flat()});
                 }
             } else {
