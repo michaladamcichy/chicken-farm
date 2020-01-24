@@ -42,11 +42,8 @@ class TransactionsController extends Controller
         ];
         $validator1 = Validator::make($transaction, $rules1, $customMessages1);
 		
-		
 		$messages2 = [];
-		$messagesTemp = [];
-		while($length>=0){
-			$rules2 = [
+		$rules2 = [
 				'amount' => 'required|gt:0|numeric',
 				'product_id' => 'required'
 			];
@@ -56,6 +53,15 @@ class TransactionsController extends Controller
 				'amount.required' => 'Pole ilosc nie moze byc puste!',
 				'product_id.required' => 'Pole produkt nie moze byc puste!'
 			];
+		
+		$validator2 = Validator::make($transactionItems[0], $rules2, $customMessages2);
+		$messagesTemp = $validator2->messages()->get('*');
+		$messages2 = array_merge($messages2,$messagesTemp);
+	
+	
+		$messagesTemp = [];
+		while($length>=1){
+			
 			$validator2 = Validator::make($transactionItems[$length], $rules2, $customMessages2);
 			$length = $length - 1;
 			$messagesTemp = $validator2->messages()->get('*');

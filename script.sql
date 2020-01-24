@@ -90,9 +90,7 @@ DETERMINISTIC
 
  	DELETE FROM Chickens
  	WHERE id_House = pIdHouse;
-
  	RETURN vChickensNumber;
-
   END$$
 DELIMITER ;
 
@@ -109,14 +107,13 @@ BEGIN
 		INSERT INTO Feedings VALUES(CURRENT_DATE,CURRENT_TIME,
 		pFodderAmount, (SELECT id_House FROM ChickenHouses ORDER BY id_House LIMIT Co,1));
 		SET Co = Co + 1;
-        
- 	  END WHILE;
-
+	END WHILE;
 END$$
 DELIMITER ;
 
-
-
+DROP INDEX ch_id_idx ON chickenhouses;
+CREATE INDEX custom_name_idx ON customers(name);
+CREATE INDEX prod_name_idx ON products(name);
 
 /*
 DROP TABLE  eggs, chickens, chicken.`customers`, chicken.`chickenhouses_farmworkers`, chicken.`feedings`, chicken.`farmworkers`,
