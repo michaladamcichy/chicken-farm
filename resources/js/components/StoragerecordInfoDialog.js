@@ -76,9 +76,7 @@ export default class StoragerecordInfoDialog extends Component {
                 <fieldset disabled={!this.state.editable}>
                     <FormRow fieldName={'Data'} input={<input type={'date'} value={this.state.storagerecord.date} onChange={event => this.setDate(event.target.value)} disabled></input>} />
                     <FormRow fieldName={'Godzina'} input={<input type={'time'} value={this.state.storagerecord.time} onChange={event => this.setTime(event.target.value)} disabled></input>} />
-                    <FormRow fieldName={'Produkt'} input={<select onChange={event => this.setProductId(event.target.value)} value={this.state.storagerecord.product_id} disabled>
-                            {<option value={this.state.storagerecord.product_id}> {this.state.storagerecord.name} </option>}
-                        </select>}/>
+                    <FormRow fieldName={'Produkt'} input={<input type={'text'} value={this.state.storagerecord.name} disabled/>} />
                     <FormRow fieldName={'Ilość [kg]'} input={<input onChange={event => this.setAmount(event.target.value)} value={this.state.storagerecord.amount} type={'number'} min={0.0} step={0.01}></input>} />
                     <FormRow fieldName={'Typ'} input={<select onChange={event => this.setType(event.target.value)} value={this.state.storagerecord.type}>
                             <option value={'in'}> DOSTAWA </option>

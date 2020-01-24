@@ -42,3 +42,6 @@ require('./components/NewStoragerecordDialog');
 require('./components/ProductInfoDialog');
 require('./components/CustomerInfoDialog');
 require('./components/StoragerecordInfoDialog');
+require('./components/NewTransactionDialog');
+require('./components/TransactionInfoDialog');
+require('./components/TransactionItem');

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 class Storagerecord extends Model
 {
     protected $fillable = [
-        'data',
+        'date',
         'time',
         'amount',
         'type',
