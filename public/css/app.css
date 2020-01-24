@@ -11117,3 +11117,129 @@ a.text-dark:focus {
   background-color: #00FF00;
 }
 
+.dancing1 {
+  -webkit-animation-name: dancingFrames1;
+          animation-name: dancingFrames1;
+  -webkit-animation-duration: 3.3s;
+          animation-duration: 3.3s;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+}
+
+.dancing2 {
+  -webkit-animation-name: dancingFrames2;
+          animation-name: dancingFrames2;
+  -webkit-animation-duration: 3.3s;
+          animation-duration: 3.3s;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes dancingFrames1 {
+  0% {
+    -webkit-transform: translate(0, 0px);
+            transform: translate(0, 0px);
+  }
+
+  25% {
+    -webkit-transform: translate(30px, 0);
+            transform: translate(30px, 0);
+  }
+
+  50% {
+    -webkit-transform: translate(0px, 0);
+            transform: translate(0px, 0);
+  }
+
+  75% {
+    -webkit-transform: translate(-30px, 0);
+            transform: translate(-30px, 0);
+  }
+
+  100% {
+    -webkit-transform: translate(0px, 0);
+            transform: translate(0px, 0);
+  }
+}
+
+@keyframes dancingFrames1 {
+  0% {
+    -webkit-transform: translate(0, 0px);
+            transform: translate(0, 0px);
+  }
+
+  25% {
+    -webkit-transform: translate(30px, 0);
+            transform: translate(30px, 0);
+  }
+
+  50% {
+    -webkit-transform: translate(0px, 0);
+            transform: translate(0px, 0);
+  }
+
+  75% {
+    -webkit-transform: translate(-30px, 0);
+            transform: translate(-30px, 0);
+  }
+
+  100% {
+    -webkit-transform: translate(0px, 0);
+            transform: translate(0px, 0);
+  }
+}
+
+@-webkit-keyframes dancingFrames2 {
+  0% {
+    -webkit-transform: translate(0, 0px);
+            transform: translate(0, 0px);
+  }
+
+  25% {
+    -webkit-transform: translate(-30px, 0);
+            transform: translate(-30px, 0);
+  }
+
+  50% {
+    -webkit-transform: translate(0px, 0);
+            transform: translate(0px, 0);
+  }
+
+  75% {
+    -webkit-transform: translate(30px, 0);
+            transform: translate(30px, 0);
+  }
+
+  100% {
+    -webkit-transform: translate(0px, 0);
+            transform: translate(0px, 0);
+  }
+}
+
+@keyframes dancingFrames2 {
+  0% {
+    -webkit-transform: translate(0, 0px);
+            transform: translate(0, 0px);
+  }
+
+  25% {
+    -webkit-transform: translate(-30px, 0);
+            transform: translate(-30px, 0);
+  }
+
+  50% {
+    -webkit-transform: translate(0px, 0);
+            transform: translate(0px, 0);
+  }
+
+  75% {
+    -webkit-transform: translate(30px, 0);
+            transform: translate(30px, 0);
+  }
+
+  100% {
+    -webkit-transform: translate(0px, 0);
+            transform: translate(0px, 0);
+  }
+}
+
