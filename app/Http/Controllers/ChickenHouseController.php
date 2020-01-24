@@ -24,16 +24,21 @@ class ChickenHouseController extends Controller
         
         $id = null;
         try {
+			$validation = $request->validate(['birthdate' => 'required|date',
+			'weight' => 'required|numeric',
+			'type' => 'required']);
             $id = Chicken::insertGetId($chicken);
+			Log::info($validation -> messages());
         } catch(\Throwable $e) {
             Log::info($e->getMessage());
+			Log::info($validation -> messages());
         }
         
         if($id) {
             $chicken['id'] = strval($id);
             return json_encode($chicken);
         } else {
-            return json_encode(['status' => 'error']);
+            return json_encode(['status' => 'error',  'messages' => $validation -> messages()]);
         }
     }
     
@@ -59,6 +64,10 @@ class ChickenHouseController extends Controller
         Log::info($updatedChicken);
         $success = true;
         try {
+			$validation = $request->validate(['birthdate' => 'required|date',
+			'weight' => 'required|numeric',
+			'type' => 'required'
+			]);
             $chicken = Chicken::find($updatedChicken['id']);
             $chicken->update($updatedChicken);
             $chicken->save();
@@ -79,6 +88,10 @@ class ChickenHouseController extends Controller
         
         $success = true;
         try {
+			$validation = $request->validate(['date' => 'required|date',
+			'time' => 'required|time',
+			'fodder_amount' => 'required|numeric'
+			]);
             Feeding::insert($feeding);
         } catch(\Throwable $e) {
             $success = false;
