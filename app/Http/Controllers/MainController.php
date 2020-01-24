@@ -25,7 +25,7 @@ class MainController extends Controller
             $success = false;
         }
 
-        if($success == false) {
+        if($success == true) {
             $chickenhouse['id'] = $id;
             return $chickenhouse;
         } else {

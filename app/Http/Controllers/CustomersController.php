@@ -67,4 +67,10 @@ class CustomersController extends Controller
             return json_encode(['status' => 'error']);
         }
     }
+
+    public function getCustomers(Request $request) {
+        $customers = Customer::get();
+
+        return json_encode($customers);
+    }
 }
