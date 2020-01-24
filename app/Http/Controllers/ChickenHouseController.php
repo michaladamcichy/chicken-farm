@@ -9,6 +9,9 @@ use App\Feeding;
 use App\Farmworker;
 use App\ChickenhousesFarmworkers;
 use Log;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
+use Input;
 
 class ChickenHouseController extends Controller
 {
@@ -20,26 +23,44 @@ class ChickenHouseController extends Controller
     }
 
     public function addChicken(Request $request) {
+		$success = true;
         $chicken = $request->all();
-        
-        $id = null;
-        try {
-			$validation = $request->validate(['birthdate' => 'required|date',
-			'weight' => 'required|numeric',
-			'type' => 'required']);
-            $id = Chicken::insertGetId($chicken);
-			Log::info($validation -> messages());
-        } catch(\Throwable $e) {
-            Log::info($e->getMessage());
-			Log::info($validation -> messages());
+        $rules = [
+            'weight' => 'required|numeric|gt:0',
+			'birthdate' => 'required',
+			'type' => 'required'
+        ];
+        $customMessages = [
+            'weight.gt' => 'Waga nie moze byc ujemna ani rowna 0!',
+			'weight.numeric' => 'Waga musi byc liczba!',
+			'birthdate.required' => 'Pole data urodzenia nie moze byc puste',
+			'type.required' => 'Pole rodzaj kurczaka nie moze byc puste',
+			'weight.required' => 'Pole masa nie moze byc puste'
+        ];
+        $validator = Validator::make($chicken, $rules, $customMessages);
+
+        $messages = [];
+        if ($validator->fails()) {
+            $messages = $validator->messages()->get('*');
+			Log::info($messages);
+			return json_encode(['status' => 'error', 'messages' => $messages]);
         }
         
-        if($id) {
+		$id = null;
+        try {
+            $id = Chicken::insertGetId($chicken);
+        } catch(\Throwable $e) {
+			$success = false;
+            Log::info($e->getMessage());
+        }
+		
+        if($success == true) {
             $chicken['id'] = strval($id);
             return json_encode($chicken);
-        } else {
-            return json_encode(['status' => 'error',  'messages' => $validation -> messages()]);
-        }
+        } 
+		else{
+			return json_encode(['status' => 'error', 'messages'=> ['Nie udalo sie dodac kurczaka'] ]);
+		}
     }
     
     public function killChicken($id) { //ALERT dodać try catche tak jak w deleteChickenhouse 
@@ -63,11 +84,30 @@ class ChickenHouseController extends Controller
         $updatedChicken = $request->all();
         Log::info($updatedChicken);
         $success = true;
-        try {
-			$validation = $request->validate(['birthdate' => 'required|date',
-			'weight' => 'required|numeric',
+		
+		$rules = [
+            'weight' => 'required|numeric|gt:0',
+			'birthdate' => 'required',
 			'type' => 'required'
-			]);
+        ];
+        $customMessages = [
+            'weight.gt' => 'Waga nie moze byc ujemna ani rowna 0!',
+			'weight.numeric' => 'Waga musi byc liczba!',
+			'birthdate.required' => 'Pole data urodzenia nie moze byc puste',
+			'type.required' => 'Pole rodzaj kurczaka nie moze byc puste',
+			'weight.required' => 'Pole masa nie moze byc puste'
+        ];
+        $validator = Validator::make($updatedChicken, $rules, $customMessages);
+
+        $messages = [];
+        if ($validator->fails()) {
+            $messages = $validator->messages()->get('*');
+			Log::info($messages);
+			return json_encode(['status' => 'error', 'messages' => $messages]);
+        }
+		
+		
+        try {
             $chicken = Chicken::find($updatedChicken['id']);
             $chicken->update($updatedChicken);
             $chicken->save();
@@ -79,19 +119,36 @@ class ChickenHouseController extends Controller
         if($success == true) {
             return json_encode($chicken);
         } else {
-            return json_encode(['status' => 'error']);
+            return json_encode(['status' => 'error', 'messages'=> ['Nie udalo sie edytowac kurczaka'] ]);
         }
     }
 
     public function feedChickens(Request $request) {
         $feeding = $request->all();
-        
         $success = true;
+		
+		$rules = [
+            'fodder_amount' => 'required|numeric|gt:0',
+			'date' => 'required',
+			'time' => 'required'
+        ];
+        $customMessages = [
+            'fodder_amount.gt' => 'Waga nie moze byc ujemna ani rowna 0!',
+			'fodder_amount.numeric' => 'Waga musi byc liczba!',
+			'date.required' => 'Pole data nie moze byc puste',
+			'fodder_amount.required' => 'Pole ilosc karmy nie moze byc puste',
+			'time.required' => 'Pole godzina nie moze byc puste',
+        ];
+        $validator = Validator::make($feeding, $rules, $customMessages);
+
+        $messages = [];
+        if ($validator->fails()) {
+            $messages = $validator->messages()->get('*');
+			Log::info($messages);
+			return json_encode(['status' => 'error', 'messages' => $messages]);
+        }
+		
         try {
-			$validation = $request->validate(['date' => 'required|date',
-			'time' => 'required|time',
-			'fodder_amount' => 'required|numeric'
-			]);
             Feeding::insert($feeding);
         } catch(\Throwable $e) {
             $success = false;
@@ -101,7 +158,7 @@ class ChickenHouseController extends Controller
         if($success) {
             return json_encode(['status' => 'success']);
         } else {
-            return json_encode(['status' => 'error']);
+            return json_encode(['status' => 'error', 'messages'=> ['Nie udalo sie nakarmic kurnika'] ]);
         }
     }
 
