@@ -63,7 +63,7 @@ export default class BusinessView extends Component {
         axios.post('/addProduct', product).then(response => {
             response = response.data;
 
-            if(response.status != undefined && response.status == 'error') {
+            if(response.status && response.status == 'error') {
                 console.log('Cannot add new product');
             } else {
                 let product = response;
@@ -83,7 +83,7 @@ export default class BusinessView extends Component {
         axios.post('/updateProduct', product).then(response => {
             response = response.data;
 
-            if(response.status != undefined && response.status == 'error') {
+            if(response.status && response.status == 'error') {
                 console.log('Cannot update product');
             } else {
                 let product = response;
@@ -104,7 +104,7 @@ export default class BusinessView extends Component {
         axios.delete('/deleteProduct/' + String(this.state.currentProduct.id)).then(response => {
             response = response.data;
             
-            if(response.status != undefined && response.status == 'error') {
+            if(response.status && response.status == 'error') {
                 console.log('Cannot delete product with id ' + this.state.currentProduct.id);
             } else {
                 let products = this.state.products;
@@ -120,7 +120,7 @@ export default class BusinessView extends Component {
             response = response.data;
             let customer = response;
 
-            if(response.status != undefined && response.status == 'error') {
+            if(response.status && response.status == 'error') {
                 console.log('Cannot add new customer');
             } else {
                 let customers = this.state.customers;
@@ -138,7 +138,7 @@ export default class BusinessView extends Component {
         axios.post('/updateCustomer', customer).then(response => {
             response = response.data;
 
-            if(response.status != undefined && response.status == 'error') {
+            if(response.status && response.status == 'error') {
                 console.log('Cannot update customer');
             } else {
                 let customer = response;
@@ -159,7 +159,7 @@ export default class BusinessView extends Component {
         axios.delete('/deleteCustomer/' + String(this.state.currentCustomer.id)).then(response => {
             response = response.data;
             
-            if(response.status != undefined && response.status == 'error') {
+            if(response.status && response.status == 'error') {
                 console.log('Cannot delete customer with id ' + this.state.currentCustomer.id);
             } else {
                 let customers = this.state.customers;
@@ -178,7 +178,7 @@ export default class BusinessView extends Component {
             response = response.data;
             let storagerecord = response;
 
-            if(response.status != undefined && response.status == 'error') {
+            if(response.status && response.status == 'error') {
                 console.log('Cannot add new storage record');
             } else {
                 console.log('storage record added');
@@ -204,7 +204,7 @@ export default class BusinessView extends Component {
         axios.post('/updateStoragerecord', storagerecord).then(response => {
             response = response.data;
 
-            if(response.status != undefined && response.status == 'error') {
+            if(response.status && response.status == 'error') {
                 console.log('Cannot update storagerecord');
             } else {
                 let storagerecord = response;
@@ -226,7 +226,7 @@ export default class BusinessView extends Component {
         axios.post('/deleteStoragerecord/', this.state.currentStoragerecord).then(response => {
             response = response.data;
             
-            if(response.status != undefined && response.status == 'error') {
+            if(response.status && response.status == 'error') {
                 console.log('Cannot delete storagerecord with id ' + this.state.currentStoragerecord.id);
             } else {
                 let storagerecords = this.state.storagerecords;
@@ -260,7 +260,7 @@ export default class BusinessView extends Component {
         axios.post('/addTransaction', data).then(response => {
             response = response.data;
 
-            if(response.status != undefined && response.status == 'error') {
+            if(response.status && response.status == 'error') {
                 console.log('Cannot add new transaction');
             } else {
                 let transaction = response;
@@ -281,7 +281,7 @@ export default class BusinessView extends Component {
         axios.delete('/deleteTransaction/' + String(id)).then(response => {
             response = response.data;
 
-            if(response.status != undefined && response.status == 'error') {
+            if(response.status && response.status == 'error') {
                 console.log('Nie udalo sie usunac transackji!');
             } else {
                 let transactions = this.state.transactions;

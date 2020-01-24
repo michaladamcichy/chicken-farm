@@ -112,7 +112,7 @@ export default class ChickenHouseView extends Component {
         axios.post('/addChicken', chicken).then(response => {
             response = response.data;
 
-            if(typeof response.status != undefined && response.status == 'error') {
+            if(response.status && response.status == 'error') {
                 console.log('nie udalo sie dodac kurczaka');
                 this.setState({messages: Object.values(response.messages).flat()});
             } else {
