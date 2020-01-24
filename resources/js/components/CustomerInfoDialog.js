@@ -47,7 +47,7 @@ export default class CustomerInfoDialog extends Component {
         return (
             <DialogContainer messages={this.props.messages} title={'Klient #' + this.state.customer.id} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => this.onCustomerUpdated() }>
                 <fieldset disabled={!this.state.editable}>
-                    <FormRow fieldName={'Nazwa'} input={<input onChange={event => this.setName(event.target.value)} value={this.state.customer.name} type={'text'}></input>} />
+                    <FormRow fieldName={'Nazwa'} input={<input onChange={event => this.setName(event.target.value.replace(/\s/g, "_"))} value={this.state.customer.name} type={'text'}></input>} />
                 </fieldset>
                 <hr />
                 <div class={'container row formRow'}>

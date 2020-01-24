@@ -278,7 +278,7 @@ export default class BusinessView extends Component {
 
         axios.post('/addTransaction', data).then(response => {
             response = response.data;
-
+            
             if(response.status && response.status == 'error') {
                 if(response.messages) {
                     this.setState({messages: Object.values(response.messages).flat()});
