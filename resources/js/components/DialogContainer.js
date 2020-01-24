@@ -19,6 +19,9 @@ const styles = {
     },
     buttonsRow: {
         margin: '20px',
+    },
+    error: {
+        color: 'red',
     }
 }
 
@@ -28,13 +31,17 @@ export default class DialogContainer extends Component {
             <div class={'container'} style={styles.outerContainer}>
                 <h2> {this.props.title} </h2>
                 <hr style={styles.hr}/>
+                <ul>
+                    {this.props.messages.length > 0 ? this.props.messages.map(msg => <li style={styles.error}> {msg} </li>) : ''}
+                </ul>
+                <hr />
                 {this.props.children}
                 <div class={'container row'} style={styles.buttonsRow}>
                     <div class={'container col'}>
                         <button type={'button'} class={'btn btn-danger'}  onClick={()=> this.props.switchVisibility()}>{'Anuluj'}</button>
                     </div>
                     <div class={'container col'}>
-                        <button type={'button'} class={'btn btn-success'} onClick={() => {this.props.switchVisibility(); this.props.onSubmit()}}>{'Zapisz'}</button>
+                        <button type={'button'} class={'btn btn-success'} onClick={() => {this.props.onSubmit()}}>{'Zapisz'}</button>
                     </div>
                 </div>
             </div>

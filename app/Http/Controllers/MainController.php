@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ChickenHouse;
 use Log;
+use Validator;
 
 class MainController extends Controller
 {
@@ -15,6 +16,24 @@ class MainController extends Controller
 
     public function addChickenhouse (Request $request) {
         $chickenhouse = $request->all();
+
+		$rules = [
+            'size' => 'required|numeric|gt:0',
+        ];
+        $customMessages = [
+            'size.gt' => 'Liczba grzed nie moze byc ujemna ani rowna 0!',
+			'size.numeric' => 'Liczba grzed musi byc liczba!',
+			'size.required' => 'Pole liczba grzed nie moze byc puste!'
+        ];
+        $validator = Validator::make($chickenHouses, $rules, $customMessages);
+
+        $messages = [];
+        if ($validator->fails()) {
+            $messages = $validator->messages()->get('*');
+			Log::info($messages);
+			return json_encode(['status' => 'error', 'messages' => $messages]);
+        }
+		
 
         $id = null;
         $success = true;
@@ -27,15 +46,33 @@ class MainController extends Controller
 
         if($success == true) {
             $chickenhouse['id'] = $id;
-            return $chickenhouse;
+            return json_encode($chickenhouse);
         } else {
-            return ['status' => 'error'];
+            return json_encode (['status' => 'error', 'messages'=> ['Nie udalo sie stworzyc kurnika'] ]);
         }
     }
 
     public function updateChickenhouse(Request $request) {
         $newChickenhouse = $request->all();
         
+		$rules = [
+            'size' => 'required|numeric|gt:0',
+        ];
+        $customMessages = [
+            'size.gt' => 'Liczba grzed nie moze byc ujemna ani rowna 0!',
+			'size.numeric' => 'Liczba grzed musi byc liczba!',
+			'size.required' => 'Pole liczba grzed nie moze byc puste!'
+        ];
+        $validator = Validator::make($newChickenhouse, $rules, $customMessages);
+
+        $messages = [];
+        if ($validator->fails()) {
+            $messages = $validator->messages()->get('*');
+			Log::info($messages);
+			return json_encode(['status' => 'error', 'messages' => $messages]);
+        }
+		
+		
         $success = true;
         try{
             $chickenhouse = Chickenhouse::find($request['id']);
@@ -47,9 +84,9 @@ class MainController extends Controller
         }
 
         if($success) {
-            return $chickenhouse;
+            return json_encode($chickenhouse);
         } else {
-            return ['status' => 'error'];
+            return json_encode(['status' => 'error', 'messages'=> ['Nie udalo sie edytowac kurnika']]);
         }
     }
 

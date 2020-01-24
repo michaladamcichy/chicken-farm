@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Customer;
 use Log;
+use Validator;
 
 class CustomersController extends Controller
 {
@@ -15,6 +16,22 @@ class CustomersController extends Controller
     public function addCustomer(Request $request) {
         $customer = $request->all();
 
+		$rules = [
+            'name' => 'required|max:20',
+        ];
+        $customMessages = [
+            'name.max' => 'Nazwa klienta moze zawierac maksymalnie 20 znakow',
+			'name.required' => 'Pole nazwa klienta nie moze byc puste!'
+        ];
+		$validator = Validator::make($customer, $rules, $customMessages);
+		
+		$messages = [];
+        if ($validator->fails()) {
+            $messages = $validator->messages()->get('*');
+			Log::info($messages);
+			return json_encode(['status' => 'error', 'messages' => $messages]);
+        }
+		
         $success = true;
         $id = null;
         try {
@@ -28,13 +45,30 @@ class CustomersController extends Controller
         if($success == true) {
             return json_encode($customer);
         } else {
-            return json_encode(['status' => 'error']);
+            return json_encode(['status' => 'error', 'messages' => ['Nie udalo sie dodac klienta']]);
         }
     }
 
     public function updateCustomer(Request $request) {
         $updatedCustomer = $request->all();
         $success = true;
+		
+		$rules = [
+            'name' => 'required|max:20',
+        ];
+        $customMessages = [
+            'name.max' => 'Nazwa klienta moze zawierac maksymalnie 20 znakow',
+			'name.required' => 'Pole nazwa klienta nie moze byc puste!'
+        ];
+		$validator = Validator::make($updatedCustomer, $rules, $customMessages);
+		
+		$messages = [];
+        if ($validator->fails()) {
+            $messages = $validator->messages()->get('*');
+			Log::info($messages);
+			return json_encode(['status' => 'error', 'messages' => $messages]);
+        }
+		
         try {
             $customer = Customer::find($updatedCustomer['id']);
             $customer->update($updatedCustomer);
@@ -47,7 +81,7 @@ class CustomersController extends Controller
         if($success == true) {
             return json_encode($customer);
         } else {
-            return json_encode(['status' => 'error']);
+            return json_encode(['status' => 'error', 'messages' => ['Nie udalo sie edytowac klienta']]);
         }
     }
 

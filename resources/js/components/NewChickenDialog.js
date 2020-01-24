@@ -44,7 +44,7 @@ export default class NewChickenDialog extends Component {
 
     render() {
         return (
-            <DialogContainer title={'Nowy kurczak'} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => this.onChickenAdded() }>
+            <DialogContainer messages={this.props.messages} title={'Nowy kurczak'} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => this.onChickenAdded() }>
                 <FormRow fieldName={'Rodzaj kurczaka'} input={<select onChange={event => this.setType(event.target.value)}>
                         <option value={'layer'}>Nioska</option>
                         <option value={'meatchicken'}>Mięsna</option>

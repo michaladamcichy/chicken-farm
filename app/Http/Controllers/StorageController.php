@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Storagerecord;
 use Log;
+use Validator;
 
 class StorageController extends Controller
 {
@@ -14,6 +15,32 @@ class StorageController extends Controller
 
     public function addStoragerecord(Request $request) {
         $storagerecord = $request->all();
+
+		$rules = [
+            'date' => 'required',
+			'time' => 'required',
+			'type' => 'required',
+			'amount' => 'required|gt:0|numeric',
+			'product_id' => 'required'
+        ];
+        $customMessages = [
+            'amount.gt' => 'Ilosc nie moze byc ujemna ani rowna 0!',
+			'amount.numeric' => 'Ilosc musi byc liczba!',
+			'amount.required' => 'Pole ilosc nie moze byc puste!',
+			'date.required' => 'Pole data nie moze byc puste!',
+			'time.required' => 'Pole godzina nie moze byc puste!',
+			'type.required' => 'Pole typ nie moze byc puste!',
+			'product_id.required' => 'Pole produkt nie moze byc puste!'
+        ];
+        $validator = Validator::make($storagerecord, $rules, $customMessages);
+
+        $messages = [];
+        if ($validator->fails()) {
+            $messages = $validator->messages()->get('*');
+			Log::info($messages);
+			return json_encode(['status' => 'error', 'messages' => $messages]);
+        }
+		
 
         $success = true;
         try {
@@ -29,13 +56,40 @@ class StorageController extends Controller
         if($success == true) {
             return json_encode($storagerecord);
         } else {
-            return json_encode(['status' => 'error']);
+            return json_encode(['status' => 'error', 'message' => ['Nie udalo sie utworzyc wypisu w historii magazynu']]);
         }
     }
 
     public function updateStoragerecord(Request $request) {
         $updatedStoragerecord = $request->all();
         $success = true;
+		
+		$rules = [
+            'date' => 'required',
+			'time' => 'required',
+			'type' => 'required',
+			'amount' => 'required|gt:0|numeric',
+			'product_id' => 'required'
+        ];
+        $customMessages = [
+            'amount.gt' => 'Ilosc nie moze byc ujemna ani rowna 0!',
+			'amount.numeric' => 'Ilosc musi byc liczba!',
+			'amount.required' => 'Pole ilosc nie moze byc puste!',
+			'date.required' => 'Pole data nie moze byc puste!',
+			'time.required' => 'Pole godzina nie moze byc puste!',
+			'type.required' => 'Pole typ nie moze byc puste!',
+			'product_id.required' => 'Pole produkt nie moze byc puste!'
+        ];
+        $validator = Validator::make($updatedStoragerecord, $rules, $customMessages);
+
+        $messages = [];
+        if ($validator->fails()) {
+            $messages = $validator->messages()->get('*');
+			Log::info($messages);
+			return json_encode(['status' => 'error', 'messages' => $messages]);
+        }
+		
+
         try {
             $storagerecord = Storagerecord::where('date', $updatedStoragerecord['date'])
                 ->where('time', $updatedStoragerecord['time'])
@@ -51,7 +105,7 @@ class StorageController extends Controller
         if($success == true) {
             return json_encode($storagerecord);
         } else {
-            return json_encode(['status' => 'error']);
+            return json_encode(['status' => 'error', 'message' => ['Nie udalo sie utworzyc wypisu w historii magazynu']]);
         }
     }
 

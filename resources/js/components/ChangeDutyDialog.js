@@ -15,6 +15,7 @@ export default class ChangeDutyDialog extends Component {
             workers: [],
             allWorkers: [],
             currentSelectValue: '',
+            messages: [],
         };
     }
 
@@ -56,13 +57,18 @@ export default class ChangeDutyDialog extends Component {
     onSave() {
         let data = {workers: this.state.workers.map(worker => worker.id), chickenhouseId: this.props.chickenhouseId};
         axios.post('/updateWorkersOnDuty', data).then(response => {
-            console.log(response);
+            response = response.data;
+            if(response.status && response.status == 'error' && response.messages) {
+                this.setState({messages: Object.values(response.messages).flat()});
+            } else {
+                this.props.switchVisibility();
+            }
         });
     }
 
     render() {
         return (
-            <DialogContainer onSubmit={() => this.onSave()} title={'Pracownicy odpowiedzialni'} switchVisibility={() => this.props.switchVisibility()}>
+            <DialogContainer messages={this.state.messages} onSubmit={() => this.onSave()} title={'Pracownicy odpowiedzialni'} switchVisibility={() => this.props.switchVisibility()}>
                 {this.state.workers.map((worker, index) => {
                     return <FormRow fieldName={worker.first_name + ' ' + worker.last_name} input={<button onClick={() => {this.deleteWorker(worker.id)}} type={'button'} class={'btn btn-danger'}> {'X'} </button>} />
                 }
