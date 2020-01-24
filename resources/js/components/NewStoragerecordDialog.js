@@ -70,7 +70,7 @@ export default class NewStoragerecordDialog extends Component {
 
     render() {
         return (
-            <DialogContainer title={'Nowy wpis magazynowy'} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => this.onStoragerecordAdded() }>
+            <DialogContainer messages={this.props.messages} title={'Nowy wpis magazynowy'} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => this.onStoragerecordAdded() }>
                 <FormRow fieldName={'Data'} input={<input type={'date'} value={this.state.storagerecord.date} onChange={event => this.setDate(event.target.value)}></input>} />
                 <FormRow fieldName={'Godzina'} input={<input type={'time'} value={this.state.storagerecord.time} onChange={event => this.setTime(event.target.value)}></input>} />
                 <FormRow fieldName={'Produkt'} input={<select onChange={event => this.setProduct(event.target.value)} value={this.state.storagerecord.product_id}>
