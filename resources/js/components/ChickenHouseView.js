@@ -89,7 +89,7 @@ export default class ChickenHouseView extends Component {
         axios.post('/updateChicken', chicken).then(response => {
             response = response.data;
 
-            if(typeof response != undefined && response.status == 'error') {
+            if(response.status && response.status == 'error') {
                 if(typeof response.messages) {
                     this.setState({messages: Object.values(response.messages).flat()});
                 }
@@ -100,7 +100,7 @@ export default class ChickenHouseView extends Component {
                 for(let i=0; i<chickens.length; i++) {
                     if(chickens[i].id == chicken.id) {
                         chickens[i] = chicken;
-                        this.setState({chickens : arrayToMatrix(chickens, this.chickenHouseSize), messages: []});
+                        this.setState({chickens : arrayToMatrix(chickens, this.chickenHouseSize), chickenInfoDialogVisible: false, messages: []});
                         break;
                     }
                 }
