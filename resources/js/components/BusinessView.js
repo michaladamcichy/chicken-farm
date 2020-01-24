@@ -65,19 +65,21 @@ export default class BusinessView extends Component {
             response = response.data;
 
             if(response.status && response.status == 'error') {
-                console.log('Cannot add new product');
+                if(response.messages) {
+                    this.setState({messages: Object.values(response.messages).flat()});
+                }
             } else {
                 let product = response;
                 console.log('Product added');
                 let products = this.state.products;
                 products.push(product);
-                this.setState({products, newProductDialogVisible: false});
+                this.setState({products, newProductDialogVisible: false, messages: []});
             }
         });
     }
 
     productInfo(product) {
-        this.setState({productInfoDialogVisible: true, currentProduct: product});
+        this.setState({productInfoDialogVisible: true, currentProduct: product, messages: []});
     }
 
     onProductUpdated(product) {
@@ -85,7 +87,9 @@ export default class BusinessView extends Component {
             response = response.data;
 
             if(response.status && response.status == 'error') {
-                console.log('Cannot update product');
+                if(response.messages) {
+                    this.setState({messages: Object.values(response.messages).flat()});
+                }
             } else {
                 let product = response;
 
@@ -96,7 +100,7 @@ export default class BusinessView extends Component {
                         break;
                     }                    
                 }
-                this.setState({products, productInfoDialogVisible: false});
+                this.setState({products, productInfoDialogVisible: false, messages: []});
             }
         });
     }
@@ -106,12 +110,14 @@ export default class BusinessView extends Component {
             response = response.data;
             
             if(response.status && response.status == 'error') {
-                console.log('Cannot delete product with id ' + this.state.currentProduct.id);
+                if(response.messages) {
+                    this.setState({messages: Object.values(response.messages).flat()});
+                }
             } else {
                 let products = this.state.products;
                 products = products.filter(product => product.id != this.state.currentProduct.id);
 
-                this.setState({productInfoDialogVisible: false, products});
+                this.setState({productInfoDialogVisible: false, products, messages: []});
             }
         });
     }
@@ -122,11 +128,13 @@ export default class BusinessView extends Component {
             let customer = response;
 
             if(response.status && response.status == 'error') {
-                console.log('Cannot add new customer');
+                if(response.messages) {
+                    this.setState({messages: Object.values(response.messages).flat()});
+                }
             } else {
                 let customers = this.state.customers;
                 customers.push(customer);
-                this.setState({customers, newCustomerDialogVisible: false});
+                this.setState({customers, newCustomerDialogVisible: false, messages: []});
             }
         });
     }
@@ -140,7 +148,9 @@ export default class BusinessView extends Component {
             response = response.data;
 
             if(response.status && response.status == 'error') {
-                console.log('Cannot update customer');
+                if(response.messages) {
+                    this.setState({messages: Object.values(response.messages).flat()});
+                }
             } else {
                 let customer = response;
 
@@ -151,7 +161,7 @@ export default class BusinessView extends Component {
                         break;
                     }                    
                 }
-                this.setState({customers, customerInfoDialogVisible: false});
+                this.setState({customers, customerInfoDialogVisible: false, messages: []});
             }
         });
     }
@@ -161,12 +171,14 @@ export default class BusinessView extends Component {
             response = response.data;
             
             if(response.status && response.status == 'error') {
-                console.log('Cannot delete customer with id ' + this.state.currentCustomer.id);
+                if(response.messages) {
+                    this.setState({messages: Object.values(response.messages).flat()});
+                }
             } else {
                 let customers = this.state.customers;
                 customers = customers.filter(customer => customer.id != this.state.currentCustomer.id);
 
-                this.setState({customerInfoDialogVisible: false, customers});
+                this.setState({customerInfoDialogVisible: false, customers, messages: []});
             }
         });
     }
@@ -180,19 +192,21 @@ export default class BusinessView extends Component {
             let storagerecord = response;
 
             if(response.status && response.status == 'error') {
-                console.log('Cannot add new storage record');
+                if(response.messages) {
+                    this.setState({messages: Object.values(response.messages).flat()});
+                }
             } else {
                 console.log('storage record added');
                 storagerecord.name = product_name;
                 let storagerecords = this.state.storagerecords;
                 storagerecords.push(storagerecord);
-                this.setState({storagerecords, newStoragerecordDialogVisible: false});
+                this.setState({storagerecords, newStoragerecordDialogVisible: false, messages: []});
             }
         });
     }
 
     storagerecordInfo(storagerecord) {
-        this.setState({storagerecordInfoDialogVisible: true, currentStoragerecord: storagerecord});
+        this.setState({storagerecordInfoDialogVisible: true, currentStoragerecord: storagerecord, messages: []});
     }
 
     isStoragerecordEqual(a, b) {
@@ -206,7 +220,9 @@ export default class BusinessView extends Component {
             response = response.data;
 
             if(response.status && response.status == 'error') {
-                console.log('Cannot update storagerecord');
+                if(response.messages) {
+                    this.setState({messages: Object.values(response.messages).flat()});
+                }
             } else {
                 let storagerecord = response;
                 storagerecord.name = product_name;
@@ -218,7 +234,7 @@ export default class BusinessView extends Component {
                         break;
                     }                    
                 }
-                this.setState({storagerecords, storagerecordInfoDialogVisible: false});
+                this.setState({storagerecords, storagerecordInfoDialogVisible: false, messages: []});
             }
         });
     }
@@ -228,12 +244,14 @@ export default class BusinessView extends Component {
             response = response.data;
             
             if(response.status && response.status == 'error') {
-                console.log('Cannot delete storagerecord with id ' + this.state.currentStoragerecord.id);
+                if(response.messages) {
+                    this.setState({messages: Object.values(response.messages).flat()});
+                }
             } else {
                 let storagerecords = this.state.storagerecords;
                 storagerecords = storagerecords.filter(storagerecord => isEqual(storagerecord, this.state.currentStoragerecord) == false);
 
-                this.setState({storagerecordInfoDialogVisible: false, storagerecords});
+                this.setState({storagerecordInfoDialogVisible: false, storagerecords, messages: []});
             }
         });
     }
@@ -262,20 +280,21 @@ export default class BusinessView extends Component {
             response = response.data;
 
             if(response.status && response.status == 'error') {
-                console.log('Cannot add new transaction');
+                if(response.messages) {
+                    this.setState({messages: Object.values(response.messages).flat()});
+                }
             } else {
                 let transaction = response;
                 transaction.customer_name = customer_name;
-                console.log('Transaction added');
                 let transactions = this.state.transactions;
                 transactions.push(transaction);
-                this.setState({transactions, newTransactionDialogVisible: false});
+                this.setState({transactions, newTransactionDialogVisible: false, messages: []});
             }
         });
     }
 
     transactionInfo(transaction) {
-        this.setState({transactionInfoDialogVisible: true, currentTransaction: transaction});
+        this.setState({transactionInfoDialogVisible: true, currentTransaction: transaction, messages: []});
     }
 
     onTransactionDeleted(id) {
@@ -283,11 +302,13 @@ export default class BusinessView extends Component {
             response = response.data;
 
             if(response.status && response.status == 'error') {
-                console.log('Nie udalo sie usunac transackji!');
+                if(response.messages) {
+                    this.setState({messages: Object.values(response.messages).flat()});
+                }
             } else {
                 let transactions = this.state.transactions;
                 transactions = transactions.filter(item => item.id != id);
-                this.setState({transactions, transactionInfoDialogVisible: false});
+                this.setState({transactions, transactionInfoDialogVisible: false, messages: []});
             }
         });
     }
@@ -330,22 +351,22 @@ export default class BusinessView extends Component {
                 </SideBarContainer>
 
                 {this.state.newProductDialogVisible &&
-                <NewProductDialog messages={this.state.messages} onProductAdded={chicken => this.onProductAdded(chicken)} switchVisibility={() => this.setState({newProductDialogVisible: !this.state.newProductDialogVisible})} />}
+                <NewProductDialog messages={this.state.messages} onProductAdded={chicken => this.onProductAdded(chicken)} switchVisibility={() => this.setState({newProductDialogVisible: !this.state.newProductDialogVisible, messages: []})} />}
                 {this.state.newCustomerDialogVisible &&
-                <NewCustomerDialog messages={this.state.messages} onCustomerAdded={customer => this.onCustomerAdded(customer)} switchVisibility={() => this.setState({newCustomerDialogVisible: !this.state.newCustomerDialogVisible})} />}
+                <NewCustomerDialog messages={this.state.messages} onCustomerAdded={customer => this.onCustomerAdded(customer)} switchVisibility={() => this.setState({newCustomerDialogVisible: !this.state.newCustomerDialogVisible, messages: []})} />}
                 {this.state.newStoragerecordDialogVisible &&
-                <NewStoragerecordDialog messages={this.state.messages} onStoragerecordAdded={storagerecord => this.onStoragerecordAdded(storagerecord)} switchVisibility={() => this.setState({newStoragerecordDialogVisible: !this.state.newStoragerecordDialogVisible})} />}
+                <NewStoragerecordDialog messages={this.state.messages} onStoragerecordAdded={storagerecord => this.onStoragerecordAdded(storagerecord)} switchVisibility={() => this.setState({newStoragerecordDialogVisible: !this.state.newStoragerecordDialogVisible, messages: []})} />}
                 {this.state.newTransactionDialogVisible &&
-                <NewTransactionDialog messages={this.state.messages} onTransactionAdded={(transaction, transactionItems) => this.onTransactionAdded(transaction, transactionItems)} switchVisibility={() => this.setState({newTransactionDialogVisible: !this.state.newTransactionDialogVisible})} />}           
+                <NewTransactionDialog messages={this.state.messages} onTransactionAdded={(transaction, transactionItems) => this.onTransactionAdded(transaction, transactionItems)} switchVisibility={() => this.setState({newTransactionDialogVisible: !this.state.newTransactionDialogVisible, messages: []})} />}           
                 
                 {this.state.productInfoDialogVisible &&
-                <ProductInfoDialog messages={this.state.messages} onProductUpdated={product => this.onProductUpdated(product)} onProductDeleted={() => this.onProductDeleted()} product={this.state.currentProduct} switchVisibility={() => this.setState({productInfoDialogVisible: !this.state.productInfoDialogVisible})} />}               
+                <ProductInfoDialog messages={this.state.messages} onProductUpdated={product => this.onProductUpdated(product)} onProductDeleted={() => this.onProductDeleted()} product={this.state.currentProduct} switchVisibility={() => this.setState({productInfoDialogVisible: !this.state.productInfoDialogVisible, messages: []})} />}               
                 {this.state.customerInfoDialogVisible &&
-                <CustomerInfoDialog messages={this.state.messages} onCustomerUpdated={customer => this.onCustomerUpdated(customer)} onCustomerDeleted={() => this.onCustomerDeleted()} customer={this.state.currentCustomer} switchVisibility={() => this.setState({customerInfoDialogVisible: !this.state.customerInfoDialogVisible})} />}               
+                <CustomerInfoDialog messages={this.state.messages} onCustomerUpdated={customer => this.onCustomerUpdated(customer)} onCustomerDeleted={() => this.onCustomerDeleted()} customer={this.state.currentCustomer} switchVisibility={() => this.setState({customerInfoDialogVisible: !this.state.customerInfoDialogVisible, messages: []})} />}               
                 {this.state.storagerecordInfoDialogVisible &&
-                <StoragerecordInfoDialog messages={this.state.messages} onStoragerecordUpdated={storagerecord => this.onStoragerecordUpdated(storagerecord)} onStoragerecordDeleted={() => this.onStoragerecordDeleted()} storagerecord={this.state.currentStoragerecord} switchVisibility={() => this.setState({storagerecordInfoDialogVisible: !this.state.storagerecordInfoDialogVisible})} />}
+                <StoragerecordInfoDialog messages={this.state.messages} onStoragerecordUpdated={storagerecord => this.onStoragerecordUpdated(storagerecord)} onStoragerecordDeleted={() => this.onStoragerecordDeleted()} storagerecord={this.state.currentStoragerecord} switchVisibility={() => this.setState({storagerecordInfoDialogVisible: !this.state.storagerecordInfoDialogVisible, messages: []})} />}
                 {this.state.transactionInfoDialogVisible &&
-                <TransactionInfoDialog messages={this.state.messages} transaction={this.state.currentTransaction} products={this.state.products} switchVisibility={() => this.setState({transactionInfoDialogVisible: !this.state.transactionInfoDialogVisible})}
+                <TransactionInfoDialog messages={this.state.messages} transaction={this.state.currentTransaction} products={this.state.products} switchVisibility={() => this.setState({transactionInfoDialogVisible: !this.state.transactionInfoDialogVisible, messages: []})}
                     onTransactionDeleted={id => this.onTransactionDeleted(id)}/>}  
             </div>
         );
