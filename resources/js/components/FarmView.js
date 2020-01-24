@@ -25,11 +25,12 @@ export default class FarmView extends Component {
         this.state = {
             chickenHouses: arrayToMatrix(this.props.chickenHouses, this.farmSize),
             newChickenHouseDialogVisible: false,
+            messages: [],
         };   
     }
 
     newChickenHouse() {
-        this.setState({newChickenHouseDialogVisible: true});
+        this.setState({newChickenHouseDialogVisible: true, messages: []});
     }
 
     addChickenHouse(size) {
@@ -38,18 +39,16 @@ export default class FarmView extends Component {
             response = response.data;
 
             if(response.status && response.status == 'error') {
-                console.log('NIe udalo sie dodac kórnika');
+                if(response.messages) {
+                    this.setState({messages: Object.values(response.messages).flat()});
+                }
             } else {
                 let chickenhouse = response;
                 let chickenHouses = matrixToArray(this.state.chickenHouses);
                 chickenHouses.push(chickenhouse);
-                this.setState({chickenHouses: arrayToMatrix(chickenHouses, this.farmSize)});
+                this.setState({chickenHouses: arrayToMatrix(chickenHouses, this.farmSize),newChickenHouseDialogVisible: false, messages: []});
             }
         }); 
-    }
-
-    editChickenHouse(size) {
-//
     }
     
     render() {
@@ -67,7 +66,8 @@ export default class FarmView extends Component {
                 </SideBarContainer>
                 {this.state.newChickenHouseDialogVisible && 
                 <NewChickenHouseDialog
-                    switchVisibility={() => {this.setState({newChickenHouseDialogVisible : !this.state.newChickenHouseDialogVisible})}}
+                    messages={this.state.messages}
+                    switchVisibility={() => {this.setState({newChickenHouseDialogVisible : !this.state.newChickenHouseDialogVisible, messages: []})}}
                     onSubmit={size => this.addChickenHouse(size)}/>}
             </div>
         );

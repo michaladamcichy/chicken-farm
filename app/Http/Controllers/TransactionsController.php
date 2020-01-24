@@ -30,7 +30,7 @@ class TransactionsController extends Controller
 		
 		$length = sizeof($transactionItems)-1;
 		if($length==-1){
-			return json_encode(['status' => 'error', 'message' => ['Musisz dodać przynajmniej 1 produkt']]);
+			return json_encode(['status' => 'error', 'messages' => ['Musisz dodać przynajmniej 1 produkt']]);
 		}
 		else{
 			$rules1 = [
@@ -99,7 +99,7 @@ class TransactionsController extends Controller
 			if($success == true) {
 				return json_encode($transaction);
 			} else {
-				return json_encode(['status' => 'error', 'message' => ['Nie udalo sie utworzyc transakcji']]);
+				return json_encode(['status' => 'error', 'messages' => ['Nie udalo sie utworzyc transakcji']]);
 			}
 		}
     }

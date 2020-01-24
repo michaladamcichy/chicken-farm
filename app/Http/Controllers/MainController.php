@@ -25,7 +25,7 @@ class MainController extends Controller
 			'size.numeric' => 'Liczba grzed musi byc liczba!',
 			'size.required' => 'Pole liczba grzed nie moze byc puste!'
         ];
-        $validator = Validator::make($chickenHouses, $rules, $customMessages);
+        $validator = Validator::make($chickenhouse, $rules, $customMessages);
 
         $messages = [];
         if ($validator->fails()) {
@@ -34,7 +34,6 @@ class MainController extends Controller
 			return json_encode(['status' => 'error', 'messages' => $messages]);
         }
 		
-
         $id = null;
         $success = true;
         try{
