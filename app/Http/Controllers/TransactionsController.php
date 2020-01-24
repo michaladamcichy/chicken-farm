@@ -23,7 +23,6 @@ class TransactionsController extends Controller
     public function addTransaction(Request $request) {
         $request = $request->all();
         $transaction = $request['transaction'];
-        Log::info($transaction);
         $transactionItems = $request['transactionItems'];
         
         $success = true;
@@ -31,7 +30,6 @@ class TransactionsController extends Controller
         try {
             $id = Transaction::insertGetId($transaction);
             $transaction = Transaction::find($id);
-            Log::info($transaction);
 
             foreach($transactionItems as $transactionItem) {
                 $transactionItem['transaction_id'] = $id;
@@ -66,7 +64,7 @@ class TransactionsController extends Controller
 
     public function deleteTransaction($id) {
         $success = true;
-        Log::info($id);
+
         try {
             $transactionItems = TransactionItem::where('transaction_id', $id)->delete();
 
