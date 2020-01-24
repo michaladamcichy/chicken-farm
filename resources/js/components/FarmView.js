@@ -40,8 +40,9 @@ export default class FarmView extends Component {
             if(typeof response.status != undefined && response.status == 'error') {
                 console.log('NIe udalo sie dodac kórnika');
             } else {
+                let chickenhouse = response;
                 let chickenHouses = matrixToArray(this.state.chickenHouses);
-                chickenHouses.push(chickenHouse);
+                chickenHouses.push(chickenhouse);
                 this.setState({chickenHouses: arrayToMatrix(chickenHouses, this.farmSize)});
             }
         }); 
