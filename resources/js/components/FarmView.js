@@ -36,7 +36,6 @@ export default class FarmView extends Component {
         let data = {size: size};
         axios.post('/addChickenhouse', data).then(response => {
             let chickenHouse = response.data;
-
             if(typeof chickenHouse.id != undefined) {
                 let chickenHouses = matrixToArray(this.state.chickenHouses);
                 chickenHouses.push(chickenHouse);
