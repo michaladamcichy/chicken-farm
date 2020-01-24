@@ -11,6 +11,13 @@ const styles = {
     },
     chickenIcon: {
         height: '80px',
+    },
+    chickenId: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        textShadow: '0px 0px 5px yellow',
     }
 }
 
@@ -18,7 +25,12 @@ export default class Chicken extends Component {
     render() {
         return (
             <div class="col">
-                <button onClick={() => this.props.onClick()} class="chicken" style={styles.button}> <img src={'/images/chicken.png'} style={styles.chickenIcon} /> </button>
+                <button onClick={() => this.props.onClick()} class="chicken" style={styles.button}>
+                    {this.props.dancing ?
+                    <img class={'dancing' + (Math.floor(this.props.row/4)%2==0 ? '1' : '2')} src={'/images/dancingfast.gif'} style={styles.chickenIcon} /> :
+                    <img src={'/images/chicken.png'} style={styles.chickenIcon} />}
+                    {!this.props.dancing && <h2 style={styles.chickenId}>{this.props.id ? '#' + this.props.id : ''}</h2>}
+                </button>
             </div>
         );
     }

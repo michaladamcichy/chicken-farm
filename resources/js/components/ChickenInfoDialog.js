@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import DialogContainer from './DialogContainer';
 import FormRow from './FormRow';
+import {isEqual} from 'lodash';
+import axios from 'axios';
 
 const styles = {
 }
@@ -13,30 +15,105 @@ export default class ChickenInfoDialog extends Component {
         this.state={
             editable: false,
             editButtonText: 'Edytuj dane',
+            chicken: Object.assign({}, this.props.chicken),
+            chickenhousesIds: [],
+            moveChickenButtonText: 'Przenieś',
+            moveChickenSelectVisible: false,
+            targetChickenhouseId: '',
         };
+    }
 
-        this.chickenTypeSelect = <select>
-            <option value={'layer'}>Nioska</option>
-            <option value={'meat_chicken'}>Mięsna</option>
-            <option value={'rooster'}>Kogut</option>
-        </select>;
+    componentDidMount() {
+        this.getChickenhouses();
+    }
+
+    getChickenhouses() {
+        axios.get('/getChickenhousesIds').then(response => {
+            let chickenhousesIds = response.data;
+            chickenhousesIds.unshift('');
+            chickenhousesIds.splice(chickenhousesIds.indexOf(this.state.chicken.chickenhouse_id), 1);
+
+            this.setState({chickenhousesIds});
+        });
     }
 
     onEditButtonClicked() {
         if(this.state.editable) {
-            this.setState({editable: false, editButtonText: 'Edytuj dane'});
+            this.setState({editable: false, editButtonText: 'Edytuj dane', chicken: Object.assign({}, this.props.chicken)});
         } else {
             this.setState({editable: true, editButtonText: 'Anuluj edytowanie'});
         }
     }
 
+    onKillButtonClicked() {
+        this.props.onChickenKilled(this.props.chicken.id);
+    }
+
+    setType(value) {
+        let chicken = this.state.chicken;
+        chicken.type = value;
+        this.setState({chicken});
+    }
+
+    setBirthdate(value) {
+        let chicken = this.state.chicken;
+        chicken.birthdate = value;
+        this.setState({chicken});
+    }
+
+    setWeight(value) {
+        let chicken = this.state.chicken;
+        chicken.weight = value;
+        this.setState({chicken});
+    }
+
+    onSubmit() {
+        if (isEqual(this.state.chicken, this.props.chicken) == false) {
+            this.props.onChickenUpdated(this.state.chicken);
+        }
+    }
+
+    onMoveChickenButtonPressed() {
+        if(this.state.moveChickenSelectVisible == false) {
+            this.setState({moveChickenSelectVisible: true, moveChickenButtonText: 'Anuluj'});
+        } else {
+            this.setState({moveChickenSelectVisible: false, moveChickenButtonText: 'Przenieś'});
+        }
+    }
+
+    moveChicken() {
+        if(this.state.targetChickenhouseId != '') {
+            this.onMoveChickenButtonPressed();
+
+            let data={chickenId: this.state.chicken.id, targetChickenhouseId: this.state.targetChickenhouseId};
+
+            axios.post('/moveChicken', data).then(response => {
+                response = response.data;
+                
+                if(response.status == 'success') {
+                    console.log('success!');
+                    this.props.onChickenMoved(this.state.chicken.id);
+                } else {
+                    console.log('error');
+                }
+            });
+        }
+    }
+
     render() {
         return (
-            <DialogContainer title={'Kurczak #{id}'} switchVisibility={() => this.props.switchVisibility()} saveButtonDisabled={!this.state.editable}>
+            <DialogContainer
+                title={'Kurczak #' + String(this.state.chicken.id)}
+                switchVisibility={() => this.props.switchVisibility()}
+                onSubmit={() => this.onSubmit()}>
                 <fieldset disabled={!this.state.editable}>
-                    <FormRow fieldName={'Rodzaj kurczaka'} input={this.chickenTypeSelect}/>
-                    <FormRow fieldName={'Data urodzenia'} input={<input type={'date'} defaultValue={(new Date()).toLocaleDateString('en-CA')}></input>} />
-                    <FormRow fieldName={'Masa [kg]'} input={<input type={'number'} min={0.0} defaultValue={4.5} step={0.01}></input>} />
+                    <FormRow fieldName={'Rodzaj kurczaka'} input={<select onChange={event => { this.setType(event.target.value) }} value={this.state.chicken.type}>
+                            <option value={'layer'}>Nioska</option>
+                            <option value={'meatchicken'}>Mięsna</option>
+                            <option value={'rooster'}>Kogut</option>
+                        </select>}/>
+                    <FormRow fieldName={'Data urodzenia'} input={<input type={'date'} onChange={event => this.setBirthdate(event.target.value)} value={this.state.chicken.birthdate}></input>} />
+                    <FormRow fieldName={'Masa [kg]'} input={<input type={'number'} onChange={event => this.setWeight(event.target.value)} min={0.0} value={this.state.chicken.weight} step={0.01}  ></input>} />
                 </fieldset>
                 <div class={'container row formRow'}>
                     <div class={'container col'}>
@@ -46,14 +123,30 @@ export default class ChickenInfoDialog extends Component {
                 <hr />
                 <div class={'container row formRow'}>
                     <div class={'container col'}>
+                        <button type={'button'} class={'btn btn-warning'} onClick={() => this.onMoveChickenButtonPressed()}>
+                            {this.state.moveChickenButtonText}
+                        </button>
+                    </div>
+                    <div class={'container col'}>
                         <button type={'button'} class={'btn btn-success'}>{'Jajko!'}</button>
                     </div>
                     <div class={'container col'}>
-                        <button type={'button'} class={'btn btn-danger'}>{'Zabij'}</button>
+                        <button type={'button'} class={'btn btn-danger'} onClick={() => this.onKillButtonClicked()}>{'Zabij'}</button>
                     </div>
+                </div>
+                <div class={'container row formRow'}>
+                    {this.state.moveChickenSelectVisible &&
                     <div class={'container col'}>
-                        <button type={'button'} class={'btn btn-warning'}>{'Przenieś'}</button>
-                    </div>
+                        <select value={this.state.targetChickenhouseId} onChange={event => this.setState({targetChickenhouseId: event.target.value})}>
+                            {this.state.chickenhousesIds.map(id => {
+                            return <option value={id}>{id == '' ? '' : '#' + id} </option>})}</select>
+                    </div>}
+                    {this.state.moveChickenSelectVisible &&
+                    <div class={'container'}>
+                        <button onClick={() => {this.moveChicken()}} type={'button'} class={'btn btn-success'}>
+                            {'Przenieś!'}
+                        </button>
+                    </div>}
                 </div>
                 <hr />
             </DialogContainer>

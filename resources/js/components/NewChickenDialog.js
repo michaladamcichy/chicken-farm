@@ -9,19 +9,49 @@ const styles = {
 export default class NewChickenDialog extends Component {
     constructor(props) {
         super(props);
-        this.chickenTypeSelect = <select>
-            <option value={'layer'}>Nioska</option>
-            <option value={'meat_chicken'}>Mięsna</option>
-            <option value={'rooster'}>Kogut</option>
-        </select>;
+
+        this.state = {
+            chicken: {
+                birthdate: (new Date()).toLocaleDateString('en-CA'),
+                weight: 4.5,
+                type: 'layer',
+                chickenhouse_id: this.props.chickenhouseId,
+            }
+        }
+    }
+
+    setBirthdate(value) {
+        let chicken = this.state.chicken;
+        chicken.birthdate = value;
+        this.setState({chicken});
+    }
+
+    setType(value) {
+        let chicken = this.state.chicken;
+        chicken.type = value;
+        this.setState({chicken});
+    }
+
+    setWeight(value) {
+        let chicken = this.state.chicken;
+        chicken.weight = value;
+        this.setState({chicken});
+    }
+    
+    onChickenAdded() {
+        this.props.onChickenAdded(this.state.chicken);
     }
 
     render() {
         return (
-            <DialogContainer title={'Nowy kurczak'} switchVisibility={() => this.props.switchVisibility()}>
-                <FormRow fieldName={'Rodzaj kurczaka'} input={this.chickenTypeSelect} />
-                <FormRow fieldName={'Data urodzenia'} input={<input type={'date'} defaultValue={(new Date()).toLocaleDateString('en-CA')}></input>} />
-                <FormRow fieldName={'Masa [kg]'} input={<input type={'number'} min={0.0} defaultValue={4.5} step={0.01}></input>} />
+            <DialogContainer title={'Nowy kurczak'} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => this.onChickenAdded() }>
+                <FormRow fieldName={'Rodzaj kurczaka'} input={<select onChange={event => this.setType(event.target.value)}>
+                        <option value={'layer'}>Nioska</option>
+                        <option value={'meatchicken'}>Mięsna</option>
+                        <option value={'rooster'}>Kogut</option>
+                    </select>} />
+                <FormRow fieldName={'Data urodzenia'} input={<input onChange={event => this.setBirthdate(event.target.value)} type={'date'} defaultValue={(new Date()).toLocaleDateString('en-CA')}></input>} />
+                <FormRow fieldName={'Masa [kg]'} input={<input onChange={event => this.setWeight(event.target.value)} type={'number'} min={0.0} defaultValue={4.5} step={0.01}></input>} />
             </DialogContainer>
         );
     }

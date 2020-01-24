@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import ChickenHouse from './ChickenHouse';
 import NewChickenHouseDialog from './NewChickenHouseDialog';
+import EditChickenHouseDialog from './EditChickenHouseDialog';
 import SideBarContainer from './SideBarContainer';
 import SideButton from './SideButton';
+import { arrayToMatrix, matrixToArray } from './utils';
+import axios from 'axios';
 
 const styles = {
   outerContainer: {
@@ -16,20 +19,11 @@ export default class FarmView extends Component {
     constructor(props) {
         super(props);
 
-        this.farmSize = 4;
-        
+        this.farmSize = 4;        
         let chickenHouses = [];
 
-        for(let row = 0; row < this.farmSize; row++ ) {
-            let row = []
-            for(let col = 0; col < this.farmSize; col++) {
-                row.push('empty');
-            }
-            chickenHouses.push(row);
-        }     
-
         this.state = {
-            chickenHouses: chickenHouses,
+            chickenHouses: arrayToMatrix(this.props.chickenHouses, this.farmSize),
             newChickenHouseDialogVisible: false,
         };   
     }
@@ -37,26 +31,50 @@ export default class FarmView extends Component {
     newChickenHouse() {
         this.setState({newChickenHouseDialogVisible: true});
     }
+
+    addChickenHouse(size) {
+        let data = {size: size};
+        axios.post('/addChickenhouse', data).then(response => {
+            response = response.data;
+
+            if(typeof response.status != undefined && response.status == 'error') {
+                console.log('NIe udalo sie dodac kórnika');
+            } else {
+                let chickenHouses = matrixToArray(this.state.chickenHouses);
+                chickenHouses.push(chickenHouse);
+                this.setState({chickenHouses: arrayToMatrix(chickenHouses, this.farmSize)});
+            }
+        }); 
+    }
+
+    editChickenHouse(size) {
+//
+    }
     
     render() {
         return (
             <div class="container" style={styles.outerContainer}>
-                { this.state.chickenHouses.map((item, index) => (
+                { this.state.chickenHouses.map((item, col) => (
                     <div class="row">
-                        {item.map((company, index) => <div class="col"><ChickenHouse /></div>)}
+                        {item.map((chickenHouse, row) => <div class="col"><ChickenHouse id={chickenHouse.id} /></div>)}
                     </div>
                 ))}
                 <SideBarContainer>
                     <SideButton title={'DODAJ KÓRNIK'} onClick={() => {this.newChickenHouse()}}/>
                     <SideButton title={'DODAJ KÓRNIK'} onClick={() => {this.newChickenHouse()}}/>
+                    <SideButton title={'BIZNES'} onClick={() => {window.location.href='business'}}/>
                 </SideBarContainer>
                 {this.state.newChickenHouseDialogVisible && 
-                <NewChickenHouseDialog switchVisibility={() => {this.setState({newChickenHouseDialogVisible : !this.state.newChickenHouseDialogVisible})}}/>}
+                <NewChickenHouseDialog
+                    switchVisibility={() => {this.setState({newChickenHouseDialogVisible : !this.state.newChickenHouseDialogVisible})}}
+                    onSubmit={size => this.addChickenHouse(size)}/>}
             </div>
         );
     }
 }
 
 if (document.getElementById('farmView')) {
-    ReactDOM.render(<FarmView />, document.getElementById('farmView'));
+    let element = document.getElementById('farmView');
+    let chickenHouses = element.getAttribute('chickenHouses');
+    ReactDOM.render(<FarmView chickenHouses={JSON.parse(chickenHouses)}/>, element);
 }
