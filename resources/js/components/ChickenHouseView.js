@@ -184,7 +184,8 @@ export default class ChickenHouseView extends Component {
                 <NewChickenDialog onChickenAdded={chicken => this.onChickenAdded(chicken)} chickenhouseId={this.state.id} switchVisibility={() => this.setState({newChickenDialogVisible: !this.state.newChickenDialogVisible})} />}
                 {this.state.feedingDialogVisible &&
                 <FeedingDialog switchVisibility={() => this.setState({feedingDialogVisible: !this.state.feedingDialogVisible})}
-                    onFeeding={feeding => this.onFeeding(feeding)} />}
+                    onFeeding={feeding => this.onFeeding(feeding)}
+                    chickenhouseId={this.state.id}/>}
                 {this.state.changeDutyDialogVisible &&
                 <ChangeDutyDialog chickenhouseId={this.state.id} switchVisibility={() => this.setState({changeDutyDialogVisible: !this.state.changeDutyDialogVisible})} />}
                 {this.state.chickenInfoDialogVisible &&

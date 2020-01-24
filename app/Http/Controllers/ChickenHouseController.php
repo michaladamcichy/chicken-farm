@@ -155,4 +155,24 @@ class ChickenHouseController extends Controller
             return json_encode(['status' => 'error']);
         }
     }
+
+    public function getLastFeeding($id) {
+        $success = true;
+
+        $lastFeeding = '';
+        try {
+            $lastFeeding = Feeding::where('chickenhouse_id', $id)->orderBy('date', 'desc')->orderBy('time', 'desc')->first();
+        } catch(\Throwable $e) {
+            Log::info($e->getMessage());
+            $success = false;
+        }
+
+        if($success == false) {
+            return json_encode(['status' => 'error']);
+        } else {
+            return json_encode($lastFeeding);
+        }
+
+
+    }
 }
