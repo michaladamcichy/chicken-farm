@@ -109,7 +109,7 @@ export default class NewTransactionDialog extends Component {
 
     render() {
         return (
-            <DialogContainer title={'Nowa transakcja'} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => this.onTransactionAdded() }>
+            <DialogContainer messages={this.props.messages} title={'Nowa transakcja'} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => this.onTransactionAdded() }>
                 <FormRow fieldName={'Data'} input={<input type={'date'} value={this.state.transaction.date} onChange={event => this.setDate(event.target.value)} ></input>} />
                 <FormRow fieldName={'Godzina'} input={<input type={'time'} value={this.state.transaction.time} onChange={event => this.setTime(event.target.value)} ></input>} />
                 <FormRow fieldName={'Klient'} input={<select  onChange={event => this.setCustomerId(event.target.value)} value={this.state.transaction.customer_id} >

@@ -36,7 +36,7 @@ export default class NewProductDialog extends Component {
 
     render() {
         return (
-            <DialogContainer title={'Nowy produkt'} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => this.onProductAdded() }>
+            <DialogContainer messages={this.props.messages} title={'Nowy produkt'} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => this.onProductAdded() }>
                 <FormRow fieldName={'Nazwa'} input={<input onChange={event => this.setName(event.target.value)} value={this.state.product.name} type={'text'}></input>} />
                 <FormRow fieldName={'Koszt [zł/kg]'} input={<input onChange={event => this.setUnitCost(event.target.value)} value={this.state.product.unit_cost} type={'number'} min={0.0} step={0.01}></input>} />
             </DialogContainer>

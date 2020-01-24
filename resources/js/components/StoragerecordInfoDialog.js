@@ -72,7 +72,7 @@ export default class StoragerecordInfoDialog extends Component {
 
     render() {
         return (
-            <DialogContainer title={'Wpis magazynowy'} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => this.onStoragerecordUpdated() }>
+            <DialogContainer messages={this.props.messages} title={'Wpis magazynowy'} switchVisibility={() => this.props.switchVisibility()} onSubmit={() => this.onStoragerecordUpdated() }>
                 <fieldset disabled={!this.state.editable}>
                     <FormRow fieldName={'Data'} input={<input type={'date'} value={this.state.storagerecord.date} onChange={event => this.setDate(event.target.value)} disabled></input>} />
                     <FormRow fieldName={'Godzina'} input={<input type={'time'} value={this.state.storagerecord.time} onChange={event => this.setTime(event.target.value)} disabled></input>} />

@@ -42,6 +42,7 @@ export default class BusinessView extends Component {
             currentStoragerecord: null,
             currentTransaction: null,
 
+            messages: [],
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
@@ -70,7 +71,7 @@ export default class BusinessView extends Component {
                 console.log('Product added');
                 let products = this.state.products;
                 products.push(product);
-                this.setState({products});
+                this.setState({products, newProductDialogVisible: false});
             }
         });
     }
@@ -95,7 +96,7 @@ export default class BusinessView extends Component {
                         break;
                     }                    
                 }
-                this.setState({products});
+                this.setState({products, productInfoDialogVisible: false});
             }
         });
     }
@@ -125,7 +126,7 @@ export default class BusinessView extends Component {
             } else {
                 let customers = this.state.customers;
                 customers.push(customer);
-                this.setState({customers});
+                this.setState({customers, newCustomerDialogVisible: false});
             }
         });
     }
@@ -150,7 +151,7 @@ export default class BusinessView extends Component {
                         break;
                     }                    
                 }
-                this.setState({customers});
+                this.setState({customers, customerInfoDialogVisible: false});
             }
         });
     }
@@ -185,7 +186,7 @@ export default class BusinessView extends Component {
                 storagerecord.name = product_name;
                 let storagerecords = this.state.storagerecords;
                 storagerecords.push(storagerecord);
-                this.setState({storagerecords});
+                this.setState({storagerecords, newStoragerecordDialogVisible: false});
             }
         });
     }
@@ -217,7 +218,7 @@ export default class BusinessView extends Component {
                         break;
                     }                    
                 }
-                this.setState({storagerecords});
+                this.setState({storagerecords, storagerecordInfoDialogVisible: false});
             }
         });
     }
@@ -268,7 +269,7 @@ export default class BusinessView extends Component {
                 console.log('Transaction added');
                 let transactions = this.state.transactions;
                 transactions.push(transaction);
-                this.setState({transactions});
+                this.setState({transactions, newTransactionDialogVisible: false});
             }
         });
     }
@@ -329,22 +330,22 @@ export default class BusinessView extends Component {
                 </SideBarContainer>
 
                 {this.state.newProductDialogVisible &&
-                <NewProductDialog onProductAdded={chicken => this.onProductAdded(chicken)} switchVisibility={() => this.setState({newProductDialogVisible: !this.state.newProductDialogVisible})} />}
+                <NewProductDialog messages={this.state.messages} onProductAdded={chicken => this.onProductAdded(chicken)} switchVisibility={() => this.setState({newProductDialogVisible: !this.state.newProductDialogVisible})} />}
                 {this.state.newCustomerDialogVisible &&
-                <NewCustomerDialog onCustomerAdded={customer => this.onCustomerAdded(customer)} switchVisibility={() => this.setState({newCustomerDialogVisible: !this.state.newCustomerDialogVisible})} />}
+                <NewCustomerDialog messages={this.state.messages} onCustomerAdded={customer => this.onCustomerAdded(customer)} switchVisibility={() => this.setState({newCustomerDialogVisible: !this.state.newCustomerDialogVisible})} />}
                 {this.state.newStoragerecordDialogVisible &&
-                <NewStoragerecordDialog onStoragerecordAdded={storagerecord => this.onStoragerecordAdded(storagerecord)} switchVisibility={() => this.setState({newStoragerecordDialogVisible: !this.state.newStoragerecordDialogVisible})} />}
+                <NewStoragerecordDialog messages={this.state.messages} onStoragerecordAdded={storagerecord => this.onStoragerecordAdded(storagerecord)} switchVisibility={() => this.setState({newStoragerecordDialogVisible: !this.state.newStoragerecordDialogVisible})} />}
                 {this.state.newTransactionDialogVisible &&
-                <NewTransactionDialog onTransactionAdded={(transaction, transactionItems) => this.onTransactionAdded(transaction, transactionItems)} switchVisibility={() => this.setState({newTransactionDialogVisible: !this.state.newTransactionDialogVisible})} />}           
+                <NewTransactionDialog messages={this.state.messages} onTransactionAdded={(transaction, transactionItems) => this.onTransactionAdded(transaction, transactionItems)} switchVisibility={() => this.setState({newTransactionDialogVisible: !this.state.newTransactionDialogVisible})} />}           
                 
                 {this.state.productInfoDialogVisible &&
-                <ProductInfoDialog onProductUpdated={product => this.onProductUpdated(product)} onProductDeleted={() => this.onProductDeleted()} product={this.state.currentProduct} switchVisibility={() => this.setState({productInfoDialogVisible: !this.state.productInfoDialogVisible})} />}               
+                <ProductInfoDialog messages={this.state.messages} onProductUpdated={product => this.onProductUpdated(product)} onProductDeleted={() => this.onProductDeleted()} product={this.state.currentProduct} switchVisibility={() => this.setState({productInfoDialogVisible: !this.state.productInfoDialogVisible})} />}               
                 {this.state.customerInfoDialogVisible &&
-                <CustomerInfoDialog onCustomerUpdated={customer => this.onCustomerUpdated(customer)} onCustomerDeleted={() => this.onCustomerDeleted()} customer={this.state.currentCustomer} switchVisibility={() => this.setState({customerInfoDialogVisible: !this.state.customerInfoDialogVisible})} />}               
+                <CustomerInfoDialog messages={this.state.messages} onCustomerUpdated={customer => this.onCustomerUpdated(customer)} onCustomerDeleted={() => this.onCustomerDeleted()} customer={this.state.currentCustomer} switchVisibility={() => this.setState({customerInfoDialogVisible: !this.state.customerInfoDialogVisible})} />}               
                 {this.state.storagerecordInfoDialogVisible &&
-                <StoragerecordInfoDialog onStoragerecordUpdated={storagerecord => this.onStoragerecordUpdated(storagerecord)} onStoragerecordDeleted={() => this.onStoragerecordDeleted()} storagerecord={this.state.currentStoragerecord} switchVisibility={() => this.setState({storagerecordInfoDialogVisible: !this.state.storagerecordInfoDialogVisible})} />}
+                <StoragerecordInfoDialog messages={this.state.messages} onStoragerecordUpdated={storagerecord => this.onStoragerecordUpdated(storagerecord)} onStoragerecordDeleted={() => this.onStoragerecordDeleted()} storagerecord={this.state.currentStoragerecord} switchVisibility={() => this.setState({storagerecordInfoDialogVisible: !this.state.storagerecordInfoDialogVisible})} />}
                 {this.state.transactionInfoDialogVisible &&
-                <TransactionInfoDialog transaction={this.state.currentTransaction} products={this.state.products} switchVisibility={() => this.setState({transactionInfoDialogVisible: !this.state.transactionInfoDialogVisible})}
+                <TransactionInfoDialog messages={this.state.messages} transaction={this.state.currentTransaction} products={this.state.products} switchVisibility={() => this.setState({transactionInfoDialogVisible: !this.state.transactionInfoDialogVisible})}
                     onTransactionDeleted={id => this.onTransactionDeleted(id)}/>}  
             </div>
         );
