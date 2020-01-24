@@ -98,13 +98,18 @@ export default class ChickenHouseView extends Component {
 
     onChickenAdded(chicken) {
         axios.post('/addChicken', chicken).then(response => {
-            let chicken = response.data;
+            response = response.data;
 
-            let chickens = this.state.chickens;
-            chickens = matrixToArray(chickens);
-            chickens.push(chicken);
-            chickens = arrayToMatrix(chickens, this.chickenHouseSize);
-            this.setState({chickens});
+            if(typeof response.status != undefined && response.status == 'error') {
+                console.log('nie udalo sie dodac kurczaka');
+            } else {
+                let chicken = response;
+                let chickens = this.state.chickens;
+                chickens = matrixToArray(chickens);
+                chickens.push(chicken);
+                chickens = arrayToMatrix(chickens, this.chickenHouseSize);
+                this.setState({chickens});
+            }
         });
     }
 

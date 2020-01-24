@@ -119,7 +119,7 @@ export default class NewTransactionDialog extends Component {
                 <div class={'container'} style={styles.itemsContainer}>
                 {this.state.transactionItems.map((item, index) => <TransactionItem index={index} products={this.filterProducts(this.state.products, this.state.transactionItems[index].product_id)} item={this.state.transactionItems[index]}
                     setItem={item => { let transactionItems = this.state.transactionItems; transactionItems[index] = item; this.setState({transactionItems});}}
-                    onDelete={index => this.deleteItem(index)}/>)}
+                    onDelete={index => this.deleteItem(index)} disabled={false}/>)}
                 </div>
                 <div class={'container row formRow'}>
                     <div class={'container col'}>
