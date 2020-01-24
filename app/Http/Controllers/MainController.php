@@ -46,7 +46,7 @@ class MainController extends Controller
 
         if($success == true) {
             $chickenhouse['id'] = $id;
-            return return json_encode($chickenhouse);
+            return json_encode($chickenhouse);
         } else {
             return json_encode (['status' => 'error', 'messages'=> ['Nie udalo sie stworzyc kurnika'] ]);
         }
