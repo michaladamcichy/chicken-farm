@@ -64,7 +64,7 @@ export default class ChangeDutyDialog extends Component {
         return (
             <DialogContainer onSubmit={() => this.onSave()} title={'Pracownicy odpowiedzialni'} switchVisibility={() => this.props.switchVisibility()}>
                 {this.state.workers.map((worker, index) => {
-                    return <FormRow fieldName={worker.first_name + ' ' + worker.last_name} input={<button onClick={() => {this.deleteWorker(worker.id)}} type={'button'} class={'btn btn-danger'}> X </button>} />
+                    return <FormRow fieldName={worker.first_name + ' ' + worker.last_name} input={<button onClick={() => {this.deleteWorker(worker.id)}} type={'button'} class={'btn btn-danger'}> {'X'} </button>} />
                 }
                 )}
                 <FormRow fieldName={'Dodaj'} input={

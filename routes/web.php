@@ -39,3 +39,7 @@ Route::post('/updateCustomer', 'CustomersController@updateCustomer');
 Route::delete('/deleteCustomer/{id}', 'CustomersController@deleteCustomer');
 Route::post('/updateStoragerecord', 'StorageController@updateStoragerecord');
 Route::post('/deleteStoragerecord', 'StorageController@deleteStoragerecord');
+Route::get('/getCustomers', 'CustomersController@getCustomers');
+Route::post('/addTransaction', 'TransactionsController@addTransaction');
+Route::get('/getTransactionItems/{id}', 'TransactionsController@getTransactionItems');
+Route::delete('/deleteTransaction/{id}', 'TransactionsController@deleteTransaction');
