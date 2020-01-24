@@ -1,0 +1,466 @@
+[33mcommit 2420820d1ae04a0178d0e7230d425aba80c13995[m[33m ([m[1;36mHEAD -> [m[1;32mdevelop[m[33m)[m
+Author: Dominos <dominikst998@gmail.com>
+Date:   Fri Jan 24 23:44:13 2020 +0100
+
+    idexes
+
+[33mcommit 603c71de9a1e74d62361c3463fd5be7134bec0f6[m
+Author: Dominos <dominikst998@gmail.com>
+Date:   Fri Jan 24 23:13:12 2020 +0100
+
+    Adding stored procedures
+
+[33mcommit 4a4d33854248b2a3ab6c25703aea75e8ce35046f[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 24 22:46:35 2020 +0100
+
+    chickenHouse validation frontend
+
+[33mcommit 4d230d17c8e09bb14e2e7ffe817af7292fd21d5a[m
+Merge: 7fcf659 2dad4d5
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 24 21:52:51 2020 +0100
+
+    Merge branch 'develop' of https://github.com/michaladamcichy/chicken-farm into michal
+
+[33mcommit 7fcf659e838ce0474339ee80411f3803c49b5579[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 24 21:45:49 2020 +0100
+
+    adds getLastFeeding
+
+[33mcommit 2dad4d55d2e5bd47d53353ab21dadcd420c379a4[m
+Author: Dominos <dominikst998@gmail.com>
+Date:   Fri Jan 24 21:44:43 2020 +0100
+
+    fixing small bug
+
+[33mcommit aada4748caa15d2044d46d804f37da6015bc6a67[m
+Author: Dominos <dominikst998@gmail.com>
+Date:   Fri Jan 24 21:43:20 2020 +0100
+
+    fixing little bug
+
+[33mcommit f8001f5049945b5af1633bdc45f14c108bf473c0[m[33m ([m[1;31morigin/adam[m[33m)[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 24 21:41:40 2020 +0100
+
+    add chickenhouse fix
+
+[33mcommit d0ce372e970e0d4228a37af10e09f35798e91d46[m
+Author: Dominos <dominikst998@gmail.com>
+Date:   Fri Jan 24 21:39:27 2020 +0100
+
+    script and validation update
+
+[33mcommit f6a1e78e2721af5706cad835d9f5f94d5f52ec5c[m
+Merge: d126f4d bb2882e
+Author: Dominos <dominikst998@gmail.com>
+Date:   Fri Jan 24 20:05:36 2020 +0100
+
+    Merge branch 'develop' of https://github.com/michaladamcichy/chicken-farm into develop
+
+[33mcommit b06c6e4d06051afd6ddfcc271f562e43d7987f5a[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 24 19:59:23 2020 +0100
+
+    fixes disapearing X
+
+[33mcommit bb2882ea2b7fce1ff5061dfbfdf94855b083394e[m
+Merge: 9d4170f 7bd15be
+Author: Michał Cichy <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 24 19:54:11 2020 +0100
+
+    Merge pull request #9 from michaladamcichy/adam
+    
+    Adam
+
+[33mcommit 7bd15be60102d1da5fe9af1fd35734de380ad8a6[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 24 19:53:39 2020 +0100
+
+    fixes addChicken undefined
+
+[33mcommit daef0243a223765f8b61900b317cc7f2f41ca91a[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 24 19:29:35 2020 +0100
+
+    fixes addChickenHouse
+
+[33mcommit d126f4d289c204a6f867392bec0081ad0dc88174[m
+Merge: eb0c7c4 9d4170f
+Author: Dominos <dominikst998@gmail.com>
+Date:   Fri Jan 24 16:47:10 2020 +0100
+
+    Merge branch 'develop' of https://github.com/michaladamcichy/chicken-farm into develop
+
+[33mcommit eb0c7c4161df1a19c2bd49f64961d3f8e958a2f5[m
+Author: Dominos <dominikst998@gmail.com>
+Date:   Fri Jan 24 16:42:27 2020 +0100
+
+    chickenhouse validation
+
+[33mcommit 9d4170f998f233826f3051e03704a53a8857d692[m
+Merge: 4ef4730 39bc268
+Author: Michał Cichy <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 24 16:38:26 2020 +0100
+
+    Merge pull request #7 from michaladamcichy/adam
+    
+    introduces sql script to create db
+
+[33mcommit 39bc268267ee7b8d0b3f80a97785b565239d0f6f[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 24 16:37:31 2020 +0100
+
+    fixes chicken id problem
+
+[33mcommit 1d34c178e4c6c1a7f29bbf1eb3ebffadfdaf2bce[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 24 16:28:29 2020 +0100
+
+    introduces sql script to create db
+
+[33mcommit 4ef4730a9b43d6ece6d8cff16fc6d689c436224d[m
+Merge: ac24533 1d60274
+Author: Michał Cichy <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 24 16:07:49 2020 +0100
+
+    Merge pull request #6 from michaladamcichy/adam
+    
+    Adam
+
+[33mcommit 1d60274030dbf5aac6baafb6f784ded13806b167[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 24 16:06:40 2020 +0100
+
+    removes logs
+
+[33mcommit 75174e8b0ee713c26c29edd30a339c31d254e32d[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 24 16:06:27 2020 +0100
+
+    implements transaction items
+
+[33mcommit 9ba30a43fc9dd51fd34262460ba93ff059757ab6[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 24 15:59:43 2020 +0100
+
+    fixes spelling
+
+[33mcommit 2a67ef3ff0543c1eb843f860ade26c5c20002c91[m
+Merge: 442c504 ac24533
+Author: Dominos <dominikst998@gmail.com>
+Date:   Thu Jan 23 17:27:18 2020 +0100
+
+    .env
+
+[33mcommit 442c504ce842e9c680e79624ff16485367254447[m
+Author: Dominos <dominikst998@gmail.com>
+Date:   Thu Jan 23 17:19:29 2020 +0100
+
+    .env
+
+[33mcommit ac2453368f2d6bc7cf3c413cfd5f6f7309114782[m
+Merge: 6ca940f c05270c
+Author: Michał Cichy <michal.adam.cichy@gmail.com>
+Date:   Thu Jan 23 15:16:13 2020 +0100
+
+    Merge pull request #5 from michaladamcichy/adam
+    
+    Adam
+
+[33mcommit c05270c3d97916c6164a64c6c2b40427702a20dc[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Thu Jan 23 15:05:35 2020 +0100
+
+    adds routes for storagerecords
+
+[33mcommit fd0a3a1d431633d99a63a1782056f1681ca2b4cf[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Thu Jan 23 15:05:18 2020 +0100
+
+    storage records CRUD
+
+[33mcommit f089c7f2d4a0b953f47df5960092081ed2379ddf[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Thu Jan 23 15:01:27 2020 +0100
+
+    fixes multi primary key - important
+
+[33mcommit c98d90972267b50f0b4e2aa6f997943cfd01c615[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Wed Jan 22 16:38:53 2020 +0100
+
+    introduces update and delete customers
+
+[33mcommit 61df74667c3c9ef165c4feb295651ea7f1a61b81[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Wed Jan 22 16:14:47 2020 +0100
+
+    develops business
+
+[33mcommit acf42b5a889d557cfc6bee0518b4ca7e36dbdec9[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Tue Jan 21 20:27:55 2020 +0100
+
+    makes chicken move left and right
+
+[33mcommit 203ecd990fd74561c8e7354d73c11d1386b132b9[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Sat Jan 11 22:59:04 2020 +0100
+
+    remove console logs
+
+[33mcommit 44e2e17192e9f9c999e574347ced099585e67c70[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Sat Jan 11 22:58:20 2020 +0100
+
+    moveChicken routine
+
+[33mcommit 2ebbcf0da95163c01016aa84755fb5e7a9e2e4f5[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Sat Jan 11 21:42:45 2020 +0100
+
+    changeduty, feeding networking
+
+[33mcommit 50c82b428bccc1acbd0fdb0e684fddb3c0be4f14[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 10 11:42:47 2020 +0100
+
+    removes console log
+
+[33mcommit 749fa797102ddf8b97c801148ed0aa4c67195cd8[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 10 11:42:11 2020 +0100
+
+    fixes update size
+
+[33mcommit ca6bc98d951f73881da624a1636c9c658f5219ee[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Thu Jan 9 23:55:07 2020 +0100
+
+    chickenhouse update and delete
+
+[33mcommit eb7366679d5af17ac16fe55ac3fb14f37fc162f5[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Thu Jan 9 02:18:47 2020 +0100
+
+    dancing!
+
+[33mcommit 30030afe512427d398c5339053369153c68a409a[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Thu Jan 9 01:24:44 2020 +0100
+
+    business windows working! scrolling!
+
+[33mcommit 83a8ad078813af9ffc003bd419572eb193d70ccd[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Wed Jan 8 03:42:40 2020 +0100
+
+    adds routes for update, delete
+
+[33mcommit 1d48ed44e128ea380cf7c64cda0f76bc5fd6d8d2[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Wed Jan 8 03:41:54 2020 +0100
+
+    adds delete/update chickens
+
+[33mcommit 4eb1d2fed82a5502a3c40af0c22ce72f7e82fbe3[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Wed Jan 8 03:40:02 2020 +0100
+
+    addf kill and update methods
+
+[33mcommit 179942969acaa9740d0349e053962676037e87d9[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Wed Jan 8 03:39:15 2020 +0100
+
+    removes timestamps
+
+[33mcommit eececcc05892dcc543cdafc689275fc2af248324[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Wed Jan 8 03:38:58 2020 +0100
+
+    updates loadash
+
+[33mcommit 85e9fed20727e6b59b8594d437ab8e7e73539e44[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 3 23:33:12 2020 +0100
+
+    implements adding chickens to db
+
+[33mcommit df3b62a883e878e0357098e5009857b4ec8e96b1[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 3 21:08:51 2020 +0100
+
+    connect chickenhouses to db
+
+[33mcommit f91ff367324b270a13ae807bdd94ac83ccade487[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 3 20:37:40 2020 +0100
+
+    adds bussiness views
+
+[33mcommit 0b3e38afe99aebde603ea3a7b87e198df1b3ed06[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 3 20:34:47 2020 +0100
+
+    package-lock.json
+
+[33mcommit 58648e3a7413f8852829647468a35fc1a812fa72[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 3 20:34:36 2020 +0100
+
+    updates gitignore
+
+[33mcommit c73993edd79474c0edd66fe47e991a903bd20a2c[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 3 20:34:22 2020 +0100
+
+    app.js
+
+[33mcommit 535878719cf05ba9bf2da00689ca93dd93d839a7[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 3 20:33:48 2020 +0100
+
+    updates diagrams
+
+[33mcommit ac0061877c0e2035c03099a07c88bc2584ec4104[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 3 20:33:29 2020 +0100
+
+    updates gitignore
+
+[33mcommit 9946e94892684b0fccd202d94209ac164653fe63[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Jan 3 20:33:16 2020 +0100
+
+    connects chickens to db
+
+[33mcommit 7aff3384e4b67e6d410f7a36257f615e4d5fe04b[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Dec 13 16:21:15 2019 +0100
+
+    changes mock values
+
+[33mcommit 58c9cb782c333488ea4d4b8df529e2a5c5402514[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Fri Dec 13 15:38:31 2019 +0100
+
+    chicken/chickenHouse id displayed and better
+     frontend
+
+[33mcommit 6ca940f4e6ce5e3ad4dec4f181798b79fa1bc7b0[m[33m ([m[1;32mmaster[m[33m)[m
+Author: Michał Cichy <michal.adam.cichy@gmail.com>
+Date:   Fri Dec 6 18:11:28 2019 +0100
+
+    Update readme.md
+
+[33mcommit 0c5cb0da45902cff36e8ba05377412a0da730bd7[m
+Merge: 353b9c8 72583fa
+Author: Michał Cichy <michal.adam.cichy@gmail.com>
+Date:   Sun Nov 17 12:08:31 2019 +0100
+
+    Merge pull request #4 from michaladamcichy/adam
+    
+    adds ChickeInfoDialog
+
+[33mcommit 72583fa769859d4690e77c29a096f5b84a844c16[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Sun Nov 17 12:06:29 2019 +0100
+
+    adds ChickeInfoDialog
+
+[33mcommit 353b9c836aaffe5a3f7910ffdd4ffdbedd2f5556[m
+Merge: 543149e b1b8501
+Author: Michał Cichy <michal.adam.cichy@gmail.com>
+Date:   Sun Nov 17 11:04:14 2019 +0100
+
+    Merge pull request #3 from michaladamcichy/adam
+    
+    Kocham Kurczaki
+
+[33mcommit b1b8501a0df9171e99acd8a1ca055101761bd59c[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Sun Nov 17 11:02:26 2019 +0100
+
+    adds forms, improves look
+
+[33mcommit dadfe60e79d4d1bd92bd08294ade4387e10b24b8[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Sun Nov 17 10:53:40 2019 +0100
+
+    adds erd diagram
+
+[33mcommit 543149ecaf6cc97544974e38373c3955b3e247de[m
+Merge: 4fa052d 705804f
+Author: Michał Cichy <michal.adam.cichy@gmail.com>
+Date:   Fri Nov 15 13:24:52 2019 +0100
+
+    Merge pull request #2 from michaladamcichy/adam
+    
+    adds chickenHouse view
+
+[33mcommit 705804f9e6be31b005c744217384b9fea0661b9b[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Thu Nov 14 23:29:55 2019 +0100
+
+    adds chickenHouse view
+
+[33mcommit 4fa052da79cdd57fdbabe8672ca8227595d6f224[m
+Merge: aed4ea2 0cf6122
+Author: Michał Cichy <michal.adam.cichy@gmail.com>
+Date:   Wed Nov 6 22:33:01 2019 +0100
+
+    Merge pull request #1 from michaladamcichy/adam
+    
+    adds basic ChickenFarmView
+
+[33mcommit 0cf6122eaff2250090bb75d03609505f207d5bb9[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Wed Nov 6 22:23:43 2019 +0100
+
+    introduces ChickenHouses' rendering
+
+[33mcommit ca80a74c82a0d8c4f76f69400a6f80336b2caaf2[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Wed Nov 6 22:22:50 2019 +0100
+
+    adds ChickenHouse component
+
+[33mcommit d6054d0a586e41557d7231eb5f613775c0183974[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Wed Nov 6 22:21:15 2019 +0100
+
+    fixes layout
+
+[33mcommit aed4ea2c0db23c142b3dd2b7864113bb4611a69c[m
+Author: Michał Cichy <michal.adam.cichy@gmail.com>
+Date:   Wed Nov 6 22:17:04 2019 +0100
+
+    Update readme.md
+
+[33mcommit 8e8a36d4a70f439ed6275ebf263a5e9831156aaa[m
+Author: Michał Cichy <michal.adam.cichy@gmail.com>
+Date:   Wed Nov 6 22:16:36 2019 +0100
+
+    Update readme.md
+
+[33mcommit cf8ddbc5b3f9556d71a5b45ce69c2d9b500826bb[m
+Author: Michał Cichy <michal.adam.cichy@gmail.com>
+Date:   Wed Nov 6 22:12:26 2019 +0100
+
+    Update readme.md
+
+[33mcommit c20d4f7991c6fdc4dd2571a586e74c01936a4e78[m
+Author: Michał Cichy <michal.adam.cichy@gmail.com>
+Date:   Wed Nov 6 22:11:18 2019 +0100
+
+    Update readme.md
+
+[33mcommit 4b6cb7a5fe5aa44bd671531701584d08678e380f[m
+Author: juliuszCezar <michal.adam.cichy@gmail.com>
+Date:   Sat Nov 2 21:13:01 2019 +0100
+
+    Initial commit
