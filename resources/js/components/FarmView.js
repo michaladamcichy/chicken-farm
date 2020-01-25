@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import ChickenHouse from './ChickenHouse';
 import NewChickenHouseDialog from './NewChickenHouseDialog';
-import EditChickenHouseDialog from './EditChickenHouseDialog';
+import WorkersDialog from './WorkersDialog';
 import SideBarContainer from './SideBarContainer';
 import SideButton from './SideButton';
 import { arrayToMatrix, matrixToArray } from './utils';
@@ -25,12 +25,17 @@ export default class FarmView extends Component {
         this.state = {
             chickenHouses: arrayToMatrix(this.props.chickenHouses, this.farmSize),
             newChickenHouseDialogVisible: false,
+            workersDialogVisible: false,
             messages: [],
         };   
     }
 
     newChickenHouse() {
         this.setState({newChickenHouseDialogVisible: true, messages: []});
+    }
+
+    workers() {
+        this.setState({workersDialogVisible: true, messages: []});
     }
 
     addChickenHouse(size) {
@@ -63,12 +68,18 @@ export default class FarmView extends Component {
                     <SideButton title={'DODAJ KÓRNIK'} onClick={() => {this.newChickenHouse()}}/>
                     <SideButton title={'DODAJ KÓRNIK'} onClick={() => {this.newChickenHouse()}}/>
                     <SideButton title={'BIZNES'} onClick={() => {window.location.href='business'}}/>
+                    <SideButton title={'KADRA'} onClick={() => this.workers()}/>
                 </SideBarContainer>
                 {this.state.newChickenHouseDialogVisible && 
                 <NewChickenHouseDialog
                     messages={this.state.messages}
                     switchVisibility={() => {this.setState({newChickenHouseDialogVisible : !this.state.newChickenHouseDialogVisible, messages: []})}}
                     onSubmit={size => this.addChickenHouse(size)}/>}
+                {this.state.workersDialogVisible &&
+                <WorkersDialog
+                    messages={this.state.messages}
+                    switchVisibility={() => {this.setState({workersDialogVisible : !this.state.workersDialogVisible, messages: []})}}
+                    onSubmit={size => this.workers()}/>}
             </div>
         );
     }

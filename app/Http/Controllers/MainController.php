@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ChickenHouse;
+use App\Feeding;
+use App\Farmworker;
 use Log;
 use Validator;
 
@@ -100,6 +102,7 @@ class MainController extends Controller
         if($chickenhouse) {
             $success = true;
             try{
+                $feedings = Feeding::where('chickenhouse_id', $id)->delete();
                 $chickenhouse->delete();
             } catch(\Throwable $e) {
                 $success = false;
@@ -109,10 +112,10 @@ class MainController extends Controller
             if($success) {
                 return json_encode(['status' => 'success']);
             } else {
-                return json_encode(['status' => 'error']);            
+                return json_encode(['status' => 'error', 'messages' => ['Oszalałeś? A gdzie podzieją się te biedne kurczaki? Najpierw przenieś je do innych kurników lub zabij.']]);            
             }
         } else {
-            return json_encode(['status' => 'error']);
+            return json_encode(['status' => 'error', 'messages' => ['Kurnik nie istnieje']]);
         }
     }
 
@@ -125,5 +128,55 @@ class MainController extends Controller
         }
 
         return json_encode($chickenhousesIds);
+    }
+
+    public function getWorkers(Request $request) {
+        return json_encode(Farmworker::get());
+    }
+
+    public function updateWorkers(Request $request) {
+        $data = $request->all();
+        $newWorkers = $data['newWorkers'];
+        $updatedWorkers = $data['updatedWorkers'];
+        $deletedWorkers = $data['deletedWorkers'];
+
+        $success = true;
+        foreach($newWorkers as $worker) {
+            try {
+                if(array_key_exists('changed', $worker)) unset($worker['changed']);
+                Farmworker::insert($worker);
+            } catch(\Throwable $e) {
+                Log::info($e->getMessage());
+                $success = false;
+            }
+        }
+
+        foreach($updatedWorkers as $worker) {
+            try {
+                if(array_key_exists('changed', $worker)) unset($worker['changed']);
+                $oldWorker = Farmworker::find($worker['id']);
+                $oldWorker->update($worker);
+                $oldWorker->save();
+            } catch(\Throwable $e) {
+                Log::info($e->getMessage());
+                $success = false;
+            }
+        }
+
+        foreach($deletedWorkers as $worker) {
+            try {
+                $worker = Farmworker::find($worker);
+                $worker->delete();
+            } catch(\Throwable $e) {
+                Log::info($e->getMessage());
+                $success = false;
+            }
+        }
+        
+        if($success) {
+            return json_encode(['status' => 'success']);
+        } else {
+            return json_encode(['status' => 'error']);
+        }
     }
 }
