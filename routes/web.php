@@ -48,3 +48,5 @@ Route::get('/getEggsTotal/{id}', 'ChickenHouseController@getEggsTotal');
 Route::post('/registerEgg', 'ChickenHouseController@registerEgg');
 Route::get('/getWorkers', 'MainController@getWorkers');
 Route::post('/updateWorkers', 'MainController@updateWorkers');
+Route::get('/killAll/{id}', 'ChickenHouseController@killAll');
+Route::get('feedAll', 'MainController@feedAll');
