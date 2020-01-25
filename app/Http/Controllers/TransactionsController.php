@@ -57,24 +57,30 @@ class TransactionsController extends Controller
 					'product_id.required' => 'Pole produkt nie moze byc puste!'
 				];
 			
+			$validation2=true;
 			$validator2 = Validator::make($transactionItems[0], $rules2, $customMessages2);
 			$messagesTemp = $validator2->messages()->get('*');
 			$messages2 = array_merge($messages2,$messagesTemp);
-		
+			
+			if($validator2->fails())
+				$validation2=false;
+			
 		
 			$messagesTemp = [];
 			while($length>=1){
-				
 				$validator2 = Validator::make($transactionItems[$length], $rules2, $customMessages2);
+				
+				if($validator2->fails())
+				$validation2=false;
 				$length = $length - 1;
 				$messagesTemp = $validator2->messages()->get('*');
 				$messages2 = array_merge($messages2,$messagesTemp);
+				
 			}
 
 			$messages1 = [];
-			if ($validator1->fails()||$validator2->fails()) {
+			if ($validator1->fails()||$validation2==false) {
 				$messages1 = $validator1->messages()->get('*');
-				$messages2 = $validator2->messages()->get('*');
 				$messages = array_merge($messages1, $messages2);
 				Log::info($messages);
 				return json_encode(['status' => 'error', 'messages' => $messages]);
