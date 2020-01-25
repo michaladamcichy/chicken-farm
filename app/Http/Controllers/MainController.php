@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\ChickenHouse;
 use App\Feeding;
 use App\Farmworker;
+use App\ChickenhousesFarmworkers;
 use Log;
 use Validator;
 
@@ -73,7 +74,6 @@ class MainController extends Controller
 			return json_encode(['status' => 'error', 'messages' => $messages]);
         }
 		
-		
         $success = true;
         try{
             $chickenhouse = Chickenhouse::find($request['id']);
@@ -102,7 +102,8 @@ class MainController extends Controller
         if($chickenhouse) {
             $success = true;
             try{
-                $feedings = Feeding::where('chickenhouse_id', $id)->delete();
+                Feeding::where('chickenhouse_id', $id)->delete();
+                ChickenhousesFarmworkers::where('chickenhouse_id', $id)->delete();
                 $chickenhouse->delete();
             } catch(\Throwable $e) {
                 $success = false;

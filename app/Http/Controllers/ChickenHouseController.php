@@ -65,18 +65,22 @@ class ChickenHouseController extends Controller
     }
     
     public function killChicken($id) {
-        $chicken = Chicken::find($id);
-        $success = false;
+        try {
+            $chicken = Chicken::find($id);
+            $success = false;
 
-        if($chicken) {
-            $success = $chicken->delete();
+            if($chicken) {
+                Egg::where('chicken_id', $chicken['id'])->delete();
+                $success = $chicken->delete();
 
-            if($success) {
-                return json_encode(['status' => 'success', 'id' => $chicken->id]);
-            } else {
-                return json_encode(['status' => 'error']);            
+                if($success) {
+                    return json_encode(['status' => 'success', 'id' => $chicken->id]);
+                } else {
+                    return json_encode(['status' => 'error']);            
+                }
             }
-        } else {
+        } catch(\Throwable $e) {
+            Log::info($e->getMessage());
             return json_encode(['status' => 'error']);
         }
     }
@@ -250,9 +254,13 @@ class ChickenHouseController extends Controller
     }
 
     public function registerEgg(Request $request) {
-        $egg = $request->all();
+        try {
+            $egg = $request->all();
 
-        Egg::insert($egg);
+            Egg::insert($egg);
+        } catch(\Throwable $e) {
+            Log::info($e->getMessage());
+        }
 
         return Egg::where('chicken_id', $egg['chicken_id'])->count();
     }
