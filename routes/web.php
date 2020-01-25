@@ -44,3 +44,5 @@ Route::post('/addTransaction', 'TransactionsController@addTransaction');
 Route::get('/getTransactionItems/{id}', 'TransactionsController@getTransactionItems');
 Route::delete('/deleteTransaction/{id}', 'TransactionsController@deleteTransaction');
 Route::get('/getLastFeeding/{id}', 'ChickenHouseController@getLastFeeding');
+Route::get('/getEggsTotal/{id}', 'ChickenHouseController@getEggsTotal');
+Route::post('/registerEgg', 'ChickenHouseController@registerEgg');

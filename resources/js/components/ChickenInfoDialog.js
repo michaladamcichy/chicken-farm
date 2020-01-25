@@ -4,6 +4,7 @@ import DialogContainer from './DialogContainer';
 import FormRow from './FormRow';
 import {isEqual} from 'lodash';
 import axios from 'axios';
+import { getCurrentDate, getCurrentTime } from './utils';
 
 const styles = {
 }
@@ -25,6 +26,7 @@ export default class ChickenInfoDialog extends Component {
 
     componentDidMount() {
         this.getChickenhouses();
+        this.getEggsTotal();
     }
 
     getChickenhouses() {
@@ -34,6 +36,23 @@ export default class ChickenInfoDialog extends Component {
             chickenhousesIds.splice(chickenhousesIds.indexOf(this.state.chicken.chickenhouse_id), 1);
 
             this.setState({chickenhousesIds});
+        });
+    }
+
+    getEggsTotal() {
+        axios.get('/getEggsTotal/' + String(this.state.chicken.id)).then(response => {
+            response = response.data;
+
+            if(isNaN(response) == false) {
+                this.setState({eggsTotal: response});
+            }
+        });
+    }
+
+    addEgg() {
+        let egg = {chicken_id: this.state.chicken.id, date: getCurrentDate(), time: getCurrentTime()};
+        axios.post('/registerEgg', egg).then(response => {
+            this.setState({eggsTotal: response.data});
         });
     }
 
@@ -129,7 +148,10 @@ export default class ChickenInfoDialog extends Component {
                         </button>
                     </div>
                     <div class={'container col'}>
-                        <button type={'button'} class={'btn btn-success'}>{'Jajko!'}</button>
+                        <button onClick={() => this.addEgg()} type={'button'} class={'btn btn-success'}>{'Jajko!'}</button>
+                    </div>
+                    <div class={'container col'}>
+                        <h5> {this.state.eggsTotal || this.state.eggsTotal == 0 ? '[' + String(this.state.eggsTotal) + ']' : ''}</h5>
                     </div>
                     <div class={'container col'}>
                         <button type={'button'} class={'btn btn-danger'} onClick={() => this.onKillButtonClicked()}>{'Zabij'}</button>

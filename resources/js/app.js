@@ -45,3 +45,4 @@ require('./components/StoragerecordInfoDialog');
 require('./components/NewTransactionDialog');
 require('./components/TransactionInfoDialog');
 require('./components/TransactionItem');
+require('./components/WorkersDialog');

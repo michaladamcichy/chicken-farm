@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ChickenHouse;
+use App\Feeding;
 use Log;
 use Validator;
 
@@ -100,6 +101,7 @@ class MainController extends Controller
         if($chickenhouse) {
             $success = true;
             try{
+                $feedings = Feeding::where('chickenhouse_id', $id)->delete();
                 $chickenhouse->delete();
             } catch(\Throwable $e) {
                 $success = false;
@@ -109,10 +111,10 @@ class MainController extends Controller
             if($success) {
                 return json_encode(['status' => 'success']);
             } else {
-                return json_encode(['status' => 'error']);            
+                return json_encode(['status' => 'error', 'messages' => ['Oszalałeś? A gdzie podzieją się te biedne kurczaki? Najpierw przenieś je do innych kurników lub zabij.']]);            
             }
         } else {
-            return json_encode(['status' => 'error']);
+            return json_encode(['status' => 'error', 'messages' => ['Kurnik nie istnieje']]);
         }
     }
 
