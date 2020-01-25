@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 use App\ChickenHouse;
 use App\Feeding;
 use App\Farmworker;
-use App\ChickenhousesFarmworkers;
 use Log;
 use Validator;
+use App\User;
+use DB;
 
 class MainController extends Controller
 {
@@ -74,6 +75,7 @@ class MainController extends Controller
 			return json_encode(['status' => 'error', 'messages' => $messages]);
         }
 		
+		
         $success = true;
         try{
             $chickenhouse = Chickenhouse::find($request['id']);
@@ -102,8 +104,7 @@ class MainController extends Controller
         if($chickenhouse) {
             $success = true;
             try{
-                Feeding::where('chickenhouse_id', $id)->delete();
-                ChickenhousesFarmworkers::where('chickenhouse_id', $id)->delete();
+                $feedings = Feeding::where('chickenhouse_id', $id)->delete();
                 $chickenhouse->delete();
             } catch(\Throwable $e) {
                 $success = false;
@@ -141,8 +142,58 @@ class MainController extends Controller
         $updatedWorkers = $data['updatedWorkers'];
         $deletedWorkers = $data['deletedWorkers'];
 
+		$rules = [
+            'salary' => 'required|numeric|gt:0',
+			'first_name' => 'required|max:20',
+			'last_name' => 'required|max:20'
+        ];
+        $customMessages = [
+            'salary.gt' => 'Pensja nie moze byc ujemna ani rowna 0!',
+			'salary.numeric' => 'Pensja musi byc liczba!',
+			'first_name.required' => 'Pole imie nie moze byc puste',
+			'last_name.required' => 'Pole nazwisko kurczaka nie moze byc puste',
+			'salary.required' => 'Pole pensja nie moze byc puste',
+			'first_name.max' => 'Imie moze zawierac maksymalnie 20 znakow',
+			'last_name.max' => 'Nazwisko moze zawierac maksymalnie 20 znakow'
+        ];
+        $validator = NULL;
+		$messages = [];
+	
         $success = true;
+		$validation = true;
+		
+		foreach($newWorkers as $worker) {
+			$validator = Validator::make($worker, $rules, $customMessages);
+
+			if ($validator->fails()) {
+				$validation = false;
+				$messagesTemp = $validator->messages()->get('*');
+				Log::info($messages);
+				$messages = array_merge($messages, $messagesTemp);
+			}
+		}
+		
+		
+		foreach($updatedWorkers as $worker) {
+			$validator = Validator::make($worker, $rules, $customMessages);
+			
+			if ($validator->fails()) {
+				$validation = false;
+				$messagesTemp = $validator->messages()->get('*');
+				Log::info($messages);
+				$messages = array_merge($messages, $messagesTemp);
+			}
+		}
+		
+		if ($validation==false) {
+				Log::info($messages);
+				return json_encode(['status' => 'error', 'messages' => $messages]);
+			}
+		
+		
         foreach($newWorkers as $worker) {
+			
+			
             try {
                 if(array_key_exists('changed', $worker)) unset($worker['changed']);
                 Farmworker::insert($worker);
@@ -153,6 +204,9 @@ class MainController extends Controller
         }
 
         foreach($updatedWorkers as $worker) {
+			
+			
+			
             try {
                 if(array_key_exists('changed', $worker)) unset($worker['changed']);
                 $oldWorker = Farmworker::find($worker['id']);
@@ -165,6 +219,8 @@ class MainController extends Controller
         }
 
         foreach($deletedWorkers as $worker) {
+			
+			
             try {
                 $worker = Farmworker::find($worker);
                 $worker->delete();
@@ -177,12 +233,28 @@ class MainController extends Controller
         if($success) {
             return json_encode(['status' => 'success']);
         } else {
-            return json_encode(['status' => 'error']);
+            return json_encode(['status' => 'error', 'messages' => ['Nie mozna usunac pracownika poniewaz jest on juz zwiazany z jakims kurnikiem, usun go z listy odpowiedzialnych za kurnik osob przed proba usuniecia go calkowicie']]);
         }
     }
-
-    public function feedAll() {
-        //
-        return json_encode(['status' => 'success']);
+	
+	 public function feedAll() {
+		$success = true;
+		try{
+			$model = new User();
+			$user = $model->hydrate(
+				DB::select(
+					'call FeedWholeFarm()'
+				));
+		}
+		catch(\Throwable $e) {
+                Log::info($e->getMessage());
+                $success = false;
+            }
+	
+        if($success) {
+            return json_encode(['status' => 'success']);
+        } else {
+            return json_encode(['status' => 'error', 'messages' => ['Nie udalo sie nakarmic kurczakow']]);
+        }
     }
 }

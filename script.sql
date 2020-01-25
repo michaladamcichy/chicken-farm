@@ -86,32 +86,36 @@ DETERMINISTIC
  	SELECT COUNT(*)
  	INTO vChickensNumber
  	FROM Chickens
- 	WHERE id_House = pIdHouse;
+ 	WHERE chickenhouse_id = pIdHouse;
 
+	DELETE FROM Eggs
+    WHERE chicken_id IN (SELECT id from chickens WHERE chickenhouse_id = pIdHouse);
+    
  	DELETE FROM Chickens
- 	WHERE id_House = pIdHouse;
+ 	WHERE chickenhouse_id = pIdHouse;
+    
  	RETURN vChickensNumber;
   END$$
 DELIMITER ;
 
 
+
 DELIMITER $$
-CREATE PROCEDURE FeedWholeFarm
- 	(pFodderAmount INT) 
+CREATE PROCEDURE FeedWholeFarm()
 BEGIN
 	DECLARE Co INT DEFAULT 0;
 	DECLARE MAX INT;
- 	SELECT COUNT(*) INTO MAX FROM ChickenHouses;
+ 	SELECT COUNT(*) INTO MAX FROM chickenhouses;
  
  	WHILE Co < MAX DO
 		INSERT INTO Feedings VALUES(CURRENT_DATE,CURRENT_TIME,
-		pFodderAmount, (SELECT id_House FROM ChickenHouses ORDER BY id_House LIMIT Co,1));
+		5, (SELECT id FROM chickenhouses ORDER BY id LIMIT Co,1));
 		SET Co = Co + 1;
 	END WHILE;
 END$$
 DELIMITER ;
 
-DROP INDEX ch_id_idx ON chickenhouses;
+
 CREATE INDEX custom_name_idx ON customers(name);
 CREATE INDEX prod_name_idx ON products(name);
 
