@@ -56,7 +56,7 @@ class StorageController extends Controller
         if($success == true) {
             return json_encode($storagerecord);
         } else {
-            return json_encode(['status' => 'error', 'message' => ['Nie udalo sie utworzyc wypisu w historii magazynu']]);
+            return json_encode(['status' => 'error', 'messages' => ['Nie udalo sie utworzyc wypisu w historii magazynu']]);
         }
     }
 

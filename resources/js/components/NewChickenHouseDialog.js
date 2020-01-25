@@ -10,7 +10,9 @@ export default class NewChickenHouseDialog extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {size : 16}
+        this.state = {
+            size : 16,
+        }
     }
 
     onSubmit() {
@@ -20,6 +22,7 @@ export default class NewChickenHouseDialog extends Component {
     render() {
         return (
             <DialogContainer
+                messages={this.props.messages}
                 title={'Nowy kórnik'}
                 switchVisibility={() => this.props.switchVisibility()}
                 onSubmit={() => this.onSubmit()}>
