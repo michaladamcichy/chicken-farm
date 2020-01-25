@@ -101,8 +101,7 @@ DELIMITER ;
 
 
 DELIMITER $$
-CREATE PROCEDURE FeedWholeFarm
- 	(pFodderAmount INT) 
+CREATE PROCEDURE FeedWholeFarm()
 BEGIN
 	DECLARE Co INT DEFAULT 0;
 	DECLARE MAX INT;
@@ -110,13 +109,13 @@ BEGIN
  
  	WHILE Co < MAX DO
 		INSERT INTO Feedings VALUES(CURRENT_DATE,CURRENT_TIME,
-		pFodderAmount, (SELECT id FROM chickenhouses ORDER BY id LIMIT Co,1));
+		5, (SELECT id FROM chickenhouses ORDER BY id LIMIT Co,1));
 		SET Co = Co + 1;
 	END WHILE;
 END$$
 DELIMITER ;
 
-DROP FUNCTION KillWholeChickenHouse;
+DROP PROCEDURE FeedWholeFarm;
 
 CREATE INDEX custom_name_idx ON customers(name);
 CREATE INDEX prod_name_idx ON products(name);

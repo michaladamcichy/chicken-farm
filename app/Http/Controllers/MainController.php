@@ -8,6 +8,8 @@ use App\Feeding;
 use App\Farmworker;
 use Log;
 use Validator;
+use App\User;
+use DB;
 
 class MainController extends Controller
 {
@@ -236,7 +238,23 @@ class MainController extends Controller
     }
 	
 	 public function feedAll() {
-        //
-        return json_encode(['status' => 'success']);
+		$success = true;
+		try{
+			$model = new User();
+			$user = $model->hydrate(
+				DB::select(
+					'call FeedWholeFarm()'
+				));
+		}
+		catch(\Throwable $e) {
+                Log::info($e->getMessage());
+                $success = false;
+            }
+	
+        if($success) {
+            return json_encode(['status' => 'success']);
+        } else {
+            return json_encode(['status' => 'error', 'messages' => ['Nie udalo sie nakarmic kurczakow']]);
+        }
     }
 }
