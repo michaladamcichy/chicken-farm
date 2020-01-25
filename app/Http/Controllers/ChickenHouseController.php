@@ -8,6 +8,7 @@ use App\Chickenhouse;
 use App\Feeding;
 use App\Farmworker;
 use App\ChickenhousesFarmworkers;
+use App\Egg;
 use Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
@@ -63,7 +64,7 @@ class ChickenHouseController extends Controller
 		}
     }
     
-    public function killChicken($id) { //ALERT dodać try catche tak jak w deleteChickenhouse 
+    public function killChicken($id) {
         $chicken = Chicken::find($id);
         $success = false;
 
@@ -242,7 +243,17 @@ class ChickenHouseController extends Controller
         } else {
             return json_encode($lastFeeding);
         }
+    }
 
+    public function getEggsTotal($id) {
+        return Egg::where('chicken_id', $id)->count();
+    }
 
+    public function registerEgg(Request $request) {
+        $egg = $request->all();
+
+        Egg::insert($egg);
+
+        return Egg::where('chicken_id', $egg['chicken_id'])->count();
     }
 }
