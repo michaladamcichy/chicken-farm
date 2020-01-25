@@ -46,3 +46,5 @@ Route::delete('/deleteTransaction/{id}', 'TransactionsController@deleteTransacti
 Route::get('/getLastFeeding/{id}', 'ChickenHouseController@getLastFeeding');
 Route::get('/getEggsTotal/{id}', 'ChickenHouseController@getEggsTotal');
 Route::post('/registerEgg', 'ChickenHouseController@registerEgg');
+Route::get('/getWorkers', 'MainController@getWorkers');
+Route::post('/updateWorkers', 'MainController@updateWorkers');
