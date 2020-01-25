@@ -343,13 +343,6 @@ export default class BusinessView extends Component {
                     </div>
                 </div>
 
-                <SideBarContainer>
-                    <SideButton title={'NOWY KLIENT'} onClick={() => {}}/>
-                    <SideButton title={'NOWY PRODUKT'} onClick={() => {}}/>
-                    <SideButton title={'NOWA TRANS.'} onClick={() => {}}/>
-                    <SideButton title={'NOWY WPIS MAG.'} onClick={() => {}}/>
-                </SideBarContainer>
-
                 {this.state.newProductDialogVisible &&
                 <NewProductDialog messages={this.state.messages} onProductAdded={chicken => this.onProductAdded(chicken)} switchVisibility={() => this.setState({newProductDialogVisible: !this.state.newProductDialogVisible, messages: []})} />}
                 {this.state.newCustomerDialogVisible &&

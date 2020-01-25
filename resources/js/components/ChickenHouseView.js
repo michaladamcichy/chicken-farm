@@ -195,6 +195,7 @@ export default class ChickenHouseView extends Component {
             if(response.status && response.status == 'error') {
                 alert('Nie udało się odnotować zabicia kurczaków');
             } else {
+                alert('Odnotowano zabicie ' + String(response.chickens_count) + ' kurczaków');
                 this.setState({chickens: [[]]});
             }
         });
@@ -213,7 +214,6 @@ export default class ChickenHouseView extends Component {
                     <SideButton title={'NAKARM KURCZAKI'} onClick={() => this.feeding()}/>
                     <SideButton title={'MUZYKA'} onClick={() => this.switchMusic()}/>
                     <SideButton title={'ZMIEŃ OSOBY ODP.'} onClick={() => this.changeDuty()}/>
-                    <SideButton title={'HISTORIA KARMIENIA'}/>
                     <SideButton title={'USTAWIENIA KÓRNIKA'} onClick={() => this.editChickenHouse()}/>
                     <SideButton title={'ZABIJ WSZYSTKIE'} onClick={() => this.killAll()}/>
                 </SideBarContainer>

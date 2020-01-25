@@ -59,9 +59,10 @@ export default class FarmView extends Component {
     feedAll() {
         axios.get('/feedAll').then(response => {
             response = response.data;
-            
             if(response.status && response.status == 'error') {
                 alert('Wielkie karmienie zakończone niepowodzeniem');
+            } else {
+                alert('Odnotowano wielkie karmienie!');
             }
         });
     }
