@@ -234,4 +234,9 @@ class MainController extends Controller
             return json_encode(['status' => 'error', 'messages' => ['Nie mozna usunac pracownika poniewaz jest on juz zwiazany z jakims kurnikiem, usun go z listy odpowiedzialnych za kurnik osob przed proba usuniecia go calkowicie']]);
         }
     }
+	
+	 public function feedAll() {
+        //
+        return json_encode(['status' => 'success']);
+    }
 }

@@ -88,8 +88,12 @@ DETERMINISTIC
  	FROM Chickens
  	WHERE chickenhouse_id = pIdHouse;
 
+	DELETE FROM Eggs
+    WHERE chicken_id IN (SELECT id from chickens WHERE chickenhouse_id = pIdHouse);
+    
  	DELETE FROM Chickens
  	WHERE chickenhouse_id = pIdHouse;
+    
  	RETURN vChickensNumber;
   END$$
 DELIMITER ;
@@ -112,7 +116,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE FeedWholeFarm;
+DROP FUNCTION KillWholeChickenHouse;
 
 CREATE INDEX custom_name_idx ON customers(name);
 CREATE INDEX prod_name_idx ON products(name);

@@ -13,6 +13,7 @@ use Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Input;
+use DB;
 
 class ChickenHouseController extends Controller
 {
@@ -269,7 +270,23 @@ class ChickenHouseController extends Controller
     }
 
     public function killAll($id) {
-        //
-        return json_encode(['status' => 'success']);
+		$success = true;
+		try{
+			$results = DB::select('select KillWholeChickenHouse(:id) as frags from dual', ['id' => $id]);
+			foreach ($results as $result) {
+				$frags = $result->frags;
+			}
+		}
+		catch(\Throwable $e){
+            Log::info($e->getMessage());
+			$success = false;
+        }
+		
+		if($success == false) {
+            return json_encode(['status' => 'success',  'chickens_count' => $frags]);
+        } else {
+            return json_encode(['status' => 'success', 'messages' => ['Cos poszlo nie tak']]);
+        }
+        
     }
 }
