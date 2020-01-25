@@ -180,4 +180,9 @@ class MainController extends Controller
             return json_encode(['status' => 'error']);
         }
     }
+
+    public function feedAll() {
+        //
+        return json_encode(['status' => 'success']);
+    }
 }

@@ -55,6 +55,16 @@ export default class FarmView extends Component {
             }
         }); 
     }
+
+    feedAll() {
+        axios.get('/feedAll').then(response => {
+            response = response.data;
+            
+            if(response.status && response.status == 'error') {
+                alert('Wielkie karmienie zakończone niepowodzeniem');
+            }
+        });
+    }
     
     render() {
         return (
@@ -69,6 +79,7 @@ export default class FarmView extends Component {
                     <SideButton title={'DODAJ KÓRNIK'} onClick={() => {this.newChickenHouse()}}/>
                     <SideButton title={'BIZNES'} onClick={() => {window.location.href='business'}}/>
                     <SideButton title={'KADRA'} onClick={() => this.workers()}/>
+                    <SideButton title={'WIELKIE\nKARMIENIE'} onClick={() => this.feedAll()}/>
                 </SideBarContainer>
                 {this.state.newChickenHouseDialogVisible && 
                 <NewChickenHouseDialog

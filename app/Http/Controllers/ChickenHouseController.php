@@ -264,4 +264,9 @@ class ChickenHouseController extends Controller
 
         return Egg::where('chicken_id', $egg['chicken_id'])->count();
     }
+
+    public function killAll($id) {
+        //
+        return json_encode(['status' => 'success']);
+    }
 }
