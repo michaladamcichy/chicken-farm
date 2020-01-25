@@ -115,7 +115,6 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE FeedWholeFarm;
 
 CREATE INDEX custom_name_idx ON customers(name);
 CREATE INDEX prod_name_idx ON products(name);
