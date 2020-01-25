@@ -107,12 +107,20 @@ class ProductsController extends Controller
         $success = false;
 
         if($product) {
+			try{
             $success = $product->delete();
-
+			}
+			catch(\Throwable $e){
+				Log::info(['Nie mozna usunac produktu poniewaz jest on juz zwiazany z transakcja lub jest wykorzystywany w historii magazynu']);
+			}
+			
+			
             if($success) {
                 return json_encode(['status' => 'success', 'id' => $product->id]);
             } else {
-                return json_encode(['status' => 'error']);            
+				
+                return json_encode(['status' => 'error', 'messages' => ['Nie mozna usunac produktu poniewaz
+				jest on juz zwiazany z transakcja lub jest wykorzystywany w historii magazynu']]);            
             }
         } else {
             return json_encode(['status' => 'error']);

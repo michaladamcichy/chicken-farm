@@ -67,8 +67,9 @@ class ChickenHouseController extends Controller
     public function killChicken($id) {
         $chicken = Chicken::find($id);
         $success = false;
-
+		
         if($chicken) {
+			Egg::where('chicken_id', $id)->delete();
             $success = $chicken->delete();
 
             if($success) {
