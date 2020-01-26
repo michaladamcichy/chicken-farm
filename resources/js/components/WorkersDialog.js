@@ -8,9 +8,7 @@ import isEqual from 'lodash';
 
 const styles = {
     input: {
-        maxWidth: '60px',
-        marginLeft: 0,
-        marginRight: 0,
+        maxWidth: '80px',
     }
 }
 
@@ -40,7 +38,7 @@ export default class WorkersDialog extends Component {
             if(response.status && response.status == 'error') {
                 console.log('cannot fetch workers');
             } else {
-                let workers = response;
+                let workers = response.slice();
                 this.setState({workers: workers.slice(), originalWorkers: workers.slice()});
             }
         });
@@ -51,13 +49,16 @@ export default class WorkersDialog extends Component {
         let updatedWorkers = this.state.workers.filter(item => item.id && item.changed);
         let deletedWorkers = this.state.deleted;
 
+        console.log(newWorkers);
+        console.log(updatedWorkers);
+        console.log(deletedWorkers);
+
         let data = {newWorkers, updatedWorkers, deletedWorkers};
         axios.post('/updateWorkers', data).then(response => {
             response = response.data;
             if(response.status && response.status == 'error' && response.messages) {
                 this.setState({messages: Object.values(response.messages).flat()});
             } else {
-                console.log(response);
                 this.props.switchVisibility();
             }
         });
@@ -96,7 +97,7 @@ export default class WorkersDialog extends Component {
                             <span class={'col badge badge-success'}><h5>{'Pensja'}</h5></span>
                         </div>
                     {this.state.workers.map((worker, index) => {
-                        return <div class={'row'}>
+                        return <div class={'row formRow'}>
                                         <div class={'col'}>
                                             <input onChange={event => {
                                                 let workers = this.state.workers;
@@ -148,11 +149,23 @@ export default class WorkersDialog extends Component {
                     <hr />
                     <div class={'container row formRow'}>
                         <div class={'col'}>
-                            <button onClick={() => {let text = '';
-                            if(this.state.editable)
-                                text = 'Edytuj';
-                            else text = 'Anuluj edytowanie';
-                            this.setState({editable: !this.state.editable, editButtonText: text})}} class={'btn btn-warning'}> {this.state.editButtonText} </button>
+                            <button onClick={() => {
+                                let text = '';
+                                let workers;
+                                console.log(this.state.originalWorkers);
+                                if(this.state.editable) {
+                                    console.log('1');
+                                    text = 'Edytuj';
+                                    this.setState({editable: !this.state.editable, editButtonText: text})
+                                }
+                                else {
+                                    console.log('2');
+                                    text = 'Anuluj edytowanie';
+                                    this.setState({editable: !this.state.editable, editButtonText: text});
+                                }
+                                //console.log(workers);
+                            }}
+                            class={'btn btn-warning'}> {this.state.editButtonText} </button>
                         </div>
                     </div>
                     <hr />

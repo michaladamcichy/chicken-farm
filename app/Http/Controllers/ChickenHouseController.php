@@ -282,10 +282,10 @@ class ChickenHouseController extends Controller
 			$success = false;
         }
 		
-		if($success == false) {
+		if($success) {
             return json_encode(['status' => 'success',  'chickens_count' => $frags]);
         } else {
-            return json_encode(['status' => 'success', 'messages' => ['Cos poszlo nie tak']]);
+            return json_encode(['status' => 'error', 'messages' => ['Cos poszlo nie tak']]);
         }
         
     }
