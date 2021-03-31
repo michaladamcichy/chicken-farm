@@ -1,45 +1,6 @@
----------------
-ChickenFarmView
----------------
+Chicken farm management web app.
 
-Kurniki od góry oraz magazyn
+Manage chickenhouses, chicken, record eggs laid, worker's duties and meatshop.
+It's not a game, it's a management app, but it has funny cartoonish graphics.
 
-2 przyciski na każdym kórniku: usuń, wejdź (przechodzi do ChickenHouseView)
-
-Panel boczny z opcjami:
--
-    dodaj kurnik -> panel dialogowy z rozmiarem kurnika
-    jeszcze jakieś na pewno dojdą
-
-----------------
-ChickenHouseView
-----------------
-
-Kurczaki od góry
-
-Panel boczny:
--
-    statystyki kurnika
-    dodaj kurczaka
-    nakarm kurczaki
-    włącz muzykę
-    zmień pracowników odpowiedzialnych
-Po kliknięciu kurczaka pojawia się panel dialogowy:
--
-    dane kurczaka
-    statystyki kurczaka
-    operacje:
-    odnotuj zniesienie jajka
-    edytuj masę
-    zabij
-    przenieś do innego kórnika
------------
-StorageView
------------
-    pokazany bieżący stan magazynu
-    dodaj transakcję
-    dodaj StorageRecord
-    dodajProdukt
-    edytujProdukt
-    dodaj klienta
-    edytujKlienta
+![image](https://user-images.githubusercontent.com/33597927/113150960-ebfb4600-9234-11eb-8620-2dc329345e70.png)
