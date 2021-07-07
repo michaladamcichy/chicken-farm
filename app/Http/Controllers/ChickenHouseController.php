@@ -8,10 +8,12 @@ use App\Chickenhouse;
 use App\Feeding;
 use App\Farmworker;
 use App\ChickenhousesFarmworkers;
+use App\Egg;
 use Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Input;
+use DB;
 
 class ChickenHouseController extends Controller
 {
@@ -63,19 +65,26 @@ class ChickenHouseController extends Controller
 		}
     }
     
-    public function killChicken($id) { //ALERT dodać try catche tak jak w deleteChickenhouse 
+    public function killChicken($id) {
         $chicken = Chicken::find($id);
         $success = false;
+		
+        try {
+            $chicken = Chicken::find($id);
+            $success = false;
 
-        if($chicken) {
-            $success = $chicken->delete();
+            if($chicken) {
+                Egg::where('chicken_id', $chicken['id'])->delete();
+                $success = $chicken->delete();
 
-            if($success) {
-                return json_encode(['status' => 'success', 'id' => $chicken->id]);
-            } else {
-                return json_encode(['status' => 'error']);            
+                if($success) {
+                    return json_encode(['status' => 'success', 'id' => $chicken->id]);
+                } else {
+                    return json_encode(['status' => 'error']);            
+                }
             }
-        } else {
+        } catch(\Throwable $e) {
+            Log::info($e->getMessage());
             return json_encode(['status' => 'error']);
         }
     }
@@ -242,7 +251,42 @@ class ChickenHouseController extends Controller
         } else {
             return json_encode($lastFeeding);
         }
+    }
 
+    public function getEggsTotal($id) {
+        return Egg::where('chicken_id', $id)->count();
+    }
 
+    public function registerEgg(Request $request) {
+        try {
+            $egg = $request->all();
+
+            Egg::insert($egg);
+        } catch(\Throwable $e) {
+            Log::info($e->getMessage());
+        }
+
+        return Egg::where('chicken_id', $egg['chicken_id'])->count();
+    }
+
+    public function killAll($id) {
+		$success = true;
+		try{
+			$results = DB::select('select KillWholeChickenHouse(:id) as frags from dual', ['id' => $id]);
+			foreach ($results as $result) {
+				$frags = $result->frags;
+			}
+		}
+		catch(\Throwable $e){
+            Log::info($e->getMessage());
+			$success = false;
+        }
+		
+		if($success) {
+            return json_encode(['status' => 'success',  'chickens_count' => $frags]);
+        } else {
+            return json_encode(['status' => 'error', 'messages' => ['Cos poszlo nie tak']]);
+        }
+        
     }
 }

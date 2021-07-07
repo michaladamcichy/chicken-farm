@@ -44,8 +44,6 @@ export default class ChickenHouseView extends Component {
             dancing: false,
             messages: [],
         };   
-
-        console.log('ChickenHouseView' + String(this.props.chickenhouseId));
     }
 
     newChicken() {
@@ -78,7 +76,7 @@ export default class ChickenHouseView extends Component {
                 chickens = arrayToMatrix(chickens, this.chickenHouseSize);
                 this.setState({chickens, chickenInfoDialogVisible: false, messages: []});
             } else {
-                if(typeof response.messages != undefined) {
+                if(response.messages) {
                     this.setState({messages: Object.values(response.messages).flat()});
                 }
             }
@@ -89,8 +87,8 @@ export default class ChickenHouseView extends Component {
         axios.post('/updateChicken', chicken).then(response => {
             response = response.data;
 
-            if(typeof response != undefined && response.status == 'error') {
-                if(typeof response.messages != undefined) {
+            if(response.status && response.status == 'error') {
+                if(response.messages) {
                     this.setState({messages: Object.values(response.messages).flat()});
                 }
             } else {
@@ -100,7 +98,7 @@ export default class ChickenHouseView extends Component {
                 for(let i=0; i<chickens.length; i++) {
                     if(chickens[i].id == chicken.id) {
                         chickens[i] = chicken;
-                        this.setState({chickens : arrayToMatrix(chickens, this.chickenHouseSize), messages: []});
+                        this.setState({chickens : arrayToMatrix(chickens, this.chickenHouseSize), chickenInfoDialogVisible: false, messages: []});
                         break;
                     }
                 }
@@ -112,7 +110,7 @@ export default class ChickenHouseView extends Component {
         axios.post('/addChicken', chicken).then(response => {
             response = response.data;
 
-            if(typeof response.status != undefined && response.status == 'error') {
+            if(response.status && response.status == 'error') {
                 console.log('nie udalo sie dodac kurczaka');
                 this.setState({messages: Object.values(response.messages).flat()});
             } else {
@@ -132,7 +130,7 @@ export default class ChickenHouseView extends Component {
                 response = response.data;
                 
                 if(typeof response != undefined && response.status == 'error') {
-                    if(typeof response.messages != undefined) {
+                    if(response.messages) {
                         this.setState({messages: Object.values(response.messages).flat()});
                     }
                 } else {
@@ -148,7 +146,7 @@ export default class ChickenHouseView extends Component {
             response = response.data;
             
             if(typeof response != undefined && response.status == 'error') {
-                if(typeof response.messages != undefined) {
+                if(response.messages) {
                     this.setState({messages: Object.values(response.messages).flat()});
                 }
             } else {
@@ -163,7 +161,7 @@ export default class ChickenHouseView extends Component {
             response = response.data;
 
             if(typeof response != undefined && response.status == 'error') {
-                if(typeof response.messages != undefined) {
+                if(response.messages) {
                     this.setState({messages: Object.values(response.messages).flat()});
                 }
             } else {
@@ -189,6 +187,19 @@ export default class ChickenHouseView extends Component {
         chickens = arrayToMatrix(chickens, this.chickenHouseSize);
         this.setState({chickens, chickenInfoDialogVisible: false, messages: []});
     }
+
+    killAll() {
+        axios.get('/killAll/' + String(this.state.id)).then(response => {
+            response = response.data;
+            
+            if(response.status && response.status == 'error') {
+                alert('Nie udało się odnotować zabicia kurczaków');
+            } else {
+                alert('Odnotowano zabicie ' + String(response.chickens_count) + ' kurczaków');
+                this.setState({chickens: [[]]});
+            }
+        });
+    }
     
     render() {
         return (
@@ -203,8 +214,8 @@ export default class ChickenHouseView extends Component {
                     <SideButton title={'NAKARM KURCZAKI'} onClick={() => this.feeding()}/>
                     <SideButton title={'MUZYKA'} onClick={() => this.switchMusic()}/>
                     <SideButton title={'ZMIEŃ OSOBY ODP.'} onClick={() => this.changeDuty()}/>
-                    <SideButton title={'HISTORIA KARMIENIA'}/>
                     <SideButton title={'USTAWIENIA KÓRNIKA'} onClick={() => this.editChickenHouse()}/>
+                    <SideButton title={'ZABIJ WSZYSTKIE'} onClick={() => this.killAll()}/>
                 </SideBarContainer>
                 {this.state.newChickenDialogVisible &&
                 <NewChickenDialog messages={this.state.messages} onChickenAdded={chicken => this.onChickenAdded(chicken)} chickenhouseId={this.state.id} switchVisibility={() => this.setState({newChickenDialogVisible: !this.state.newChickenDialogVisible})} />}

@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ChickenHouse;
+use App\Feeding;
+use App\Farmworker;
 use Log;
 use Validator;
+use App\User;
+use DB;
 
 class MainController extends Controller
 {
@@ -25,7 +29,7 @@ class MainController extends Controller
 			'size.numeric' => 'Liczba grzed musi byc liczba!',
 			'size.required' => 'Pole liczba grzed nie moze byc puste!'
         ];
-        $validator = Validator::make($chickenHouses, $rules, $customMessages);
+        $validator = Validator::make($chickenhouse, $rules, $customMessages);
 
         $messages = [];
         if ($validator->fails()) {
@@ -34,7 +38,6 @@ class MainController extends Controller
 			return json_encode(['status' => 'error', 'messages' => $messages]);
         }
 		
-
         $id = null;
         $success = true;
         try{
@@ -101,6 +104,7 @@ class MainController extends Controller
         if($chickenhouse) {
             $success = true;
             try{
+                $feedings = Feeding::where('chickenhouse_id', $id)->delete();
                 $chickenhouse->delete();
             } catch(\Throwable $e) {
                 $success = false;
@@ -110,10 +114,10 @@ class MainController extends Controller
             if($success) {
                 return json_encode(['status' => 'success']);
             } else {
-                return json_encode(['status' => 'error']);            
+                return json_encode(['status' => 'error', 'messages' => ['Oszalałeś? A gdzie podzieją się te biedne kurczaki? Najpierw przenieś je do innych kurników lub zabij.']]);            
             }
         } else {
-            return json_encode(['status' => 'error']);
+            return json_encode(['status' => 'error', 'messages' => ['Kurnik nie istnieje']]);
         }
     }
 
@@ -126,5 +130,131 @@ class MainController extends Controller
         }
 
         return json_encode($chickenhousesIds);
+    }
+
+    public function getWorkers(Request $request) {
+        return json_encode(Farmworker::get());
+    }
+
+    public function updateWorkers(Request $request) {
+        $data = $request->all();
+        $newWorkers = $data['newWorkers'];
+        $updatedWorkers = $data['updatedWorkers'];
+        $deletedWorkers = $data['deletedWorkers'];
+
+		$rules = [
+            'salary' => 'required|numeric|gt:0',
+			'first_name' => 'required|max:20',
+			'last_name' => 'required|max:20'
+        ];
+        $customMessages = [
+            'salary.gt' => 'Pensja nie moze byc ujemna ani rowna 0!',
+			'salary.numeric' => 'Pensja musi byc liczba!',
+			'first_name.required' => 'Pole imie nie moze byc puste',
+			'last_name.required' => 'Pole nazwisko kurczaka nie moze byc puste',
+			'salary.required' => 'Pole pensja nie moze byc puste',
+			'first_name.max' => 'Imie moze zawierac maksymalnie 20 znakow',
+			'last_name.max' => 'Nazwisko moze zawierac maksymalnie 20 znakow'
+        ];
+        $validator = NULL;
+		$messages = [];
+	
+        $success = true;
+		$validation = true;
+		
+		foreach($newWorkers as $worker) {
+			$validator = Validator::make($worker, $rules, $customMessages);
+
+			if ($validator->fails()) {
+				$validation = false;
+				$messagesTemp = $validator->messages()->get('*');
+				Log::info($messages);
+				$messages = array_merge($messages, $messagesTemp);
+			}
+		}
+		
+		
+		foreach($updatedWorkers as $worker) {
+			$validator = Validator::make($worker, $rules, $customMessages);
+			
+			if ($validator->fails()) {
+				$validation = false;
+				$messagesTemp = $validator->messages()->get('*');
+				Log::info($messages);
+				$messages = array_merge($messages, $messagesTemp);
+			}
+		}
+		
+		if ($validation==false) {
+				Log::info($messages);
+				return json_encode(['status' => 'error', 'messages' => $messages]);
+			}
+		
+		
+        foreach($newWorkers as $worker) {
+			
+			
+            try {
+                if(array_key_exists('changed', $worker)) unset($worker['changed']);
+                Farmworker::insert($worker);
+            } catch(\Throwable $e) {
+                Log::info($e->getMessage());
+                $success = false;
+            }
+        }
+
+        foreach($updatedWorkers as $worker) {
+			
+			
+			
+            try {
+                if(array_key_exists('changed', $worker)) unset($worker['changed']);
+                $oldWorker = Farmworker::find($worker['id']);
+                $oldWorker->update($worker);
+                $oldWorker->save();
+            } catch(\Throwable $e) {
+                Log::info($e->getMessage());
+                $success = false;
+            }
+        }
+
+        foreach($deletedWorkers as $worker) {
+			
+			
+            try {
+                $worker = Farmworker::find($worker);
+                $worker->delete();
+            } catch(\Throwable $e) {
+                Log::info($e->getMessage());
+                $success = false;
+            }
+        }
+        
+        if($success) {
+            return json_encode(['status' => 'success']);
+        } else {
+            return json_encode(['status' => 'error', 'messages' => ['Nie mozna usunac pracownika poniewaz jest on juz zwiazany z jakims kurnikiem, usun go z listy odpowiedzialnych za kurnik osob przed proba usuniecia go calkowicie']]);
+        }
+    }
+	
+	 public function feedAll() {
+		$success = true;
+		try{
+			$model = new User();
+			$user = $model->hydrate(
+				DB::select(
+					'call FeedWholeFarm()'
+				));
+		}
+		catch(\Throwable $e) {
+                Log::info($e->getMessage());
+                $success = false;
+            }
+	
+        if($success) {
+            return json_encode(['status' => 'success']);
+        } else {
+            return json_encode(['status' => 'error', 'messages' => ['Nie udalo sie nakarmic kurczakow']]);
+        }
     }
 }

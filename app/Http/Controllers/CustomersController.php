@@ -90,12 +90,18 @@ class CustomersController extends Controller
         $success = false;
 
         if($customer) {
-            $success = $customer->delete();
+			try{
+				$success = $customer->delete();
+			}
+			catch(\Throwable $e){
+				Log::info(['Nie mozna usunac produktu poniewaz jest on juz zwiazany z transakcja']);
+			}
 
             if($success) {
                 return json_encode(['status' => 'success', 'id' => $customer->id]);
             } else {
-                return json_encode(['status' => 'error']);            
+                return json_encode(['status' => 'error', 'messages' => ['Nie mozna usunac klienta poniewaz
+				jest on juz zwiazany z jakas transakcja'] ]);            
             }
         } else {
             return json_encode(['status' => 'error']);

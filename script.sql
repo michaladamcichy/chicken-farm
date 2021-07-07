@@ -74,7 +74,53 @@ worker_id INT NOT NULL,
 FOREIGN KEY(worker_id) REFERENCES FarmWorkers(id),
 CONSTRAINT ChickenHouses_Workers_PK PRIMARY KEY(chickenhouse_id,worker_id)
 );
+
+DELIMITER $$
+CREATE FUNCTION KillWholeChickenHouse
+(pIdHouse INT) 
+RETURNS INT
+DETERMINISTIC
+  BEGIN
+	DECLARE vChickensNumber INT;
+    
+ 	SELECT COUNT(*)
+ 	INTO vChickensNumber
+ 	FROM Chickens
+ 	WHERE chickenhouse_id = pIdHouse;
+
+	DELETE FROM Eggs
+    WHERE chicken_id IN (SELECT id from chickens WHERE chickenhouse_id = pIdHouse);
+    
+ 	DELETE FROM Chickens
+ 	WHERE chickenhouse_id = pIdHouse;
+    
+ 	RETURN vChickensNumber;
+  END$$
+DELIMITER ;
+
+
+
+DELIMITER $$
+CREATE PROCEDURE FeedWholeFarm()
+BEGIN
+	DECLARE Co INT DEFAULT 0;
+	DECLARE MAX INT;
+ 	SELECT COUNT(*) INTO MAX FROM chickenhouses;
+ 
+ 	WHILE Co < MAX DO
+		INSERT INTO Feedings VALUES(CURRENT_DATE,CURRENT_TIME,
+		5, (SELECT id FROM chickenhouses ORDER BY id LIMIT Co,1));
+		SET Co = Co + 1;
+	END WHILE;
+END$$
+DELIMITER ;
+
+
+CREATE INDEX custom_name_idx ON customers(name);
+CREATE INDEX prod_name_idx ON products(name);
+
 /*
 DROP TABLE  eggs, chickens, chicken.`customers`, chicken.`chickenhouses_farmworkers`, chicken.`feedings`, chicken.`farmworkers`,
  chicken.`products`, chicken.`transaction_items`, chicken.`transactions`, chicken.`storagerecords`,
 chicken.`chickenhouses`;*/
+

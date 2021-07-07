@@ -24,7 +24,7 @@ export default class FeedingDialog extends Component {
         axios.get('/getLastFeeding/' + String(this.props.chickenhouseId)).then(response => {
             response = response.data;
 
-            if(typeof response.status != undefined && response.status == 'error') {
+            if(response.status && response.status == 'error') {
                 console.log('Cannot fetch last feeding date');
             } else {
                 this.setState({lastFeeding: response.date + ' ' + response.time});

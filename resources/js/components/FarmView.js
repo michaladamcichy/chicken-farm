@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import ChickenHouse from './ChickenHouse';
 import NewChickenHouseDialog from './NewChickenHouseDialog';
-import EditChickenHouseDialog from './EditChickenHouseDialog';
+import WorkersDialog from './WorkersDialog';
 import SideBarContainer from './SideBarContainer';
 import SideButton from './SideButton';
 import { arrayToMatrix, matrixToArray } from './utils';
@@ -25,11 +25,17 @@ export default class FarmView extends Component {
         this.state = {
             chickenHouses: arrayToMatrix(this.props.chickenHouses, this.farmSize),
             newChickenHouseDialogVisible: false,
+            workersDialogVisible: false,
+            messages: [],
         };   
     }
 
     newChickenHouse() {
-        this.setState({newChickenHouseDialogVisible: true});
+        this.setState({newChickenHouseDialogVisible: true, messages: []});
+    }
+
+    workers() {
+        this.setState({workersDialogVisible: true, messages: []});
     }
 
     addChickenHouse(size) {
@@ -37,19 +43,28 @@ export default class FarmView extends Component {
         axios.post('/addChickenhouse', data).then(response => {
             response = response.data;
 
-            if(typeof response.status != undefined && response.status == 'error') {
-                console.log('NIe udalo sie dodac kórnika');
+            if(response.status && response.status == 'error') {
+                if(response.messages) {
+                    this.setState({messages: Object.values(response.messages).flat()});
+                }
             } else {
                 let chickenhouse = response;
                 let chickenHouses = matrixToArray(this.state.chickenHouses);
                 chickenHouses.push(chickenhouse);
-                this.setState({chickenHouses: arrayToMatrix(chickenHouses, this.farmSize)});
+                this.setState({chickenHouses: arrayToMatrix(chickenHouses, this.farmSize),newChickenHouseDialogVisible: false, messages: []});
             }
         }); 
     }
 
-    editChickenHouse(size) {
-//
+    feedAll() {
+        axios.get('/feedAll').then(response => {
+            response = response.data;
+            if(response.status && response.status == 'error') {
+                alert('Wielkie karmienie zakończone niepowodzeniem');
+            } else {
+                alert('Odnotowano wielkie karmienie!');
+            }
+        });
     }
     
     render() {
@@ -64,11 +79,19 @@ export default class FarmView extends Component {
                     <SideButton title={'DODAJ KÓRNIK'} onClick={() => {this.newChickenHouse()}}/>
                     <SideButton title={'DODAJ KÓRNIK'} onClick={() => {this.newChickenHouse()}}/>
                     <SideButton title={'BIZNES'} onClick={() => {window.location.href='business'}}/>
+                    <SideButton title={'KADRA'} onClick={() => this.workers()}/>
+                    <SideButton title={'WIELKIE\nKARMIENIE'} onClick={() => this.feedAll()}/>
                 </SideBarContainer>
                 {this.state.newChickenHouseDialogVisible && 
                 <NewChickenHouseDialog
-                    switchVisibility={() => {this.setState({newChickenHouseDialogVisible : !this.state.newChickenHouseDialogVisible})}}
+                    messages={this.state.messages}
+                    switchVisibility={() => {this.setState({newChickenHouseDialogVisible : !this.state.newChickenHouseDialogVisible, messages: []})}}
                     onSubmit={size => this.addChickenHouse(size)}/>}
+                {this.state.workersDialogVisible &&
+                <WorkersDialog
+                    messages={this.state.messages}
+                    switchVisibility={() => {this.setState({workersDialogVisible : !this.state.workersDialogVisible, messages: []})}}
+                    onSubmit={size => this.workers()}/>}
             </div>
         );
     }
